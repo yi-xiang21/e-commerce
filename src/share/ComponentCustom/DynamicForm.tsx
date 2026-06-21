@@ -20,16 +20,24 @@ const DynamicForm = <T extends object>({
   disabled = false,
 }: DynamicFormProps<T>) => {
   const renderField = (field: FormField<T>) => {
+    // Lấy key và value tương ứng từ field và values
     const key = field.key;
+    // Lấy giá trị hiện tại của trường từ values, nếu không có thì mặc định là undefined
     const value = values[key];
 
+    // Render các loại trường khác nhau dựa trên field.type
     switch (field.type) {
+      // Trường hợp trường là input text
       case FormFieldType.Input:
         return (
           <Input
+          // Placeholder cho trường input, lấy từ field.placeholder
             placeholder={field.placeholder}
+            // Giá trị của trường input, nếu value là undefined thì mặc định là chuỗi rỗng
             value={String(value ?? "")}
+            // Hàm xử lý khi giá trị của trường input thay đổi, gọi onChange với key và giá trị mới
             onChange={(e) => onChange(key, e.target.value)}
+            // Trường input có thể bị disabled nếu props disabled là true
             disabled={disabled}
           />
         );
@@ -269,6 +277,7 @@ const DynamicForm = <T extends object>({
     <div className="flex flex-col gap-4">
       {fields.map((field) => (
         <div key={String(field.key)} className="flex flex-col gap-1">
+          {/* Hiển thị nhãn của trường */}
           <label className="font-medium">{field.label}</label>
           {renderField(field)}
           {error && error[String(field.key)] && (

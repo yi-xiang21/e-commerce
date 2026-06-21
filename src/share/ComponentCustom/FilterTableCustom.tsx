@@ -16,9 +16,12 @@ const FilterHeader: React.FC<FilterHeaderProps> = ({
   onSearch,
   loading,
 }) => {
+  // Sử dụng hook useForm của Ant Design để quản lý form, tạo một instance form để có thể gọi các phương thức như resetFields
   const [form] = Form.useForm();
 
+  // Hàm xử lý khi người dùng submit form, sẽ nhận vào giá trị của form dưới dạng một object, sau đó sẽ lọc bỏ các trường có giá trị undefined, null hoặc chuỗi rỗng,
   const handleFinish = (values: any) => {
+    // Sử dụng Object.keys để lấy danh sách các key của object values, sau đó sử dụng reduce để tạo ra một object mới cleanValues chỉ chứa các trường có giá trị hợp lệ (không phải undefined, null hoặc chuỗi rỗng)
     const cleanValues = Object.keys(values).reduce(
       (acc, key) => {
         if (
@@ -35,6 +38,7 @@ const FilterHeader: React.FC<FilterHeaderProps> = ({
       {} as Record<string, any>,
     );
 
+    // Gọi hàm onSearch với object cleanValues đã được lọc, để thực hiện tìm kiếm hoặc lọc dữ liệu dựa trên các trường có giá trị hợp lệ
     onSearch(cleanValues);
   };
 
