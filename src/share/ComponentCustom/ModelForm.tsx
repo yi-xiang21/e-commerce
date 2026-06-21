@@ -10,18 +10,30 @@ import {
 import validateForm from "@/share/ComponentCustom/validateForm";
 import { validateChildren } from "@/share/ComponentCustom/validateFormChildren";
 interface FormModalProps<T extends object> {
+  // Trạng thái mở/đóng của modal
   isOpen: boolean;
   onClose: () => void;
+  // Chế độ của form modal (xem, tạo mới, chỉnh sửa)
   mode: FormModalModeType;
+  // Tiêu đề của modal
   title: string;
+  // Các trường của form, định nghĩa cấu trúc và loại của từng trường
   fields: FormField<any>[];
+  // Giá trị ban đầu của form, sẽ được sử dụng để điền vào các trường khi modal mở
   initialValues: T;
+  // Hàm xử lý khi người dùng submit form, nhận vào giá trị của form dưới dạng đối tượng T
   onSubmit: (values: T) => void;
+  // Trạng thái loading khi submit form, có thể được sử dụng để hiển thị spinner hoặc disable nút submit
   loading?: boolean;
+  // Khóa của trường con trong dữ liệu, nếu có cấu trúc dữ liệu lồng nhau
   childKey?: keyof T;
+  // Nếu form có chứa các trường con (ví dụ: một danh sách các mục con), thì hasChildren sẽ được đặt thành true
   hasChildren?: boolean;
+  // Các trường của form con, sẽ được sử dụng nếu hasChildren là true để định nghĩa cấu trúc của các mục con
   childFields?: FormField<any>[];
+  // Tiền tố cho tên tab khi hiển thị các mục con, nếu có cấu trúc dữ liệu lồng nhau
   tabNamePrefix?: string;
+  // Giới hạn số lượng mục con có thể thêm vào, nếu có cấu trúc dữ liệu lồng nhau
   nestedLimit?: number;
 }
 
@@ -41,25 +53,34 @@ const FormModal = <T extends object>({
   nestedLimit = 0,
   tabNamePrefix,
 }: FormModalProps<T>) => {
+  // State để quản lý dữ liệu của form, khởi tạo với initialValues
   const [formData, setFormData] = useState<any>(initialValues);
 
+  // Khi modal mở hoặc initialValues thay đổi, cập nhật formData với initialValues mới
   useEffect(() => {
     if (isOpen) {
+      // Khi modal mở, đặt formData về giá trị ban đầu từ initialValues
       setFormData(initialValues);
     }
   }, [isOpen, initialValues]);
 
+  // Xác định xem form đang ở chế độ xem (VIEW) hay không, để điều chỉnh giao diện và hành vi của form
   const isViewMode = mode === FormModalMode.VIEW;
+  // Nếu có childFields được cung cấp, sử dụng chúng làm activeChildFields, nếu không thì sử dụng fields làm mặc định cho các trường con vd quan ly san pham va cac bien the cua san pham thi childFields se la cac truong cua bien the san pham, con fields se la cac truong cua san pham
   const activeChildFields = childFields || fields;
+  // tao state error de luu tru loi xay ra khi validate form, ban dau la mot object rong
   const [error, setError] = useState<Record<string, string>>({});
+  // Xác định khóa của trường con trong dữ liệu, nếu childKey được cung cấp thì sử dụng nó, nếu không thì mặc định là "children" cau hinh key cho cac truong con, vd quan ly san pham va cac bien the cua san pham thi childKey se la "variants" de luu tru danh sach cac bien the cua san pham do, con neu quan ly danh muc va cac danh muc con thi childKey se la "children" de luu tru danh sach cac danh muc con cua danh muc do
   const activeChildKey = (childKey as string) || "children";
   
-
+  // Hàm xử lý khi có sự thay đổi trong form, nhận vào key của trường và giá trị mới, cập nhật formData tương ứng và xóa lỗi liên quan đến trường đó nếu có
   const handleParentChange = (key: string, value: unknown) => {
+    // Cập nhật formData với giá trị mới cho trường có key tương ứng
     setFormData((prev: any) => ({
       ...prev,
       [key]: value,
     }));
+    // Xóa lỗi liên quan đến trường đó nếu có, bằng cách tạo một bản sao của error hiện tại, xóa lỗi với key tương ứng và cập nhật lại state error
 
     setError((prev) => {
       const newErrors = { ...prev };
@@ -70,11 +91,14 @@ const FormModal = <T extends object>({
     });
   };
 
+  // Hàm xử lý khi có sự thay đổi trong các trường con (nếu hasChildren là true), nhận vào mảng mới của các mục con, cập nhật formData tương ứng và xóa lỗi liên quan đến các mục con đó nếu có
   const handleChildrenArrayChange = (newChildrenArray:any) => {
+    // Cập nhật formData với mảng mới cho trường con có key tương ứng
     setFormData((prev: any) => ({
       ...prev,
       [activeChildKey]: newChildrenArray,
     }));
+    // Xóa lỗi liên quan đến các mục con đó nếu có, bằng cách tạo một bản sao của error hiện tại, xóa tất cả lỗi có key bắt đầu với activeChildKey (ví dụ: "variants" hoặc "children") và cập nhật lại state error
     setError((prev) => {
       const newErrors = { ...prev };
       Object.keys(newErrors).forEach(key => {
@@ -86,22 +110,31 @@ const FormModal = <T extends object>({
     });
   };
 
+  // Hàm xử lý khi người dùng submit form, thực hiện validate dữ liệu của form và các mục con (nếu có),
+  //  nếu có lỗi thì cập nhật state error để hiển thị lỗi, nếu không có lỗi thì gọi onSubmit với dữ liệu của form
   const handleSubmit = () => {
+    // Thực hiện validate dữ liệu của form chính (parent) dựa trên các trường được định nghĩa trong fields
     const parentErrors = validateForm(formData, fields);
 
+    // Nếu form có chứa các trường con (hasChildren là true), thực hiện validate dữ liệu của các mục con dựa trên activeChildFields, 
+    // với mỗi mục con sẽ có một key riêng biệt trong error để lưu lỗi tương ứng (ví dụ: "variants[0].price" hoặc "children[1].name")
     const childErrors = hasChildren 
       ? validateChildren(formData[activeChildKey] || [], activeChildFields, activeChildKey)
       : {};
 
+      // Kết hợp lỗi của form chính và lỗi của các mục con thành một object duy nhất để cập nhật state error, nếu có lỗi nào tồn tại thì sẽ được hiển thị trên giao diện
     const validationErrors = {
       ...parentErrors,
       ...childErrors,
     };
+    // Nếu có bất kỳ lỗi nào tồn tại trong validationErrors (tức là có ít nhất một key có giá trị lỗi), cập nhật state error với validationErrors và dừng quá trình submit bằng cách return ra khỏi hàm,
+    //  nếu không có lỗi nào tồn tại (tức là validationErrors là một object rỗng), xóa tất cả lỗi bằng cách đặt state error thành một object rỗng và gọi onSubmit với dữ liệu của form (formData)
 
     if (Object.keys(validationErrors).length > 0) {
       setError(validationErrors);
       return;
     }
+    // Nếu không có lỗi nào tồn tại, xóa tất cả lỗi và gọi onSubmit với dữ liệu của form
 
     setError({});
     onSubmit(formData);
@@ -115,6 +148,8 @@ const FormModal = <T extends object>({
       destroyOnHidden
       centered
       width={hasChildren ? 900 : 520}
+      // Footer của modal sẽ hiển thị nút "Đóng" nếu đang ở chế độ xem (VIEW), hoặc nút "Hủy" và "Lưu lại" nếu đang ở chế độ tạo mới (CREATE) hoặc chỉnh sửa (EDIT), 
+      // nút "Lưu lại" sẽ bị disable và hiển thị spinner nếu đang ở trạng thái loading, và sẽ gọi handleSubmit khi được click
       footer={[
         <Button key="cancel" onClick={onClose}>
           {isViewMode ? "Đóng" : "Hủy"}
@@ -142,24 +177,44 @@ const FormModal = <T extends object>({
               Thông tin gốc
             </h3>
           )}
+          {/* Hiển thị form chính (parent) với các trường được định nghĩa trong fields, truyền vào giá trị của formData, 
+          hàm handleParentChange để xử lý khi có sự thay đổi trong form, */}
           <DynamicForm
+          // Các trường của form chính, sẽ được sử dụng để định nghĩa cấu trúc của form chính, 
+          // nếu childFields được cung cấp thì sử dụng chúng, nếu không thì sử dụng fields làm mặc định
             fields={fields}
+            // Giá trị của form chính, lấy từ formData, nếu formData không có giá trị cho một trường nào đó thì mặc định sẽ là undefined
             values={formData}
+            // Hàm xử lý khi có sự thay đổi trong form chính, sẽ cập nhật formData tương ứng với key và giá trị mới của trường đó
             onChange={(key, val) => handleParentChange(key as string, val)}
+            // Truyền vào isViewMode để component DynamicForm có thể điều chỉnh giao diện và hành vi của các trường tương ứng, ví dụ: disable các trường khi ở chế độ xem
             disabled={isViewMode}
+            // Truyền vào error để component DynamicForm có thể hiển thị lỗi tương ứng cho các trường, error sẽ chứa các key tương ứng với các trường (ví dụ: "username" hoặc "email") và giá trị là thông báo lỗi
             error={error}
           />
         </div>
+        {/* Nếu hasChildren là true, hiển thị component ChildTabs để quản lý các mục con, 
+        truyền vào danh sách các mục con từ formData, */}
 
         {hasChildren && (
           <ChildTabs
+          // Dữ liệu của các mục con, lấy từ formData với key là activeChildKey (ví dụ: "variants" hoặc "children"), 
+          // nếu không có thì mặc định là một mảng rỗng
             dataList={formData[activeChildKey] || []}
+            // Hàm xử lý khi có sự thay đổi trong các mục con, sẽ cập nhật formData tương ứng với mảng mới của các mục con
             onChange={handleChildrenArrayChange}
+            // Các trường của form con, sẽ được sử dụng để định nghĩa cấu trúc của các mục con, 
+            // nếu childFields được cung cấp thì sử dụng chúng, nếu không thì sử dụng fields làm mặc định
             fields={activeChildFields}
+            // Trạng thái xem (VIEW) hay không, sẽ được sử dụng để điều chỉnh giao diện và hành vi của form con
             nestedLimit={nestedLimit}
+            // Truyền vào isViewMode để component ChildTabs có thể điều chỉnh giao diện và hành vi của các trường con tương ứng, ví dụ: disable các trường khi ở chế độ xem
             isViewMode={isViewMode}
+            // Tiền tố cho tên tab khi hiển thị các mục con, nếu có cấu trúc dữ liệu lồng nhau, sẽ được sử dụng để tạo tên tab động dựa trên index của mục con (ví dụ: "Mục con 1", "Mục con 2", ...)
             tabNamePrefix={tabNamePrefix || "Mục con"}
+            // Truyền vào error để component ChildTabs có thể hiển thị lỗi tương ứng cho các trường con, error sẽ chứa các key tương ứng với các trường con (ví dụ: "variants[0].price" hoặc "children[1].name") và giá trị là thông báo lỗi
             error={error}
+            // Truyền vào parentPath để component ChildTabs có thể xác định đường dẫn đến các trường con trong dữ liệu của formData, điều này sẽ giúp việc cập nhật lỗi và giá trị của các trường con trở nên chính xác hơn, ví dụ: nếu parentPath là "variants" và có một trường con có key là "price", thì error sẽ chứa key là "variants[0].price" để lưu lỗi cho trường price của mục con đầu tiên
             parentPath={activeChildKey}
           />
         )}
