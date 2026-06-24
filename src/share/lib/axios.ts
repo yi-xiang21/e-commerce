@@ -45,7 +45,7 @@ const processQueue = (
   failedQueue = [];
 };
 callAPI.interceptors.response.use(
-  (response) => response,
+  (response) => response.data,
 
   async (error) => {
     const originalRequest = error.config;
