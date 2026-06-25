@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/app/redux/hooks";
-import LoginPage from "@/features/components/auth/LoginPage";
-import OverlayPanel from "@/features/components/auth/OverlayPanel";
-import RegisterPage from "@/features/components/auth/RegisterPage";
+import LoginPage from "@/component/LoginPage";
+import OverlayPanel from "@/component/OverlayPanel";
+import RegisterPage from "@/component/RegisterPage";
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getMeThunk, loginThunk, registerThunk } from "@/features/auth/store/auth-thunk";
