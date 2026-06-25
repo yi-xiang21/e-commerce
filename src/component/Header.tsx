@@ -66,11 +66,6 @@ const Header = () => {
               to={router()}
             >
               <FaRegUser aria-hidden='true' className='h-5 w-5' />
-              {user && (
-                <span className='hidden text-sm font-medium md:inline'>
-                  {user.username || user.email || 'Tài khoản'}
-                </span>
-              )}
             </Link>
             <Link
               aria-label='Yêu thích'

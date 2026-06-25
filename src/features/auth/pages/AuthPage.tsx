@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/app/redux/hooks";
-import LoginPage from "@/features/components/auth/LoginPage";
-import OverlayPanel from "@/features/components/auth/OverlayPanel";
-import RegisterPage from "@/features/components/auth/RegisterPage";
+import LoginPage from "@/component/LoginPage";
+import OverlayPanel from "@/component/OverlayPanel";
+import RegisterPage from "@/component/RegisterPage";
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getMeThunk, loginThunk, registerThunk } from "@/features/Auth/store/auth-thunk";
@@ -63,6 +63,7 @@ export default function AuthPage() {
 
   const handleRegister = async (formData: RegisterPayload): Promise<boolean> => {
     try {
+      console.log('Register form data:', formData);
       await dispatch(registerThunk(formData)).unwrap();
       setMessage('');
       handlePanelSwitch("login");
