@@ -5,6 +5,7 @@ import HomePage from '@/features/Home';
 import AdminLayout from '@/layout/AdminLayout';
 import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminManagerAccount';
 import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
+import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
 import AuthPage from '@/features/Auth/pages/AuthPage';
 import AboutPage from '@/features/About';
@@ -85,6 +86,10 @@ export const routes = createBrowserRouter([
                                 element: <ChangePassword />,
                             },
                         ],
+                    },
+                    {
+                        path: "/wishlist",
+                        element: <WishlistPage />,
                     },
                 ],
             },
