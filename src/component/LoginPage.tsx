@@ -1,4 +1,4 @@
-import type { LoginPayload } from "@/features/auth/types/auth-type";
+import type { LoginPayload } from "@/features/Auth/types/auth-type";
 import React, { useEffect, useState } from "react";
 
 

@@ -37,7 +37,6 @@ export const routes = createBrowserRouter([
                 path: '/admin',
                 children: [
                     {
-                        index: true,
                         path: 'Manager-Account',
                         element: <AdminManagerAccount />,
                     },
