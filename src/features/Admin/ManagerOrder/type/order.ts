@@ -5,9 +5,17 @@ export type OrderStatusValue = typeof ORDER_STATUS_OPTIONS[number]['value'];
 export interface OrderItem {
   item_id: number;
   variant_id: number;
+  product_id?: number;
   product_name: string;
+  sku?: string;
+  slug?: string;
+  category_name?: string;
+  type_name?: string;
+  color?: string;
+  size?: string;
   price: string;
   quantity: number;
+  description?: string;
 }
 
 export interface OrderStatus {

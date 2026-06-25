@@ -6,7 +6,7 @@ import AdminLayout from '@/layout/AdminLayout';
 import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminManagerAccount';
 import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
 import ProtectedRoute from './ProtectedRoute';
-import AuthPage from '@/features/auth/pages/AuthPage';
+import AuthPage from '@/features/Auth/pages/AuthPage';
 import AboutPage from '@/features/About';
 import UserProfileLayout from '@/layout/UserProfileLayout';
 import ProfileUser from '@/features/User/UserProfile/pages/ProfileUser';

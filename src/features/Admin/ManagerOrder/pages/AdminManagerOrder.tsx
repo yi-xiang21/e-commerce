@@ -5,13 +5,12 @@ import type { TableProps } from "antd/es/table";
 import { filterOrder } from "@/features/Admin/ManagerOrder/constants/orderFilter";
 import { orderFields } from "@/features/Admin/ManagerOrder/constants/orderFields";
 import { ORDER_STATUS_OPTIONS } from "@/features/Admin/ManagerOrder/constants/orderStatus";
+import { orderChildrenFields } from "@/features/Admin/ManagerOrder/constants/orderChildrenFields";
+import { getOrderFieldsByMode } from "@/features/Admin/ManagerOrder/constants/sortField";
+
 import { useFormModal } from "@/share/hook/useFormModal";
 import Notification from "@/share/ComponentCustom/Notification/Notification";
-
-import {
-  FormModalMode,
-  type FormModalModeType,
-} from "@/share/types/type-form-mode";
+import { FormModalMode, type FormModalModeType } from "@/share/types/type-form-mode";
 import FormModal from "@/share/ComponentCustom/ModelForm";
 import { OrderApi } from "@/features/Admin/ManagerOrder/api/order_api";
 import type { NotificationType } from "@/share/ComponentCustom/Notification/Notification";
@@ -20,9 +19,9 @@ import axios from "axios";
 import type { Order } from "@/features/Admin/ManagerOrder/type/order";
 import FilterHeader from "@/share/ComponentCustom/FilterTableCustom";
 
-// Giá trị mặc định cho form quản lý đơn hàng
 const defaultFormValues: Partial<Order> = {
   status: "pending",
+  items: []
 };
 
 const AdminManagerOrder = () => {
@@ -53,7 +52,6 @@ const AdminManagerOrder = () => {
     setLoading,
   } = useFormModal<Order>();
 
-  // Hàm fetchOrders giống hệt fetchAccounts
   const fetchOrders = useCallback(
     async (page: number, limit: number, currentFilters: Record<string, any>) => {
       try {
@@ -61,9 +59,7 @@ const AdminManagerOrder = () => {
         let response;
 
         if (Object.keys(currentFilters).length > 0) {
-        //   console.log("Fetching orders with filters:", currentFilters, "page:", page, "limit:", limit);
           response = await OrderApi.filter({ ...currentFilters, page, limit });
-        //   console.log("Filtered orders fetched:", response.data);
         } else {
           response = await OrderApi.getAll(page, limit);
         }
@@ -87,8 +83,13 @@ const AdminManagerOrder = () => {
     if (record) {
       try {
         const response = await OrderApi.getById(record.order_id);
-        const data = response.data?.order || response.data;
-        // console.log("Fetched order details:", data);
+
+        const data = response.data?.order;
+
+        if (data.payment) {
+          data.payment_method = data.payment.payment_method;
+          data.payment_status = data.payment.payment_status;
+        }
 
         setEditingId(data.order_id);
 
@@ -192,7 +193,7 @@ const AdminManagerOrder = () => {
 
   const modalTitle =
     modalMode === FormModalMode.EDIT
-      ? "Cập nhật đơn hàng"
+      ? "Cập nhật trạng thái đơn hàng"
       : "Chi tiết đơn hàng";
 
   return (
@@ -241,10 +242,15 @@ const AdminManagerOrder = () => {
         loading={loading}
         mode={modalMode}
         title={modalTitle}
-        fields={orderFields}
+
+        fields={getOrderFieldsByMode(orderFields, modalMode)}
         initialValues={selectedOrder || defaultFormValues as any}
         onSubmit={handleSubmitForm}
-        hasChildren={false}
+
+        hasChildren={modalMode === FormModalMode.VIEW}
+        childFields={orderChildrenFields}
+        childKey="items"
+        tabNamePrefix="Sản phẩm"
       />
     </div>
   );
