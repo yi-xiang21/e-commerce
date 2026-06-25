@@ -24,10 +24,6 @@ export const routes = createBrowserRouter([
                 element: <HomePage />,
             },
             {
-                path: "/wishlist",
-                element: <WishlistPage />,
-            },
-            {
                 path: '/about',
                 element: <AboutPage />,
             }
@@ -85,6 +81,10 @@ export const routes = createBrowserRouter([
                                 element: <ChangePassword />,
                             },
                         ],
+                    },
+                    {
+                        path: "/wishlist",
+                        element: <WishlistPage />,
                     },
                 ],
             },
