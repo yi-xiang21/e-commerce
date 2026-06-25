@@ -4,6 +4,8 @@ import UserLayout from '@/layout/UserLayout';
 import HomePage from '@/features/Home';
 import AdminLayout from '@/layout/AdminLayout';
 import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminManagerAccount';
+import ProtectedRoute from './ProtectedRoute';
+import AuthPage from '@/features/Auth/pages/AuthPage';
 
 
 
@@ -33,4 +35,23 @@ export const routes = createBrowserRouter([
             },
         ],
     },
+    {
+        element: <ProtectedRoute requireAuth={false} />,
+        children: [
+            {
+                path: '/auth',
+                element: <UserLayout />,
+                children: [
+                    {
+                        path: 'login',
+                        element: <AuthPage />,
+                    },
+                    {
+                        path: 'register',
+                        element: <AuthPage />,
+                    }
+                ],
+            }
+        ]
+    }
 ]);
