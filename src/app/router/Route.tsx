@@ -4,6 +4,7 @@ import UserLayout from '@/layout/UserLayout';
 import HomePage from '@/features/Home';
 import AdminLayout from '@/layout/AdminLayout';
 import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminManagerAccount';
+import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 
 
 
@@ -15,6 +16,10 @@ export const routes = createBrowserRouter([
             {
                 path: '/',
                 element: <HomePage />,
+            },
+            {
+                path: "/wishlist",
+                element: <WishlistPage />,
             }
         ],
     },
