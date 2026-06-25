@@ -1,6 +1,6 @@
-import React from 'react';
-import anhlen1 from '../assets/len1.jpg';
-import anhlen2 from '../assets/len2.jpg';
+
+import anhlen1 from '@/assets/len1.jpg';
+import anhlen2 from '@/assets/len2.jpg';
 
 
 const About = () => {
