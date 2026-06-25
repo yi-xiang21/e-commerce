@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from "../redux/hooks";
-import { getMeThunk } from '@/features/auth/store/auth-thunk';
-import { markInitialized } from '@/features/auth/store/auth-slice';
+import { getMeThunk } from '@/features/Auth/store/auth-thunk';
+import { markInitialized } from '@/features/Auth/store/auth-slice';
 
 export default function AppInit({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();

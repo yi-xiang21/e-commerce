@@ -1,4 +1,4 @@
-import type { RegisterPayload } from "@/features/auth/types/auth-type";
+import type { RegisterPayload } from "@/features/Auth/types/auth-type";
 import React, { useEffect, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
