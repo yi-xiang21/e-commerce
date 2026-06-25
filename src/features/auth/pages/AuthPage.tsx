@@ -63,6 +63,7 @@ export default function AuthPage() {
 
   const handleRegister = async (formData: RegisterPayload): Promise<boolean> => {
     try {
+      console.log('Register form data:', formData);
       await dispatch(registerThunk(formData)).unwrap();
       setMessage('');
       handlePanelSwitch("login");
