@@ -4,9 +4,9 @@ import OverlayPanel from "@/component/OverlayPanel";
 import RegisterPage from "@/component/RegisterPage";
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getMeThunk, loginThunk, registerThunk } from "@/features/Auth/store/auth-thunk";
-import { clearError } from "@/features/Auth/store/auth-slice";
-import type { LoginPayload, RegisterPayload } from "../types/auth-type";
+import { getMeThunk, loginThunk, registerThunk } from "@/features/auth/store/auth-thunk";
+import { clearError } from "@/features/auth/store/auth-slice";
+import type { LoginPayload, RegisterPayload } from "@/features/auth/types/auth-type";
 
 
 export default function AuthPage() {

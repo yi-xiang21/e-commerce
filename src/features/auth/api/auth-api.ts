@@ -1,4 +1,4 @@
-import { type LoginResponse, type LoginPayload, type RegisterPayload } from '@/features/Auth/types/auth-type'
+import { type LoginResponse, type LoginPayload, type RegisterPayload } from '@/features/auth/types/auth-type'
 import { API_CONFIG } from "@/config/api";
 import {callAPI} from "@/share/lib/axios";
 

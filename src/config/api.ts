@@ -18,6 +18,11 @@ export const API_CONFIG = {
     POST_WISHLIST: '/api/wishlist/toggle',
     GET_WISHLIST: '/api/wishlist',
 
+    //cart
+    GET_CART: '/api/cart',
+    ADD_TO_CART: '/api/cart',
+    REMOVE_FROM_CART: '/api/cart',
+    UPDATE_CART: '/api/cart',
 
     //admin account
     GETALL_USERS: '/api/users',
