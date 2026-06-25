@@ -13,11 +13,10 @@ const menuItems = [
     { name: 'Quản lý Kho', link: '' },
     { name: 'Quản lý vouchers', link: '' },
     { name: 'Quản lý danh mục', link: '' },
-    {
-    name: 'Quản lý khuyến mãi', link: '' },
+    { name: 'Quản lý khuyến mãi', link: '' },
     { name: 'Quản lý workshop', link: '' },
     { name: 'Quay về trang chủ', link: '/' },
-    { name: 'Cài đặt', link: '' }
+    { name: 'Cài đặt', link: '/admin/setting' }
 ]
 
 const Sildebar = ({ isOpen = false, toggleSidebar }: SidebarProps) => {

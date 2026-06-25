@@ -9,6 +9,7 @@ import { clearError } from "@/features/Auth/store/auth-slice";
 import type { LoginPayload, RegisterPayload } from "@/features/Auth/types/auth-type";
 
 
+
 export default function AuthPage() {
   const location = useLocation();
   const navigate = useNavigate();

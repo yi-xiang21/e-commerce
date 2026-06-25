@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-//import AdminLayout from '@/layout/AdminLayout';
 import UserLayout from '@/layout/UserLayout';
 import HomePage from '@/features/Home';
 import AdminLayout from '@/layout/AdminLayout';
@@ -7,7 +6,6 @@ import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminMana
 import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
 import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
-import AuthPage from '@/features/Auth/pages/AuthPage';
 import AboutPage from '@/features/About';
 import UserProfileLayout from '@/layout/UserProfileLayout';
 import ProfileUser from '@/features/User/UserProfile/pages/ProfileUser';
@@ -15,6 +13,8 @@ import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracki
 import PurchaseHistoryPage from '@/features/User/UserProfile/pages/PurchaseHistory';
 import WorkshopPage from '@/features/User/UserProfile/pages/UserWorkshop';
 import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount';
+import AuthPage from '@/features/Auth/pages/AuthPage';
+import AdminSetting from '@/features/Admin/Setting/AdminSetting';
 
 export const routes = createBrowserRouter([
     {
@@ -43,6 +43,10 @@ export const routes = createBrowserRouter([
                     {
                         path: 'Manager-Order',
                         element: <AdminManagerOrder />,
+                    },
+                    {
+                        path: 'Setting',
+                        element: <AdminSetting />
                     },
                 ],
             },

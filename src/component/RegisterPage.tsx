@@ -125,14 +125,18 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
       role,
     };
 
-    const success = await onRegister(payload);
-
-    if (success) {
+    const resetForm = () => {
       setUsername("");
       setEmail("");
       setPhoneNumber("");
       setPassword("");
       setConfirmPassword("");
+    };
+
+    const success = await onRegister(payload);
+
+    if (success) {
+      resetForm();
     }
   };
 
@@ -161,18 +165,19 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
               setUsername(e.target.value);
               if (validationError) setValidationError("");
             }}
-            className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none"
+            className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
         />
 
         <input
             type="email"
             placeholder="Email"
             value={email}
+            autoComplete="off"
             onChange={(e) => {
               setEmail(e.target.value);
               if (validationError) setValidationError("");
             }}
-            className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none"
+            className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
         />
 
         <input
@@ -183,7 +188,7 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
             setPhoneNumber(e.target.value);
             if (validationError) setValidationError("");
           }}
-            className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none"
+            className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
         />
 
         <div className="relative">
@@ -191,6 +196,7 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
             type={showPassword ? 'text' : 'password'}
             placeholder="Mật khẩu"
             value={password}
+            autoComplete="new-password"
             onChange={(e) => {
               setPassword(e.target.value)
               if (validationError) setValidationError('')
@@ -216,7 +222,7 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
               setConfirmPassword(e.target.value)
               if (validationError) setValidationError('')
             }}
-            className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none pr-12"
+            className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
           />
           <button
             type="button"

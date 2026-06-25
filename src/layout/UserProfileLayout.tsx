@@ -1,4 +1,7 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '@/app/redux/hooks'
+import { logoutThunk } from '@/features/Auth/store/auth-thunk'
+import { logout } from '@/features/Auth/store/auth-slice'
 
 const menuItems = [
   { label: 'Thông tin người dùng', to: '', end: true },
@@ -9,6 +12,27 @@ const menuItems = [
 ]
 
 const UserProfileLayout = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutThunk()).unwrap();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      dispatch(logout());
+      navigate('/auth/login');
+    }
+  };
+
+  const handleLogoutClick = () => {
+    const confirmed = window.confirm('Bạn có chắc chắn muốn đăng xuất?');
+    if (confirmed) {
+      void handleLogout();
+    }
+  };
+
   return (
     <section className=' px-4 py-6 text-left sm:px-6 lg:px-8 lg:py-10'>
       <div className='mx-auto flex w-full max-w-7xl flex-col gap-6 lg:grid lg:grid-cols-[280px_minmax(0,1fr)]'>
@@ -35,6 +59,17 @@ const UserProfileLayout = () => {
                   </NavLink>
                 </li>
               ))}
+
+              <li>
+                <button
+                  type='button'
+                  onClick={handleLogoutClick}
+                  className='flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium text-red-600 transition-all duration-200 hover:bg-red-100'
+                >
+                  <span>Đăng xuất</span>
+                  <span className='text-lg leading-none'>›</span>
+                </button>
+              </li>
             </ul>
           </nav>
         </aside>

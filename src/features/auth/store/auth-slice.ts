@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getMeThunk, loginThunk, registerThunk } from '@/features/Auth/store/auth-thunk';
+import { getMeThunk, loginThunk, logoutThunk, registerThunk } from '@/features/Auth/store/auth-thunk';
 import type { user } from '@/features/Auth/types/auth-type';
 
 type AuthState = {
@@ -37,19 +37,32 @@ const authSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(loginThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loginThunk.fulfilled, (state, action) => {
+    .addCase(logoutThunk.rejected, (state, action) => {
         state.loading = false;
-        state.error = null;
-        state.user = action.payload.user;
-
-        localStorage.setItem('accessToken', action.payload.access_token);
-        localStorage.setItem('refreshToken', action.payload.refresh_token);
-
+        state.error = action.payload as string;
       })
+    .addCase(logoutThunk.fulfilled, (state) => {
+      state.loading = false;
+
+      state.user = null;
+      state.error = null;
+
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    })
+    .addCase(loginThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(loginThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.user = action.payload.user;
+
+      localStorage.setItem('accessToken', action.payload.access_token);
+      localStorage.setItem('refreshToken', action.payload.refresh_token);
+
+    })
       .addCase(loginThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = typeof action.payload === 'string' ? action.payload : 'Đăng nhập thất bại';
@@ -88,7 +101,8 @@ const authSlice = createSlice({
         state.initialized = true;
 
         state.error = typeof action.payload === 'string' ? action.payload : 'Lấy thông tin người dùng thất bại';
-      });
+      })
+      
   },
 });
 

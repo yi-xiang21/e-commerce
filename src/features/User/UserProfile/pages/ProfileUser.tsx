@@ -2,7 +2,7 @@
 
 import {  useState,useEffect } from 'react';
 
-import type { user } from '@/features/Auth/types/auth-type';
+import type { user } from '@/features/auth/types/auth-type';
 import { userApi } from '@/features/User/UserProfile/api/user-api';
 import { useAppSelector } from '@/app/redux/hooks';
 
