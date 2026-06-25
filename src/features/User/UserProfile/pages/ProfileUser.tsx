@@ -26,7 +26,7 @@ const ProfileUser = () => {
     const fetchProfile = async () => {
       try {
         const response = await userApi.getProfile();
-        setProfileForm(response.data);
+        setProfileForm(response as unknown as user);
       } catch (error) {
         console.error('Failed to fetch user profile:', error);
       }
@@ -35,19 +35,12 @@ const ProfileUser = () => {
   }, [user?.user_id, user]);
 
   const handleUpdateProfile = async () => {
+    console.log('Updating profile with data:', profileForm);
     try {
-      const formData = new FormData();
-      formData.append('username', profileForm.username || '');
-      formData.append('email', profileForm.email || '');
-      formData.append('phone_number', profileForm.phone_number || '');
-      formData.append('first_name', profileForm.first_name || '');
-      formData.append('last_name', profileForm.last_name || '');
-      await userApi.updateProfile(formData);
-      alert('Cập nhật thông tin thành công!');
-    }
-    catch (error) {
+      const response = await userApi.updateProfile(profileForm);
+      console.log('Profile updated successfully:', response.data);
+    } catch (error) {
       console.error('Failed to update profile:', error);
-      alert('Cập nhật thông tin thất bại. Vui lòng thử lại.');
     }
   }
 

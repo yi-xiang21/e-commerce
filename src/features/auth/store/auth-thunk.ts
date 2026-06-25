@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { authApi } from '@/features/Auth/api/auth-api'
-import type { LoginPayload, RegisterPayload } from '../types/auth-type';
+import type { LoginPayload, RegisterPayload } from '@/features/Auth/types/auth-type';
 
 const getErrorMessage = (error: any, fallback: string) => {
   if (typeof error === 'string') return error;
