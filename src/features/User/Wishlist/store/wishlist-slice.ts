@@ -1,4 +1,3 @@
-// src/features/User/Wishlist/store/wishlist-slice.ts
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchWishlistThunk, toggleWishlistThunk } from './wishlist-thunk';
 import type { WishlistState } from '../type/wishlist';
@@ -26,21 +25,21 @@ const wishlistSlice = createSlice({
       })
       .addCase(fetchWishlistThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items = action.payload;
+        // Gán thẳng mảng từ thunk vào state
+        state.items = action.payload; 
       })
       .addCase(fetchWishlistThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
 
-      // Xử lý toggleWishlistThunk (Xóa sản phẩm ở UI)
+      // Xử lý toggleWishlistThunk
       .addCase(toggleWishlistThunk.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
       .addCase(toggleWishlistThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Lọc bỏ sản phẩm đã toggle (xóa) thành công dựa vào product_id
         state.items = state.items.filter(item => item.product_id !== action.payload);
       })
       .addCase(toggleWishlistThunk.rejected, (state, action) => {
@@ -51,5 +50,4 @@ const wishlistSlice = createSlice({
 });
 
 export const { clearWishlistError } = wishlistSlice.actions;
-
 export default wishlistSlice.reducer;

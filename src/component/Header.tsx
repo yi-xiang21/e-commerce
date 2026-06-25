@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import logo from '@/assets/Logo.png'
 import Badge from 'antd/es/badge/Badge'
 import HeaderDesktopMenu from '@/component/HeaderDesktopMenu'
+import { useAppSelector } from '@/app/redux/hooks'
 
 
 
@@ -15,6 +16,8 @@ const Header = () => {
   
   const [activeMenu, setActiveMenu] = useState<ActiveMenuKey>('home')
 
+  const { user } = useAppSelector((state) => state.auth);
+
 
   const menuItems: Array<{ key: ActiveMenuKey; label: string; link: string }> = [
     { key: 'home', label: 'Trang chủ', link: '/' },
@@ -22,11 +25,15 @@ const Header = () => {
     { key: 'about', label: 'Giới thiệu', link: '/about' },
     { key: 'workshop', label: 'workshop', link: '/workshop' },
   ]
+  const router = () => {
+    if (!user) return "/auth/login";
 
+    return user.role === "admin" ? "/admin" : "/profile";
+  };
 
   return (
     <>
-      <div className='sticky top-0 z-50 bg-white shadow-sm '>
+      <div className='fixed left-0 w-full z-[300] flex items-center px-6 sticky top-0 bg-white shadow-sm '>
         <div className='mx-auto flex w-full max-w-6xl items-center gap-3 px-1 py-1'>
 
           <a className='text-xl font-black tracking-wider md:text-2xl' href='/'>
@@ -54,11 +61,16 @@ const Header = () => {
           <div className='flex items-center gap-2'>
             <Link
               aria-label='Tai khoan'
-              className='rounded-full p-2 text-gray-700 transition-all duration-200 hover:-translate-y-0.5 hover:bg-amber-50 hover:text-amber-800'
+              className='flex items-center gap-2 rounded-full px-2 py-1 text-gray-700 transition-all duration-200 hover:-translate-y-0.5 hover:bg-amber-50 hover:text-amber-800'
               type='button'
-              to={""}
+              to={router()}
             >
               <FaRegUser aria-hidden='true' className='h-5 w-5' />
+              {user && (
+                <span className='hidden text-sm font-medium md:inline'>
+                  {user.username || user.email || 'Tài khoản'}
+                </span>
+              )}
             </Link>
             <Link
               aria-label='Yêu thích'

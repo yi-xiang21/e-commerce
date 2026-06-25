@@ -5,9 +5,8 @@ import HomePage from '@/features/Home';
 import AdminLayout from '@/layout/AdminLayout';
 import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminManagerAccount';
 import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
-
-
-
+import ProtectedRoute from './ProtectedRoute';
+import AuthPage from '@/features/auth/pages/AuthPage';
 
 export const routes = createBrowserRouter([
     {
@@ -38,4 +37,23 @@ export const routes = createBrowserRouter([
             },
         ],
     },
+    {
+        element: <ProtectedRoute requireAuth={false} />,
+        children: [
+            {
+                path: '/auth',
+                element: <UserLayout />,
+                children: [
+                    {
+                        path: 'login',
+                        element: <AuthPage />,
+                    },
+                    {
+                        path: 'register',
+                        element: <AuthPage />,
+                    }
+                ],
+            }
+        ]
+    }
 ]);

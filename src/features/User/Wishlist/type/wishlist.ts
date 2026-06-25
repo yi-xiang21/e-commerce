@@ -2,7 +2,7 @@ export interface WishlistItem {
   wishlist_id: number | string;
   product_id: number | string;
   product_name: string;
-  price: number;
+  min_price: string;
   image_url: string;
 }
 
