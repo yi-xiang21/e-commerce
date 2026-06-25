@@ -4,6 +4,7 @@ import UserLayout from '@/layout/UserLayout';
 import HomePage from '@/features/Home';
 import AdminLayout from '@/layout/AdminLayout';
 import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminManagerAccount';
+import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
 import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
 import AuthPage from '@/features/Auth/pages/AuthPage';
@@ -38,6 +39,10 @@ export const routes = createBrowserRouter([
                     {
                         path: 'Manager-Account',
                         element: <AdminManagerAccount />,
+                    },
+                    {
+                        path: 'Manager-Order',
+                        element: <AdminManagerOrder />,
                     },
                 ],
             },
