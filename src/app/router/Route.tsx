@@ -5,8 +5,8 @@ import HomePage from '@/features/Home';
 import AdminLayout from '@/layout/AdminLayout';
 import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminManagerAccount';
 import ProtectedRoute from './ProtectedRoute';
-import AuthPage from '@/features/Auth/pages/AuthPage';
-
+import AuthPage from '@/features/auth/pages/AuthPage';
+import AboutPage from '@/features/About';
 
 
 
@@ -17,6 +17,10 @@ export const routes = createBrowserRouter([
             {
                 path: '/',
                 element: <HomePage />,
+            },
+            {
+                path: '/about',
+                element: <AboutPage />,
             }
         ],
     },
