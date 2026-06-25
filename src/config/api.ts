@@ -63,6 +63,13 @@ export const API_CONFIG = {
     FILTER_PROMOTIONS: '/api/promotions/promotions/filter',
 
 
+    //admin order
+    GETALL_ORDERS: '/api/orders/admin/all',
+    GET_ORDER: (id: string) => `/api/orders/admin/${id}`,
+    UPDATE_ORDER_STATUS: (id: string) => `/api/orders/admin/${id}/status`,
+    FILTER_ORDERS: '/api/orders/admin/filter',
+
+
 
 
     FORGOT_PASSWORD: '/api/auth/forgot-password',

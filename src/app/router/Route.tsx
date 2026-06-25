@@ -4,8 +4,9 @@ import UserLayout from '@/layout/UserLayout';
 import HomePage from '@/features/Home';
 import AdminLayout from '@/layout/AdminLayout';
 import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminManagerAccount';
+import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
 import ProtectedRoute from './ProtectedRoute';
-import AuthPage from '@/features/Auth/pages/AuthPage';
+import AuthPage from '@/features/auth/pages/AuthPage';
 
 
 
@@ -30,6 +31,10 @@ export const routes = createBrowserRouter([
                         index: true,
                         path: 'Manager-Account',
                         element: <AdminManagerAccount />,
+                    },
+                    {
+                        path: 'Manager-Order',
+                        element: <AdminManagerOrder />,
                     },
                 ],
             },
