@@ -1,11 +1,12 @@
-import {  useState } from 'react'
+import {  useState, useEffect } from 'react'
 import { FaRegUser, FaShoppingCart ,FaHeart } from 'react-icons/fa'
 import { FiSearch } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import logo from '@/assets/Logo.png'
 import Badge from 'antd/es/badge/Badge'
 import HeaderDesktopMenu from '@/component/HeaderDesktopMenu'
-import { useAppSelector } from '@/app/redux/hooks'
+import { useAppSelector, useAppDispatch } from '@/app/redux/hooks'
+import { fetchWishlistThunk } from '@/features/User/Wishlist/store/wishlist-thunk'
 
 
 
@@ -16,8 +17,17 @@ const Header = () => {
   
   const [activeMenu, setActiveMenu] = useState<ActiveMenuKey>('home')
 
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
+  const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
+  const wishlistCount = Array.isArray(wishlistItems) ? wishlistItems.length : 0;
+
+  useEffect(() => {
+    if (user) {
+      void dispatch(fetchWishlistThunk());
+    }
+  }, [dispatch, user]);
 
   const menuItems: Array<{ key: ActiveMenuKey; label: string; link: string }> = [
     { key: 'home', label: 'Trang chủ', link: '/' },
@@ -72,7 +82,7 @@ const Header = () => {
               className='rounded-full p-2 text-gray-700 transition-all duration-200 hover:-translate-y-0.5 hover:bg-amber-50 hover:text-amber-800'
               to={"/wishlist"}
             >
-              <Badge count={0} >
+              <Badge count={wishlistCount} size="small" >
                 <FaHeart aria-hidden='true' className='h-5 w-5' />
               </Badge>
             </Link>
