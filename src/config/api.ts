@@ -74,7 +74,14 @@ export const API_CONFIG = {
     UPDATE_ORDER_STATUS: (id: string) => `/api/orders/admin/${id}/status`,
     FILTER_ORDERS: '/api/orders/admin/filter',
 
+    // location
+    GET_CITIES: '/api/location/cities',
+    GET_WARDS: (cityId: string) => `/api/location/cities/${cityId}/wards`,
 
+    // admin shipper
+    GETALL_SHIPPERS: '/api/admin/shippers',
+    CREATE_SHIPPER: '/api/admin/shippers',
+    UPDATE_SHIPPER_STATUS: (id: string) => `/api/admin/shippers/${id}/status`,
 
 
     FORGOT_PASSWORD: '/api/auth/forgot-password',
