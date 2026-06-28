@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterAll } from 'vitest';
 import {
   getLocalCart,
   addToLocalCart,
@@ -11,6 +11,7 @@ import {
 import type { ICartItem } from '@/features/Cart/type/cart-type';
 
 const store = new Map<string, string>();
+const originalLocalStorage = globalThis.localStorage;
 
 Object.defineProperty(globalThis, 'localStorage', {
   value: {
@@ -21,6 +22,14 @@ Object.defineProperty(globalThis, 'localStorage', {
   },
   configurable: true,
   writable: true,
+});
+
+afterAll(() => {
+  Object.defineProperty(globalThis, 'localStorage', {
+    value: originalLocalStorage,
+    configurable: true,
+    writable: true,
+  });
 });
 
 const makeItem = (overrides: Partial<ICartItem> = {}): ICartItem => ({
@@ -103,6 +112,19 @@ describe('local-cart', () => {
       const cart = getLocalCart();
       expect(cart[0].quantity).toBe(2);
     });
+
+    it('enforces MIN_QUANTITY_PER_ITEM (1) when adding', () => {
+      addToLocalCart(makeItem({ variant_id: 1, quantity: 0 }));
+      const cart = getLocalCart();
+      expect(cart[0].quantity).toBe(1);
+    });
+
+    it('enforces MIN_QUANTITY_PER_ITEM (1) when merging', () => {
+      addToLocalCart(makeItem({ variant_id: 1, quantity: 5 }));
+      addToLocalCart(makeItem({ variant_id: 1, quantity: -10 }));
+      const cart = getLocalCart();
+      expect(cart[0].quantity).toBe(6); // 5 + 1 (clamped from -10)
+    });
   });
 
   describe('removeFromLocalCart', () => {
@@ -134,6 +156,20 @@ describe('local-cart', () => {
       addToLocalCart(makeItem({ variant_id: 1 }));
       updateLocalQuantity(999, 10);
       expect(getLocalCart()).toHaveLength(1);
+    });
+
+    it('clamps quantity to MAX_QUANTITY_PER_ITEM (99)', () => {
+      addToLocalCart(makeItem({ variant_id: 1, quantity: 1 }));
+      updateLocalQuantity(1, 200);
+      const cart = getLocalCart();
+      expect(cart[0].quantity).toBe(99);
+    });
+
+    it('clamps quantity to MIN_QUANTITY_PER_ITEM (1)', () => {
+      addToLocalCart(makeItem({ variant_id: 1, quantity: 5 }));
+      updateLocalQuantity(1, -5);
+      const cart = getLocalCart();
+      expect(cart[0].quantity).toBe(1);
     });
   });
 
