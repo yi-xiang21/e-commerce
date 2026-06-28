@@ -12,7 +12,7 @@ const menuItems = [
     { name: 'Quản lý sản phẩm', link: '' },
     { name: 'Quản lý Kho', link: '' },
     { name: 'Quản lý vouchers', link: '' },
-    { name: 'Quản lý danh mục', link: '' },
+    { name: 'Quản lý danh mục', link: '/admin/categories' },
     {
     name: 'Quản lý khuyến mãi', link: '' },
     { name: 'Quản lý workshop', link: '' },

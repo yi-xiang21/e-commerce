@@ -1,20 +1,34 @@
-import {  useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaRegUser, FaShoppingCart ,FaHeart } from 'react-icons/fa'
-import { FiSearch } from 'react-icons/fi'
+import { FiSearch as FiSearchIcon } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import logo from '@/assets/Logo.png'
 import Badge from 'antd/es/badge/Badge'
 import HeaderDesktopMenu from '@/component/HeaderDesktopMenu'
-
-
+import { callAPI } from '@/share/lib/axios'
+import { API_CONFIG } from '@/config/api'
 
 export type ActiveMenuKey = 'home' | 'shop' | 'about' | 'workshop'
 
-
 const Header = () => {
-  
   const [activeMenu, setActiveMenu] = useState<ActiveMenuKey>('home')
+  const [categories, setCategories] = useState<any[]>([])
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await callAPI.get(API_CONFIG.ENDPOINTS.GET_CATEGORIES);
+        const rawData = response.data?.data || response.data;
+        const categoriesList = Array.isArray(rawData)
+          ? rawData
+          : (rawData && Array.isArray(rawData.categories) ? rawData.categories : []);
+        setCategories(categoriesList);
+      } catch (err) {
+        console.error('Không thể load categories cho header', err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const menuItems: Array<{ key: ActiveMenuKey; label: string; link: string }> = [
     { key: 'home', label: 'Trang chủ', link: '/' },
@@ -22,7 +36,6 @@ const Header = () => {
     { key: 'about', label: 'Giới thiệu', link: '/about' },
     { key: 'workshop', label: 'workshop', link: '/workshop' },
   ]
-
 
   return (
     <>
@@ -45,7 +58,7 @@ const Header = () => {
                 type='text'
               />
               <span className='pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500'>
-                <FiSearch aria-hidden='true' className='h-3.5 w-3.5 md:h-4 md:w-4' />
+                <FiSearchIcon aria-hidden='true' className='h-3.5 w-3.5 md:h-4 md:w-4' />
               </span>
               
             </div>
@@ -90,6 +103,7 @@ const Header = () => {
           activeMenu={activeMenu}
           menuItems={menuItems}
           setActiveMenu={setActiveMenu}
+          categories={categories}
         />
       </div>
       </header>
