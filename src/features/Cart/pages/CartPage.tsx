@@ -26,6 +26,7 @@ const { Text } = Typography;
 const CartPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { items, isLoading, error } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchCart());
@@ -218,9 +219,10 @@ const CartPage: React.FC = () => {
                 type="primary"
                 size="large"
                 block
+                href={user ? "/checkout" : "/auth/login"}
                 className="font-medium bg-blue-600 rounded-lg hover:bg-blue-700 h-12 text-base border-none"
               >
-                Tiến hành thanh toán
+                {user ? "Tiến hành thanh toán" : "Đăng nhập để thanh toán"}
               </Button>
             </Card>
           </div>
