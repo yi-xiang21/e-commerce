@@ -14,7 +14,8 @@ import PurchaseHistoryPage from '@/features/User/UserProfile/pages/PurchaseHisto
 import WorkshopPage from '@/features/User/UserProfile/pages/UserWorkshop';
 import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount';
 import AuthPage from '@/features/Auth/pages/AuthPage';
-import AdminSetting from '@/features/Admin/Setting/AdminSetting';
+import AdminSetting from '@/features/Admin/setting/AdminSetting';
+import CartPage from '@/features/Cart/pages/CartPage';
 
 export const routes = createBrowserRouter([
     {
@@ -94,6 +95,10 @@ export const routes = createBrowserRouter([
                         path: "/wishlist",
                         element: <WishlistPage />,
                     },
+                    {
+                        path: "/cart",
+                        element: <CartPage />,
+                    }
                 ],
             },
         ],
