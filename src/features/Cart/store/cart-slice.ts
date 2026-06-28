@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { ICartState } from '../type/cart-type';
-import { fetchCart, updateItemQuantity, removeCartItem, syncLocalCartToServer } from './cart-thunk';
+import { getLocalCart } from '@/share/lib/local-cart';
+import { addToCartThunk, fetchCart, updateItemQuantity, removeCartItem, syncLocalCartToServer } from './cart-thunk';
 
 const initialState: ICartState = {
     items: [],
@@ -16,10 +17,32 @@ const cartSlice = createSlice({
         clearCartState: (state) => {
             state.items = [];
             state.error = null;
-        }
+        },
+        loadLocalCart: (state) => {
+            state.items = getLocalCart();
+        },
     },
     extraReducers: (builder) => {
         builder
+            .addCase(addToCartThunk.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(addToCartThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const item = action.payload;
+                const existing = state.items.find(i => i.variant_id === item.variant_id);
+                if (existing) {
+                    existing.quantity += item.quantity;
+                } else {
+                    state.items.push(item);
+                }
+            })
+            .addCase(addToCartThunk.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload as string;
+            })
+            
             // Xử lý luồng lấy giỏ hàng
             .addCase(fetchCart.pending, (state) => {
                 state.isLoading = true;
@@ -64,5 +87,5 @@ const cartSlice = createSlice({
     },
 });
 
-export const { clearCartState } = cartSlice.actions;
+export const { clearCartState, loadLocalCart } = cartSlice.actions;
 export default cartSlice.reducer;
