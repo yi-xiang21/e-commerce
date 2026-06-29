@@ -21,8 +21,10 @@ export const API_CONFIG = {
     //cart
     GET_CART: '/api/cart',
     ADD_TO_CART: '/api/cart',
-    REMOVE_FROM_CART: '/api/cart',
-    UPDATE_CART: '/api/cart',
+    REMOVE_FROM_CART: (variantId: string | number) => `/api/cart/${variantId}`,
+    UPDATE_CART: (variantId: string | number) => `/api/cart/${variantId}`,
+
+    SYNC_CART: '/api/cart/sync',
 
     //admin account
     GETALL_USERS: '/api/users',
