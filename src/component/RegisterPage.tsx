@@ -21,10 +21,10 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validateEmail = (value: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[a-zA-Z0-9-]{2,}\.[a-zA-Z]{2,}$/;
 
     if (!emailRegex.test(value)) {
-      return "Email không đúng định dạng";
+      return "Email không hợp lệ";
     }
 
     return "";
@@ -42,7 +42,7 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
 
   const validateUsername = (value: string) => {
     if (value.trim().length < 3) {
-      return "Tên đăng nhập phải có ít nhất 3 ký tự";
+      return "Username phải có ít nhất 3 ký tự, nhỏ hơn 20 ký tự";
     }
 
     return "";
