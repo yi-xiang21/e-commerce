@@ -22,7 +22,10 @@ export const hasLocalItems = (): boolean => read().length > 0;
 
 export const addToLocalCart = (item: ICartItem) => {
   const items = read();
-  const qty = Math.max(item.quantity, CART_CONSTANTS.MIN_QUANTITY_PER_ITEM);
+  const qty = Math.min(
+    Math.max(item.quantity, CART_CONSTANTS.MIN_QUANTITY_PER_ITEM),
+    CART_CONSTANTS.MAX_QUANTITY_PER_ITEM
+  );
   const existing = items.find(i => i.variant_id === item.variant_id);
   if (existing) {
     existing.quantity = Math.min(

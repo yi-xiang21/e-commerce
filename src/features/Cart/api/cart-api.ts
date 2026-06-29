@@ -30,6 +30,6 @@ export const cartApi = {
     },
 
     syncCart: (local_cart: ISyncCartPayload[]) => {
-        return callAPI.post('/api/cart/sync', { local_cart });
+        return callAPI.post(API_CONFIG.ENDPOINTS.SYNC_CART, { local_cart });
     }
 };

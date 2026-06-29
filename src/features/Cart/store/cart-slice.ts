@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { ICartState } from '../type/cart-type';
-import { getLocalCart } from '@/share/lib/local-cart';
-import { addToCartThunk, fetchCart, updateItemQuantity, removeCartItem, syncLocalCartToServer } from './cart-thunk';
+import { getLocalCart } from '@/features/Cart/constants/local-cart';
+import { addToCartThunk, fetchCart, updateItemQuantity, removeCartItem, syncLocalCart } from './cart-thunk';
 
 const initialState: ICartState = {
     items: [],
@@ -58,14 +58,15 @@ const cartSlice = createSlice({
             })
             
             // Xử lý luồng đồng bộ giỏ hàng
-            .addCase(syncLocalCartToServer.pending, (state) => {
+            .addCase(syncLocalCart.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(syncLocalCartToServer.fulfilled, (state) => {
+            .addCase(syncLocalCart.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.items = action.payload;
             })
-            .addCase(syncLocalCartToServer.rejected, (state, action) => {
+            .addCase(syncLocalCart.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload as string;
             })

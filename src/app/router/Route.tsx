@@ -28,6 +28,10 @@ export const routes = createBrowserRouter([
             {
                 path: '/about',
                 element: <AboutPage />,
+            },
+            {
+                path: "/cart",
+                element: <CartPage />,
             }
         ],
     },
@@ -95,10 +99,6 @@ export const routes = createBrowserRouter([
                         path: "/wishlist",
                         element: <WishlistPage />,
                     },
-                    {
-                        path: "/cart",
-                        element: <CartPage />,
-                    }
                 ],
             },
         ],

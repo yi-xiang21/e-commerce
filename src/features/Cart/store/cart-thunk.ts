@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { cartApi } from '../api/cart-api';
 import type { ISyncCartPayload, ICartItem } from '../type/cart-type';
-import { getLocalCart, addToLocalCart, updateLocalQuantity, removeFromLocalCart } from '@/share/lib/local-cart';
+import { getLocalCart, addToLocalCart, updateLocalQuantity, removeFromLocalCart } from '@/features/Cart/constants/local-cart';
 import type { RootState } from '@/app/redux/store';
 
 export const fetchCart = createAsyncThunk(
@@ -67,17 +67,21 @@ export const addToCartThunk = createAsyncThunk(
             }
         } else {
             addToLocalCart(item);
-            return item;
+            // Return post-merge item from localStorage to keep Redux in sync
+            const stored = getLocalCart().find(i => i.variant_id === item.variant_id);
+            return stored || item;
         }
     }
 );
 
-export const syncLocalCartToServer = createAsyncThunk(
+export const syncLocalCart = createAsyncThunk(
     'cart/syncCart',
     async (local_cart: ISyncCartPayload[], { rejectWithValue }) => {
         try {
-            await cartApi.syncCart(local_cart);
-            return true;
+            const result: any = await cartApi.syncCart(local_cart);
+            // Backend trả về { success, data: { cart: [...] } }
+            // Axios interceptor unwraps response.data, nên result = response body
+            return result.data.cart as ICartItem[];
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Lỗi đồng bộ giỏ hàng');
         }

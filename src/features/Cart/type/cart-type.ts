@@ -4,8 +4,7 @@ export interface ICartItem {
     quantity: number;
     sku: string;
     slug: string;
-    original_price: string;
-    price: string;
+    price: number | string;
     color: string;
     size: string;
     product_id: number;
