@@ -84,7 +84,13 @@ export const API_CONFIG = {
     GETALL_SHIPPERS: '/api/admin/shippers',
     CREATE_SHIPPER: '/api/admin/shippers',
     UPDATE_SHIPPER_STATUS: (id: string) => `/api/admin/shippers/${id}/status`,
+    UPDATE_SHIPPER_LOCATION: (id: string) => `/api/admin/shippers/${id}/location`,
 
+    // shipper portal
+    GET_SHIPPER_PROFILE: '/api/shipper/profile',
+    UPDATE_SHIPPER_PROFILE: '/api/shipper/profile',
+    GET_AVAILABLE_ORDERS: '/api/shipper/available-orders',
+    ACCEPT_ORDER: (orderId: string) => `/api/shipper/orders/${orderId}/accept`,
 
     FORGOT_PASSWORD: '/api/auth/forgot-password',
     VERIFY_OTP: '/api/auth/verify-reset-otp',
