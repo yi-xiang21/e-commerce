@@ -21,8 +21,10 @@ export const API_CONFIG = {
     //cart
     GET_CART: '/api/cart',
     ADD_TO_CART: '/api/cart',
-    REMOVE_FROM_CART: '/api/cart',
-    UPDATE_CART: '/api/cart',
+    REMOVE_FROM_CART: (variantId: string | number) => `/api/cart/${variantId}`,
+    UPDATE_CART: (variantId: string | number) => `/api/cart/${variantId}`,
+
+    SYNC_CART: '/api/cart/sync',
 
     //admin account
     GETALL_USERS: '/api/users',
@@ -74,7 +76,14 @@ export const API_CONFIG = {
     UPDATE_ORDER_STATUS: (id: string) => `/api/orders/admin/${id}/status`,
     FILTER_ORDERS: '/api/orders/admin/filter',
 
+    // location
+    GET_CITIES: '/api/location/cities',
+    GET_WARDS: (cityId: string) => `/api/location/cities/${cityId}/wards`,
 
+    // admin shipper
+    GETALL_SHIPPERS: '/api/admin/shippers',
+    CREATE_SHIPPER: '/api/admin/shippers',
+    UPDATE_SHIPPER_STATUS: (id: string) => `/api/admin/shippers/${id}/status`,
 
 
     FORGOT_PASSWORD: '/api/auth/forgot-password',

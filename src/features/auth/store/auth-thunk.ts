@@ -56,3 +56,18 @@ export const getMeThunk = createAsyncThunk('/api/auth/me', async (_, thunkAPI) =
     );
   }
 });
+
+export const logoutThunk = createAsyncThunk(
+  'api/auth/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await authApi.logout();
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error?.response?.data?.message || "Đăng xuất thất bại"
+      );
+    }
+  }
+);

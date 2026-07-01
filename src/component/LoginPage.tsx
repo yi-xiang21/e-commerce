@@ -1,5 +1,6 @@
 import type { LoginPayload } from "@/features/Auth/types/auth-type";
 import React, { useEffect, useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 
 type Props = {
@@ -11,6 +12,7 @@ export default function LoginPage({ onLogin, errorMessage }: Props) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [validationError, setValidationError] = useState("");
 
     const validateLogin = () => {
@@ -81,18 +83,30 @@ export default function LoginPage({ onLogin, errorMessage }: Props) {
           onChange={(e) => {
             setEmail(e.target.value)
           }}
-          className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none"
+          className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
         />
 
-        <input
-          type="password"
-          placeholder="Mật khẩu"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value)
-          }}
-          className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none"
-        />
+        <div className="relative">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Mật khẩu"
+            value={password}
+            autoComplete="new-password"
+            onChange={(e) => {
+              setPassword(e.target.value)
+              if (validationError) setValidationError('')
+            }}
+            className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
+            aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+          >
+            {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+          </button>
+        </div>
       </div>
 
       <button

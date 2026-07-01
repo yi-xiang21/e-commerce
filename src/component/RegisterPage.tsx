@@ -21,10 +21,10 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validateEmail = (value: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[a-zA-Z0-9-]{2,}\.[a-zA-Z]{2,}$/;
 
     if (!emailRegex.test(value)) {
-      return "Email không đúng định dạng";
+      return "Email không hợp lệ";
     }
 
     return "";
@@ -42,7 +42,7 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
 
   const validateUsername = (value: string) => {
     if (value.trim().length < 3) {
-      return "Tên đăng nhập phải có ít nhất 3 ký tự";
+      return "Username phải có ít nhất 3 ký tự, nhỏ hơn 20 ký tự";
     }
 
     return "";
@@ -125,14 +125,18 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
       role,
     };
 
-    const success = await onRegister(payload);
-
-    if (success) {
+    const resetForm = () => {
       setUsername("");
       setEmail("");
       setPhoneNumber("");
       setPassword("");
       setConfirmPassword("");
+    };
+
+    const success = await onRegister(payload);
+
+    if (success) {
+      resetForm();
     }
   };
 
@@ -161,18 +165,19 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
               setUsername(e.target.value);
               if (validationError) setValidationError("");
             }}
-            className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none"
+            className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
         />
 
         <input
             type="email"
             placeholder="Email"
             value={email}
+            autoComplete="off"
             onChange={(e) => {
               setEmail(e.target.value);
               if (validationError) setValidationError("");
             }}
-            className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none"
+            className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
         />
 
         <input
@@ -183,7 +188,7 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
             setPhoneNumber(e.target.value);
             if (validationError) setValidationError("");
           }}
-            className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none"
+            className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
         />
 
         <div className="relative">
@@ -191,6 +196,7 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
             type={showPassword ? 'text' : 'password'}
             placeholder="Mật khẩu"
             value={password}
+            autoComplete="new-password"
             onChange={(e) => {
               setPassword(e.target.value)
               if (validationError) setValidationError('')
@@ -216,7 +222,7 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
               setConfirmPassword(e.target.value)
               if (validationError) setValidationError('')
             }}
-            className="bg-[#eee] text-gray-800 border-none px-5 py-4 w-full rounded focus:outline-none pr-12"
+            className="bg-[#eee] text-gray-800 border-none h-14 px-5 w-full rounded focus:outline-none"
           />
           <button
             type="button"

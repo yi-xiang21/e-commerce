@@ -15,7 +15,10 @@ import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracki
 import PurchaseHistoryPage from '@/features/User/UserProfile/pages/PurchaseHistory';
 import WorkshopPage from '@/features/User/UserProfile/pages/UserWorkshop';
 import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount';
-
+//import AuthPage from '@/features/Auth/pages/AuthPage';
+import AdminSetting from '@/features/Admin/setting/AdminSetting';
+import CartPage from '@/features/Cart/pages/CartPage';
+import AdminManagerPromotion from '@/features/Admin/ManagerPromotion/pages/AdminManagerPromotion';
 export const routes = createBrowserRouter([
     {
         element: <UserLayout />,
@@ -31,6 +34,10 @@ export const routes = createBrowserRouter([
             {
                 path: 'detail/:id',
                 element: <DetailPage />,
+            },
+            {
+                path: "/cart",
+                element: <CartPage />,
             }
         ],
     },
@@ -48,6 +55,14 @@ export const routes = createBrowserRouter([
                         path: 'Manager-Order',
                         element: <AdminManagerOrder />,
                     },
+                    {
+                        path: 'Manager-Promotion',
+                        element: <AdminManagerPromotion />,
+                    },
+                    {
+                        path: 'Setting',
+                        element: <AdminSetting />
+                    },
                 ],
             },
         ],
@@ -59,7 +74,6 @@ export const routes = createBrowserRouter([
                 path: '/',
                 element: <UserLayout />,
                 children: [
-                    
                     {
                         path: 'profile',
                         element: <UserProfileLayout />,
