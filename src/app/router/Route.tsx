@@ -19,6 +19,10 @@ import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount
 import AdminSetting from '@/features/Admin/setting/AdminSetting';
 import CartPage from '@/features/Cart/pages/CartPage';
 import AdminManagerPromotion from '@/features/Admin/ManagerPromotion/pages/AdminManagerPromotion';
+import ShipperLayout from '@/layout/ShipperLayout';
+import ShipperProfile from '@/features/Shipper/pages/ShipperProfile';
+import AvailableOrders from '@/features/Shipper/pages/AvailableOrders';
+import ShipperSetting from '@/features/Shipper/pages/ShipperSetting';
 export const routes = createBrowserRouter([
     {
         element: <UserLayout />,
@@ -63,6 +67,29 @@ export const routes = createBrowserRouter([
                         path: 'Setting',
                         element: <AdminSetting />
                     },
+                ],
+            },
+        ],
+    },
+    {
+        element: <ProtectedRoute requireAuth={true} requireShipper={true} />,
+        children: [
+            {
+                path: '/shipper',
+                element: <ShipperLayout />,
+                children: [
+                    {
+                        path: 'profile',
+                        element: <ShipperProfile />,
+                    },
+                    {
+                        path: 'available-orders',
+                        element: <AvailableOrders />,
+                    },
+                    {
+                        path: 'setting',
+                        element: <ShipperSetting />
+                    }
                 ],
             },
         ],
