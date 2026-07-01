@@ -31,8 +31,8 @@ export const API_CONFIG = {
     GET_USER: (id: string) => `/api/users/${id}`,
     CREATE_USER: '/api/users',
     UPDATE_USER: (id: string) => `/api/users/${id}`,
-    DELETE_USER: (id: string) => `/api/users/${id}`,
-      FILTER_USERS: '/api/users/filter',
+    DELETE_USER: (id: number) => `/api/users/${id}`,
+    FILTER_USERS: '/api/users/filter',
     
     //admin category
     GET_CATEGORIES: '/api/categories',
