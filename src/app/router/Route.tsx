@@ -7,8 +7,8 @@ import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerO
 import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
 import AuthPage from '@/features/auth/pages/AuthPage';
-import AboutPage from '@/features/User/Shop/Page/About';
-import DetailPage from '@/features/User/Shop/Page/Detail';
+import AboutPage from '@/features/User/Pages/Page/About';
+import DetailPage from '@/features/User/Pages/Page/Detail';
 import UserProfileLayout from '@/layout/UserProfileLayout';
 import ProfileUser from '@/features/User/UserProfile/pages/ProfileUser';
 import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracking';
@@ -23,6 +23,8 @@ import ShipperLayout from '@/layout/ShipperLayout';
 import ShipperProfile from '@/features/Shipper/pages/ShipperProfile';
 import AvailableOrders from '@/features/Shipper/pages/AvailableOrders';
 import ShipperSetting from '@/features/Shipper/pages/ShipperSetting';
+import ShopPage from '@/features/User/Shop/pages/ShopPage';
+
 export const routes = createBrowserRouter([
     {
         element: <UserLayout />,
@@ -42,6 +44,10 @@ export const routes = createBrowserRouter([
             {
                 path: "/cart",
                 element: <CartPage />,
+            },
+            {
+                path: "/shop",
+                element: <ShopPage />,
             }
         ],
     },
