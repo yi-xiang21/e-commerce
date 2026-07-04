@@ -15,14 +15,17 @@ import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracki
 import PurchaseHistoryPage from '@/features/User/UserProfile/pages/PurchaseHistory';
 import WorkshopPage from '@/features/User/UserProfile/pages/UserWorkshop';
 import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount';
-//import AuthPage from '@/features/Auth/pages/AuthPage';
-import AdminSetting from '@/features/Admin/setting/AdminSetting';
+// import AuthPage from '@/features/Auth/pages/AuthPage';
 import CartPage from '@/features/Cart/pages/CartPage';
 import AdminManagerPromotion from '@/features/Admin/ManagerPromotion/pages/AdminManagerPromotion';
 import ShipperLayout from '@/layout/ShipperLayout';
 import ShipperProfile from '@/features/Shipper/pages/ShipperProfile';
 import AvailableOrders from '@/features/Shipper/pages/AvailableOrders';
 import ShipperSetting from '@/features/Shipper/pages/ShipperSetting';
+import ForgotPasswordPage from '@/component/ForgotPasswordPage';
+import VerifyOtpPage from '@/component/VerifyOtpPage';
+import ResetPasswordPage from '@/component/ResetPasswordPage';
+import AdminSetting from '@/features/Admin/Setting/AdminSetting';
 export const routes = createBrowserRouter([
     {
         element: <UserLayout />,
@@ -153,7 +156,19 @@ export const routes = createBrowserRouter([
                     {
                         path: 'register',
                         element: <AuthPage />,
-                    }
+                    },
+                    {
+                        path: 'forgot-password',
+                        element: <ForgotPasswordPage />,
+                    },
+                    {
+                        path: 'verify-otp',
+                        element: <VerifyOtpPage />,
+                    },
+                    {
+                        path: 'reset-password',
+                        element: <ResetPasswordPage />,
+                    },
                 ],
             }
         ]

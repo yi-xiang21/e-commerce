@@ -29,20 +29,13 @@ const UserProfileLayout = () => {
 
   const handleLogoutClick = () => {
     Modal.confirm({
-            title: 'Xác nhận đăng xuất',
-            content: 'Bạn có chắc chắn muốn đăng xuất khỏi tài khoản Admin không?',
-            okText: 'Đăng xuất',
-            okType: 'danger',
-            cancelText: 'Hủy',
-            onOk: async () => {
-                try {
-                    await dispatch(logoutThunk()).unwrap();
-                    navigate("/auth/login");
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        });
+      title: 'Xác nhận đăng xuất',
+      content: 'Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không?',
+      okText: 'Đăng xuất',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      onOk: handleLogout
+    });
   };
 
   return (
