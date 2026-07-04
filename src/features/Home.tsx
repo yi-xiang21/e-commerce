@@ -1,4 +1,4 @@
-import "../features/User/Shop/Css/Home.css";
+import "../features/User/Pages/Css/Home.css";
 import { useEffect, useState } from "react";
 import ProductCard from "../component/ProductCard";
 import CategoryCard from "../component/CategoryCard";

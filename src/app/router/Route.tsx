@@ -6,9 +6,9 @@ import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminMana
 import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
 import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
-import AuthPage from '@/features/Auth/pages/AuthPage';
-import AboutPage from '@/features/User/Shop/Page/About';
-import DetailPage from '@/features/User/Shop/Page/Detail';
+import AuthPage from '@/features/auth/pages/AuthPage';
+import AboutPage from '@/features/User/Pages/Page/About';
+import DetailPage from '@/features/User/Pages/Page/Detail';
 import UserProfileLayout from '@/layout/UserProfileLayout';
 import ProfileUser from '@/features/User/UserProfile/pages/ProfileUser';
 import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracking';
@@ -26,6 +26,8 @@ import ForgotPasswordPage from '@/component/ForgotPasswordPage';
 import VerifyOtpPage from '@/component/VerifyOtpPage';
 import ResetPasswordPage from '@/component/ResetPasswordPage';
 import AdminSetting from '@/features/Admin/Setting/AdminSetting';
+import ShopPage from '@/features/User/Shop/pages/ShopPage';
+
 export const routes = createBrowserRouter([
     {
         element: <UserLayout />,
@@ -45,6 +47,10 @@ export const routes = createBrowserRouter([
             {
                 path: "/cart",
                 element: <CartPage />,
+            },
+            {
+                path: "/shop",
+                element: <ShopPage />,
             }
         ],
     },
