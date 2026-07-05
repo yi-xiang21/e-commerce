@@ -2,22 +2,21 @@ import { useCallback, useEffect, useState } from "react";
 import { Table, Button } from "antd";
 import type { TableProps } from "antd/es/table";
 
-import { filterOrder } from "@/features/Admin/ManagerOrder/constants/orderFilter";
-import { orderFields } from "@/features/Admin/ManagerOrder/constants/orderFields";
-import { ORDER_STATUS_OPTIONS } from "@/features/Admin/ManagerOrder/constants/orderStatus";
-import { orderChildrenFields } from "@/features/Admin/ManagerOrder/constants/orderChildrenFields";
-import { getOrderFieldsByMode } from "@/features/Admin/ManagerOrder/constants/sortField";
 
 import { useFormModal } from "@/share/hook/useFormModal";
 import Notification from "@/share/ComponentCustom/Notification/Notification";
 import { FormModalMode, type FormModalModeType } from "@/share/types/type-form-mode";
 import FormModal from "@/share/ComponentCustom/ModelForm";
-import { OrderApi } from "@/features/Admin/ManagerOrder/api/order_api";
 import type { NotificationType } from "@/share/ComponentCustom/Notification/Notification";
 import axios from "axios";
 
-import type { Order } from "@/features/Admin/ManagerOrder/type/order";
 import FilterHeader from "@/share/ComponentCustom/FilterTableCustom";
+import { ORDER_STATUS_OPTIONS, type Order } from "../type/order";
+import { OrderApi } from "../api/order_api";
+import { filterOrder } from "../constants/orderFilter";
+import { getOrderFieldsByMode } from "../constants/sortField";
+import { orderFields } from "../constants/orderFields";
+import { orderChildrenFields } from "../constants/orderChildrenFields";
 
 const defaultFormValues: Partial<Order> = {
   status: "pending",
@@ -62,6 +61,7 @@ const AdminManagerOrder = () => {
           response = await OrderApi.filter({ ...currentFilters, page, limit });
         } else {
           response = await OrderApi.getAll(page, limit);
+          console.log("Fetched orders:", response.data.orders);
         }
 
         setOrders(response.data?.orders ?? []);
@@ -79,16 +79,18 @@ const AdminManagerOrder = () => {
     void fetchOrders(currentPage, pageSize, filters);
   }, [currentPage, pageSize, filters, fetchOrders]);
 
-  const handleAction = async (mode: FormModalModeType, record?: Order) => {
+  const handleAction = async (mode: FormModalModeType, record?: Order) => { 
     if (record) {
       try {
         const response = await OrderApi.getById(record.order_id);
 
         const data = response.data?.order;
+        console.log("Fetched order details:", data);
 
         if (data.payment) {
           data.payment_method = data.payment.payment_method;
           data.payment_status = data.payment.payment_status;
+          data.reference_code = data.payment.reference_code;
         }
 
         setEditingId(data.order_id);

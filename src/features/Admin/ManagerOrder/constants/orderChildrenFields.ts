@@ -1,6 +1,6 @@
 import { FormFieldType } from '@/share/types/type-form-field';
 import type { FormField } from '@/share/types/form-field';
-import type { OrderItem } from '@/features/Admin/ManagerOrder/type/order';
+import type { OrderItem } from '../type/order';
 
 export const orderChildrenFields: FormField<OrderItem>[] = [
   {

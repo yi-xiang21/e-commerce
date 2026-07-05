@@ -1,6 +1,11 @@
-import { ORDER_STATUS_OPTIONS } from '../constants/orderStatus';
-
-export type OrderStatusValue = typeof ORDER_STATUS_OPTIONS[number]['value'];
+export const ORDER_STATUS_OPTIONS = [
+  { label: 'Chờ xử lý (Pending)', value: 'pending' },
+  { label: 'Đang xử lý (Processing)', value: 'processing' },
+  { label: 'Đang giao (Shipping)', value: 'shipping' },
+  { label: 'Hoàn thành (Completed)', value: 'completed' },
+  { label: 'Đã hủy (Cancelled)', value: 'cancelled' },
+] as const;
+export type OrderStatusValue = typeof ORDER_STATUS_OPTIONS[number]["value"];
 
 export interface OrderItem {
   item_id: number;
@@ -39,38 +44,7 @@ export interface Order {
   discount_amount?: string | null;
   ward_id?: number;
   shipping_address?: string;
+  shipping_fee?: string;
   items?: OrderItem[];
   payment?: OrderPayment;
-}
-
-export interface OrderListResponse {
-  success: boolean;
-  message?: string;
-  data: {
-    orders: Order[];
-    pagination: {
-      total_items: number;
-      total_pages: number;
-      current_page: number;
-      limit: number;
-    };
-  };
-}
-
-export interface OrderDetailResponse {
-  success: boolean;
-  data: {
-    order: Order;
-  };
-}
-
-export interface OrderFilterPayload {
-  keyword?: string;
-  statuses?: string[];
-  page: number;
-  limit: number;
-}
-
-export interface OrderStatusUpdate {
-  status: OrderStatusValue;
 }
