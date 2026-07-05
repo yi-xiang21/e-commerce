@@ -5,6 +5,7 @@ import axios from "axios";
 
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { fetchWishlistThunk, toggleWishlistThunk } from "../store/wishlist-thunk";
+import { fetchCart } from "@/features/Cart/store/cart-thunk";
 import { WishlistApi } from "../api/wishlist_api";
 import Notification, { type NotificationType } from "@/share/ComponentCustom/Notification/Notification";
 
@@ -54,6 +55,8 @@ const WishlistPage = () => {
   const handleAddToCart = async (product_id: string | number) => {
     try {
       await WishlistApi.addToCart(product_id);
+      // Refresh cart to get discount and final_price
+      await dispatch(fetchCart());
       setNotifyData({
         key: `notify-${nextNotifyId++}`,
         type: "success",
