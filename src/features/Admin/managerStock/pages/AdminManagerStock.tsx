@@ -101,13 +101,11 @@ const fetchStock = useCallback(
       try {
         const response = await stockApi.getHistory(record.variant_id, 1, historyPageSize);
         const data = response.data;
-
+        console.log("Fetched stock history:", data);
         setHistoryVariantId(record.variant_id);
         setHistoryPage(1);
-        setStockHistory(data.history);
-
+        setStockHistory(data.history ?? []);
         setHistoryTotal(data.pagination?.total_items ?? 0);
-        
 
 
         setIsViewingHistory(mode === FormModalMode.VIEW);
