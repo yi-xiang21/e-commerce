@@ -88,6 +88,8 @@ const AdminManagerAccount = () => {
             console.log("All accounts fetched:", response.data.users);
           
           }
+
+          console.log("Accounts fetched:", response);
   
           setAccounts(response.data?.users ?? []);
           setTotal(response.data?.pagination?.total_items ?? 0);

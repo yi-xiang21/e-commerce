@@ -94,6 +94,8 @@ export default function AuthPage() {
     }
   };
 
+
+
   return (
     <div className="flex justify-center items-center h-full bg-[#f6f5f7] font-sans pt-16 pb-16">
 

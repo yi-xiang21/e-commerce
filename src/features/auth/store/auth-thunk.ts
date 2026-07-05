@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { authApi } from '@/features/Auth/api/auth-api'
-import type { LoginPayload, RegisterPayload } from '@/features/Auth/types/auth-type';
+import type { ForgotPasswordPayload, LoginPayload, RegisterPayload, ResetPasswordPayload, VerifyOtpPayload } from '@/features/Auth/types/auth-type';
 
 const getErrorMessage = (error: any, fallback: string) => {
   if (typeof error === 'string') return error;
@@ -70,4 +70,46 @@ export const logoutThunk = createAsyncThunk(
       );
     }
   }
+);
+
+export const forgotPasswordThunk = createAsyncThunk(
+  'api/auth/forgot-password',
+  async (payload: ForgotPasswordPayload, thunkAPI) => {
+    try {
+      const response = await authApi.forgotPassword(payload);
+      return (response as { data?: any }).data ?? response;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        getErrorMessage(error, 'Quên mật khẩu thất bại')
+      );
+    }
+  },
+);
+
+export const verifyOtpThunk = createAsyncThunk(
+  'api/auth/verify-reset-otp',
+  async (payload: VerifyOtpPayload, thunkAPI) => {
+    try {
+      const response = await authApi.verifyOtp(payload);
+      return (response as { data?: any }).data ?? response;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        getErrorMessage(error, 'Xác thực OTP thất bại')
+      );
+    }
+  },
+);
+
+export const resetPasswordThunk = createAsyncThunk(
+  'api/auth/reset-password',
+  async (payload: ResetPasswordPayload, thunkAPI) => {
+    try {
+      const response = await authApi.resetPassword(payload);
+      return (response as { data?: any }).data ?? response;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(
+        getErrorMessage(error, 'Reset mật khẩu thất bại')
+      );
+    }
+  },
 );
