@@ -1,7 +1,7 @@
 import type { FormField } from "@/share/types/form-field";
 import { FormModalMode, type FormModalModeType } from "@/share/types/type-form-mode";
 
-export const getPromotionFieldsByMode = <T extends object>(
+export const getVoucherFieldsByMode = <T extends object>(
   fields: FormField<T>[],
   mode: FormModalModeType
 ): FormField<T>[] => {

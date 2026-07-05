@@ -11,7 +11,7 @@ const menuItems = [
      { name: 'Quản lý đơn hàng', link: '/admin/Manager-Order' },
     { name: 'Quản lý sản phẩm', link: '/admin/Manager-Product' },
     { name: 'Quản lý Kho', link: '' },
-    { name: 'Quản lý vouchers', link: '' },
+    { name: 'Quản lý vouchers', link: '/admin/Manager-Voucher' },
     { name: 'Quản lý danh mục', link: '' },
     { name: 'Quản lý khuyến mãi', link: '/admin/Manager-Promotion' },
     { name: 'Quản lý workshop', link: '' },

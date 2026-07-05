@@ -161,7 +161,7 @@ const AdminManagerPromotion = () => {
     }
   };
   const handleDeletePromotion = async (id: number) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) {
+    if (window.confirm("Bạn có chắc chắn muốn xóa khuyến mãi này?")) {
       try {
         setLoading(true);
         // Gọi API để xóa tài khoản dựa trên id, sau đó gọi hàm fetchAccounts để làm mới danh sách tài khoản trên giao diện, đảm bảo rằng tài khoản đã bị xóa không còn hiển thị, hiển thị thông báo thành công nếu thao tác xóa thành công
@@ -270,7 +270,7 @@ const AdminManagerPromotion = () => {
         <Table 
           columns={columns} 
           dataSource={promotions} 
-          rowKey="order_id" 
+          rowKey="promotion_id" 
           pagination={
             {
               current: currentPage,
