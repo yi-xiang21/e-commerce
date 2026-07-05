@@ -87,9 +87,11 @@ const AdminManagerAccount = () => {
             response = await AccountApi.getAll(page, limit);
           
           }
+
+          console.log("Accounts fetched:", response);
   
-          setAccounts(response.data?.data?.users ?? []);
-          setTotal(response.data?.data?.pagination?.total_items ?? 0);
+          setAccounts(response.data?.users ?? []);
+          setTotal(response.data?.pagination?.total_items ?? 0);
         } catch (error) {
           console.error("Lỗi khi tải danh sách tài khoản:", error);
         } finally {
