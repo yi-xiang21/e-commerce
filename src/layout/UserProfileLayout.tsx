@@ -2,6 +2,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '@/app/redux/hooks'
 import { logoutThunk } from '@/features/Auth/store/auth-thunk'
 import { logout } from '@/features/Auth/store/auth-slice'
+import { Modal } from 'antd'
 
 const menuItems = [
   { label: 'Thông tin người dùng', to: '', end: true },
@@ -27,10 +28,14 @@ const UserProfileLayout = () => {
   };
 
   const handleLogoutClick = () => {
-    const confirmed = window.confirm('Bạn có chắc chắn muốn đăng xuất?');
-    if (confirmed) {
-      void handleLogout();
-    }
+    Modal.confirm({
+      title: 'Xác nhận đăng xuất',
+      content: 'Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không?',
+      okText: 'Đăng xuất',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      onOk: handleLogout
+    });
   };
 
   return (
@@ -67,7 +72,7 @@ const UserProfileLayout = () => {
                   className='flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium text-red-600 transition-all duration-200 hover:bg-red-100'
                 >
                   <span>Đăng xuất</span>
-                  <span className='text-lg leading-none'>›</span>
+                  <span className='text-lg leading-none text-current/70'>›</span>
                 </button>
               </li>
             </ul>

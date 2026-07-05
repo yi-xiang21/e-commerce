@@ -21,42 +21,52 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validateEmail = (value: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailRegex.test(value)) {
-      return "Email không đúng định dạng";
+      return "Email không hợp lệ";
     }
-
     return "";
   };
 
   const validatePhone = (value: string) => {
-    const phoneRegex = /^(0|\+84)[0-9]{9,10}$/;
-
+    const phoneRegex = /^0\d{9}$/;
     if (!phoneRegex.test(value)) {
-      return "Số điện thoại không hợp lệ";
+      return "Số điện thoại không hợp lệ (phải bắt đầu bằng số 0 và có đúng 10 số)";
     }
-
     return "";
   };
 
   const validateUsername = (value: string) => {
-    if (value.trim().length < 3) {
-      return "Tên đăng nhập phải có ít nhất 3 ký tự";
+    if (value.trim().length < 3 || value.trim().length > 20) {
+      return "Username phải có độ dài từ 3 đến 20 ký tự";
     }
-
+    const usernameRegex = /^[a-zA-Z0-9_]+$/;
+    if (!usernameRegex.test(value)) {
+      return "Username chỉ được chứa các ký tự chữ cái không dấu (a-z, A-Z), chữ số (0-9) và dấu gạch dưới (_), không chứa dấu cách hoặc ký tự đặc biệt khác";
+    }
     return "";
   };
 
-    useEffect(() => {
-      if (!validationError) return;
-  
-      const timer = window.setTimeout(() => {
-        setValidationError('');
-      }, 3000);
-  
-      return () => window.clearTimeout(timer);
-    }, [validationError]);
+  const validatePassword = (value: string) => {
+    if (!value.trim()) {
+      return "Vui lòng nhập mật khẩu";
+    }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(value)) {
+      return "Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường, 1 chữ số và 1 ký tự đặc biệt (ví dụ: @, $, !, %, *, ?, &)";
+    }
+    return "";
+  };
+
+  useEffect(() => {
+    if (!validationError) return;
+
+    const timer = window.setTimeout(() => {
+      setValidationError('');
+    }, 5000); // Tăng thời gian hiển thị thông báo lỗi chi tiết lên 5s để dễ đọc hơn
+
+    return () => window.clearTimeout(timer);
+  }, [validationError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,11 +108,11 @@ export default function RegisterPage({ onRegister, errorMessage }: Props) {
     }
 
     // Password
-    if (!password.trim()) {
-      setValidationError("Vui lòng nhập mật khẩu");
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setValidationError(passwordError);
       return;
     }
-
 
     // Confirm Password
     if (!confirmPassword.trim()) {

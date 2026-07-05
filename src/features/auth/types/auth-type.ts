@@ -19,6 +19,27 @@ export interface RegisterPayload {
     phone_number: string;
     role: string;
 }
+
+export interface ForgotPasswordPayload {
+    email: string;
+}
+
+export interface VerifyOtpPayload {
+  email: string;
+  otp: string;
+}
+
+export interface VerifyOtpResponse {
+    message: string;
+    reset_session_token: string;
+}
+
+export interface ResetPasswordPayload {
+    email: string;
+  new_password: string;
+  reset_session_token: string;
+}
+
 export type user = {
   user_id: string;
   username?: string;
