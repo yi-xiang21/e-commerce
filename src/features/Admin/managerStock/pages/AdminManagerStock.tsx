@@ -2,21 +2,21 @@ import { useCallback, useEffect, useState } from "react";
 import { Table, Button } from "antd";
 import type { TableProps } from "antd/es/table";
 
-import { stockFields } from "@/pages/Admin/managerStock/constants/StockFields";
+import { stockFields } from "@/features/Admin/managerStock/constants/StockFields";
 import { useFormModal } from "@/share/hook/useFormModal";
 import Notification from "@/share/ComponentCustom/Notification/Notification";
 
 import { FormModalMode, type FormModalModeType } from "@/share/types/type-form-mode";
 import FormModal from "@/share/ComponentCustom/ModelForm";
-import { stockApi } from "@/pages/Admin/managerStock/api/stock_api";
+import { stockApi } from "@/features/Admin/managerStock/api/stock_api";
 import type { NotificationType } from "@/share/ComponentCustom/Notification/Notification";
 import axios from "axios";
 
-import type { stock ,StockHistoryItem} from "@/pages/Admin/managerStock/type/stock";
-import {getStockFieldsByMode} from "@/pages/Admin/managerStock/constants/sortField";
+import type { stock ,StockHistoryItem} from "@/features/Admin/managerStock/type/stock";
+import {getStockFieldsByMode} from "@/features/Admin/managerStock/constants/sortField";
 import FilterHeader from "@/share/ComponentCustom/FilterTableCustom";
-import { filterStocks } from "@/pages/Admin/managerStock/constants/StockFilter";
-import { TRANSACTION_TYPE } from '@/pages/Admin/managerStock/type/stock';
+import { filterStocks } from "@/features/Admin/managerStock/constants/StockFilter";
+import { TRANSACTION_TYPE } from '@/features/Admin/managerStock/type/stock';
 const defaultFormValues: stock = {
   variant_id: 0,
   quantity_change: 0,
@@ -26,6 +26,7 @@ const defaultFormValues: stock = {
 const AdminManagerStock = () => {
   const [stock, setStock] = useState<stock[]>([]);
   const [stockHistory, setStockHistory] = useState<StockHistoryItem []>([]);
+  console.log("Stock history state:", stockHistory);
   const [isViewingHistory, setIsViewingHistory] = useState(false);
   const [historyVariantId, setHistoryVariantId] = useState<number | null>(null);
   const [historyPage, setHistoryPage] = useState(1);
@@ -75,11 +76,12 @@ const fetchStock = useCallback(
         } 
         else {
           response = await stockApi.getAll(page, limit);
-           setStock(response.data?.data?.variantsStock ?? []);
+          console.log("Response from API:", response.data);
+           setStock(response.data?.variantsStock ?? []);
         }
 
        
-        setTotal(response.data?.data?.pagination?.total ?? 0);
+        setTotal(response.data?.pagination?.total ?? 0);
       } catch (error) {
         console.error("Lỗi khi tải danh sách tồn kho:", error);
       } finally {
@@ -98,12 +100,14 @@ const fetchStock = useCallback(
     if (record) {
       try {
         const response = await stockApi.getHistory(record.variant_id, 1, historyPageSize);
-        const data = response.data.data;
+        const data = response.data;
+
         setHistoryVariantId(record.variant_id);
         setHistoryPage(1);
-        setStockHistory(data.history ?? []);
+        setStockHistory(data.history);
+
         setHistoryTotal(data.pagination?.total_items ?? 0);
-        console.log("Stock history data:", data);
+        
 
 
         setIsViewingHistory(mode === FormModalMode.VIEW);

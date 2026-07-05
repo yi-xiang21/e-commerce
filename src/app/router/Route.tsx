@@ -32,6 +32,7 @@ import AdminSetting from '@/features/Admin/Setting/AdminSetting';
 import UserOrder from '@/features/User/UserOrder/pages/UserOrder';
 import OrderSuccess from '@/features/User/UserOrder/pages/OrderSuccess';
 import ShopPage from '@/features/User/Shop/pages/ShopPage';
+import AdminManagerStock from '@/features/Admin/managerStock/pages/AdminManagerStock';
 
 export const routes = createBrowserRouter([
     {
@@ -91,7 +92,7 @@ export const routes = createBrowserRouter([
                     },
                     {
                         path: 'Manager-Stock',
-                        element: <AdminManagerPromotion />,
+                        element: <AdminManagerStock />,
                     },
                     {
                         path: 'Setting',

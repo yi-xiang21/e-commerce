@@ -71,6 +71,11 @@ export const API_CONFIG = {
     DELETE_PROMOTION: (id: string) => `/api/promotions/promotions/${id}`,
     FILTER_PROMOTIONS: '/api/promotions/promotions/filter',
 
+    //admin stock
+    GET_STOCKS: '/api/variants/stock',
+    GET_HISTORY_ST: (variant_id: number) => `/api/inventory/${variant_id}/history`,
+    POST_UPDATE_STOCKS: '/api/inventory/adjust',
+    POST_FILTER_STOCKS: '/api/inventory/overview',
 
     //admin order
     GETALL_ORDERS: '/api/orders/admin/all',
