@@ -6,18 +6,29 @@ import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminMana
 import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
 import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
-import AboutPage from '@/features/About';
+import AuthPage from '@/features/auth/pages/AuthPage';
+import AboutPage from '@/features/User/Pages/Page/About';
+import DetailPage from '@/features/User/Pages/Page/Detail';
 import UserProfileLayout from '@/layout/UserProfileLayout';
 import ProfileUser from '@/features/User/UserProfile/pages/ProfileUser';
 import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracking';
 import PurchaseHistoryPage from '@/features/User/UserProfile/pages/PurchaseHistory';
 import WorkshopPage from '@/features/User/UserProfile/pages/UserWorkshop';
 import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount';
-import AuthPage from '@/features/Auth/pages/AuthPage';
-import AdminSetting from '@/features/Admin/setting/AdminSetting';
+// import AuthPage from '@/features/Auth/pages/AuthPage';
 import CartPage from '@/features/Cart/pages/CartPage';
 import AdminManagerPromotion from '@/features/Admin/ManagerPromotion/pages/AdminManagerPromotion';
 import AdminManagerProduct from '@/features/Admin/ManagerProduct/pages/AdminManagerProduct';
+import ShipperLayout from '@/layout/ShipperLayout';
+import ShipperProfile from '@/features/Shipper/pages/ShipperProfile';
+import AvailableOrders from '@/features/Shipper/pages/AvailableOrders';
+import ShipperSetting from '@/features/Shipper/pages/ShipperSetting';
+import ForgotPasswordPage from '@/component/ForgotPasswordPage';
+import VerifyOtpPage from '@/component/VerifyOtpPage';
+import ResetPasswordPage from '@/component/ResetPasswordPage';
+import AdminSetting from '@/features/Admin/Setting/AdminSetting';
+import ShopPage from '@/features/User/Shop/pages/ShopPage';
+
 export const routes = createBrowserRouter([
     {
         element: <UserLayout />,
@@ -31,8 +42,16 @@ export const routes = createBrowserRouter([
                 element: <AboutPage />,
             },
             {
+                path: 'detail/:id',
+                element: <DetailPage />,
+            },
+            {
                 path: "/cart",
                 element: <CartPage />,
+            },
+            {
+                path: "/shop",
+                element: <ShopPage />,
             }
         ],
     },
@@ -67,13 +86,35 @@ export const routes = createBrowserRouter([
         ],
     },
     {
+        element: <ProtectedRoute requireAuth={true} requireShipper={true} />,
+        children: [
+            {
+                path: '/shipper',
+                element: <ShipperLayout />,
+                children: [
+                    {
+                        path: 'profile',
+                        element: <ShipperProfile />,
+                    },
+                    {
+                        path: 'available-orders',
+                        element: <AvailableOrders />,
+                    },
+                    {
+                        path: 'setting',
+                        element: <ShipperSetting />
+                    }
+                ],
+            },
+        ],
+    },
+    {
         element: <ProtectedRoute requireAuth={true} />,
         children: [
             {
                 path: '/',
                 element: <UserLayout />,
                 children: [
-                    
                     {
                         path: 'profile',
                         element: <UserProfileLayout />,
@@ -126,7 +167,19 @@ export const routes = createBrowserRouter([
                     {
                         path: 'register',
                         element: <AuthPage />,
-                    }
+                    },
+                    {
+                        path: 'forgot-password',
+                        element: <ForgotPasswordPage />,
+                    },
+                    {
+                        path: 'verify-otp',
+                        element: <VerifyOtpPage />,
+                    },
+                    {
+                        path: 'reset-password',
+                        element: <ResetPasswordPage />,
+                    },
                 ],
             }
         ]
