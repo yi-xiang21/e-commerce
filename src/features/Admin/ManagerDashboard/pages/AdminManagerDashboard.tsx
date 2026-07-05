@@ -95,6 +95,7 @@ const AdminManagerDashboard: React.FC = () => {
   const [recentOrders, setRecentOrders] = useState<Order[]>(mockRecentOrders);
   const [topProducts, setTopProducts] = useState<any[]>(mockTopProducts);
   const [chartData, setChartData] = useState(mockRevenueChartData);
+  const [isSystemOnline, setIsSystemOnline] = useState<boolean>(true);
 
   useEffect(() => {
     const loadDashboardData = async () => {
@@ -107,6 +108,12 @@ const AdminManagerDashboard: React.FC = () => {
           ProductApi.getAll(1, 100),
           ProductApi.getProductsTopSelling()
         ]);
+
+        const isBackendDown = 
+          ordersRes.status === 'rejected' && 
+          usersRes.status === 'rejected' && 
+          productsRes.status === 'rejected';
+        setIsSystemOnline(!isBackendDown);
 
         let liveOrders: Order[] = [];
         let totalRevenue = 0;
@@ -151,7 +158,7 @@ const AdminManagerDashboard: React.FC = () => {
           if (productsRes.status === 'fulfilled' && productsRes.value.data) {
             const productsList = productsRes.value.data.products || [];
             if (productsList.length > 0) {
-              const mapped = productsList.slice(0, 5).map((p: any, idx: number) => ({
+              const mapped = productsList.slice(0, 5).map((p: any) => ({
                 name: p.product_name,
                 sales: Math.floor(Math.random() * 30) + 10,
                 price: p.variants?.[0]?.price ? parseFloat(p.variants[0].price) : 250000,
@@ -302,10 +309,24 @@ const AdminManagerDashboard: React.FC = () => {
           <p className="text-slate-500 mt-1">Chào mừng bạn trở lại! Dưới đây là hoạt động bán hàng của cửa hàng hôm nay.</p>
         </div>
         <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
-          <FiActivity className="text-emerald-500 animate-pulse text-lg" />
-          <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Hệ thống: Trực tuyến</span>
+          <FiActivity className={`${isSystemOnline ? 'text-emerald-500 animate-pulse' : 'text-rose-500'} text-lg`} />
+          <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
+            Hệ thống: {isSystemOnline ? 'Trực tuyến' : 'Ngoại tuyến'}
+          </span>
         </div>
       </div>
+
+      {!isSystemOnline && (
+        <div className="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded-xl flex items-center gap-3 text-sm font-medium mb-6">
+          <span className="flex h-2.5 w-2.5 relative flex-shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+          </span>
+          <span>
+            Không thể kết nối đến máy chủ. Giao diện đang hiển thị dữ liệu mẫu để minh họa. Vui lòng kiểm tra lại kết nối API.
+          </span>
+        </div>
+      )}
 
       {loading ? (
         <div className="flex justify-center items-center h-96">
