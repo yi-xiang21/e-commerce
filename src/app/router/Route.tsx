@@ -6,7 +6,7 @@ import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminMana
 import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
 import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
-import AuthPage from '@/features/auth/pages/AuthPage';
+import AuthPage from '@/features/Auth/pages/AuthPage';
 import AboutPage from '@/features/User/Pages/Page/About';
 import DetailPage from '@/features/User/Pages/Page/Detail';
 import UserProfileLayout from '@/layout/UserProfileLayout';
@@ -86,6 +86,10 @@ export const routes = createBrowserRouter([
                     
                         path: 'Manager-Voucher',
                         element: <AdminManagerVoucher />,
+                    },
+                    {
+                        path: 'Manager-Stock',
+                        element: <AdminManagerPromotion />,
                     },
                     {
                         path: 'Setting',
