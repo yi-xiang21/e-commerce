@@ -1,6 +1,7 @@
 import { API_CONFIG } from "@/config/api";
 import { callAPI } from "@/share/lib/axios";
 
+
 export const PromotionApi = {
   getAll: (page:number, limit:number) =>
     callAPI.get(API_CONFIG.ENDPOINTS.GET_PROMOTIONS, { params:{ page, limit } }),

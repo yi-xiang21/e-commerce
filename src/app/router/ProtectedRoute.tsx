@@ -6,9 +6,10 @@ import { Spin } from 'antd';
 interface ProtectedRouteProps {
   requireAuth?: boolean;
   requireAdmin?: boolean;
+  requireShipper?: boolean;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ requireAuth = true, requireAdmin = false }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ requireAuth = true, requireAdmin = false, requireShipper = false }) => {
   const { user, initialized } = useAppSelector((state) => state.auth);
 
   if (!initialized) {
@@ -37,6 +38,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ requireAuth = true, req
 
     if (user.role !== 'admin') {
       return <Navigate to="/profile" replace />;
+    }
+  }
+
+  if (requireShipper) {
+    if (!user) {
+      return <Navigate to="/auth/login" replace />;
+    }
+    if (user.role !== 'shipper') {
+      return <Navigate to="/" replace />;
     }
   }
 

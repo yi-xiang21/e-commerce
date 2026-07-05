@@ -13,7 +13,11 @@ export const WishlistApi = {
   },
 
   // API thêm giỏ hàng (hiện tại chưa có trong API_CONFIG, tôi tạm để đường dẫn chuẩn)
-  addToCart: async (productId: string | number, quantity: number = 1) => {
-    return callAPI.post('/api/cart', { productId, quantity });
+  addToCart: async (variantId: string | number, quantity: number = 1) => {
+    // Gọi đúng endpoint ADD_TO_CART và truyền payload chứa variant_id
+    return callAPI.post(API_CONFIG.ENDPOINTS.ADD_TO_CART, { 
+        variant_id: Number(variantId), 
+        quantity 
+    });
   }
 };

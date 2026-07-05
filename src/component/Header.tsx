@@ -7,7 +7,7 @@ import Badge from 'antd/es/badge/Badge'
 import HeaderDesktopMenu from '@/component/HeaderDesktopMenu'
 import { useAppSelector, useAppDispatch } from '@/app/redux/hooks'
 import { fetchWishlistThunk } from '@/features/User/Wishlist/store/wishlist-thunk'
-
+import { fetchCart } from '@/features/Cart/store/cart-thunk'
 
 
 export type ActiveMenuKey = 'home' | 'shop' | 'about' | 'workshop'
@@ -23,9 +23,16 @@ const Header = () => {
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const wishlistCount = Array.isArray(wishlistItems) ? wishlistItems.length : 0;
 
+  const { items: cartItems } = useAppSelector((state) => state.cart);
+
+  const cartCount = Array.isArray(cartItems) 
+    ? cartItems.reduce((total, item) => total + item.quantity, 0) 
+    : 0;
+
   useEffect(() => {
     if (user) {
       void dispatch(fetchWishlistThunk());
+      void dispatch(fetchCart());
     }
   }, [dispatch, user]);
 
@@ -38,7 +45,10 @@ const Header = () => {
   const router = () => {
     if (!user) return "/auth/login";
 
-    return user.role === "admin" ? "/admin" : "/profile";
+    if (user.role === "admin") return "/admin";
+    if (user.role === "shipper") return "/shipper/available-orders";
+    
+    return "/profile";
   };
 
   return (
@@ -87,16 +97,15 @@ const Header = () => {
               </Badge>
             </Link>
             {/* thay bang antdesign badge */}
-            <button
-              aria-label='Gio hang'
+            <Link
+              aria-label='Giỏ hàng'
               className='relative rounded-full p-2 text-gray-700 transition-all duration-200 hover:-translate-y-0.5 hover:bg-amber-50 hover:text-amber-800'
-              type='button'
+              to='/cart'
             >
-              {/* sua lai thanh route gio hang sau khi lam xong chuc nang */}
-              <Badge count={5}>
+              <Badge count={cartCount} size="small">
                 <FaShoppingCart aria-hidden='true' className='h-5 w-5' />
               </Badge>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

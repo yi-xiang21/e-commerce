@@ -10,7 +10,7 @@ export const fetchWishlistThunk = createAsyncThunk(
       // Bóc tách chính xác mảng items từ response của bạn
       const itemsArray = res.data?.items || res.data?.data?.items || []
       
-      console.log('Fetched wishlist items:', itemsArray); // Debug log
+      // console.log('Fetched wishlist items:', itemsArray); // Debug log
       
       return itemsArray; // CHỈ TRẢ VỀ MẢNG, KHÔNG TRẢ VỀ OBJECT
     } catch (error: any) {
