@@ -9,7 +9,7 @@ const menuItems = [
     { name: 'Dashboard', link: '/admin' },
     { name: 'Quản lý người dùng', link:'/admin/Manager-Account' },
      { name: 'Quản lý đơn hàng', link: '/admin/Manager-Order' },
-    { name: 'Quản lý sản phẩm', link: '' },
+    { name: 'Quản lý sản phẩm', link: '/admin/Manager-Product' },
     { name: 'Quản lý Kho', link: '' },
     { name: 'Quản lý vouchers', link: '' },
     { name: 'Quản lý danh mục', link: '' },
