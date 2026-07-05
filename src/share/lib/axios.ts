@@ -10,13 +10,21 @@ export const callAPI = axios.create({
   },
 });
 
+const isPublicRequest = (config: { url?: string } | undefined) => {
+  const url = config?.url ?? '';
+
+  return /\/api\/(products|categories|promotions|vouchers|location)(\/|$)/.test(url);
+};
+
 // Add a request interceptor to include the access token in headers
 callAPI.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('accessToken');
 
-    if (accessToken) {
+    if (accessToken && !isPublicRequest(config)) {
       config.headers.Authorization = `Bearer ${accessToken}`;
+    } else if (config.headers.Authorization) {
+      delete config.headers.Authorization;
     }
 
     return config;
@@ -54,6 +62,17 @@ callAPI.interceptors.response.use(
       error.response?.status === HTTP_STATUS.UNAUTHORIZED &&
       !originalRequest._retry
     ) {
+      if (isPublicRequest(originalRequest)) {
+        return Promise.reject(error);
+      }
+
+      const hasAccessToken = Boolean(localStorage.getItem('accessToken'));
+      const hasRefreshToken = Boolean(localStorage.getItem('refreshToken'));
+
+      if (!hasAccessToken || !hasRefreshToken) {
+        return Promise.reject(error);
+      }
+
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({
