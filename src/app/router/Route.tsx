@@ -6,7 +6,7 @@ import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminMana
 import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
 import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
-import AuthPage from '@/features/auth/pages/AuthPage';
+import AuthPage from '@/features/Auth/pages/AuthPage';
 import AboutPage from '@/features/User/Pages/Page/About';
 import DetailPage from '@/features/User/Pages/Page/Detail';
 import UserProfileLayout from '@/layout/UserProfileLayout';
@@ -29,8 +29,11 @@ import ForgotPasswordPage from '@/component/ForgotPasswordPage';
 import VerifyOtpPage from '@/component/VerifyOtpPage';
 import ResetPasswordPage from '@/component/ResetPasswordPage';
 import AdminSetting from '@/features/Admin/Setting/AdminSetting';
+import UserOrder from '@/features/User/UserOrder/pages/UserOrder';
+import OrderSuccess from '@/features/User/UserOrder/pages/OrderSuccess';
 import ShopPage from '@/features/User/Shop/pages/ShopPage';
 import AdminManagerDashboard from '@/features/Admin/ManagerDashboard/pages/AdminManagerDashboard';
+import AdminManagerStock from '@/features/Admin/managerStock/pages/AdminManagerStock';
 
 export const routes = createBrowserRouter([
     {
@@ -91,6 +94,10 @@ export const routes = createBrowserRouter([
                     {
                         path: 'Manager-Voucher',
                         element: <AdminManagerVoucher />,
+                    },
+                    {
+                        path: 'Manager-Stock',
+                        element: <AdminManagerStock />,
                     },
                     {
                         path: 'Setting',
@@ -164,6 +171,14 @@ export const routes = createBrowserRouter([
                         path: "/wishlist",
                         element: <WishlistPage />,
                     },
+                    {
+                        path: "/order",
+                        element: <UserOrder />,
+                    },
+                    {
+                        path: "/order-success",
+                        element: <OrderSuccess />,
+                    }
                 ],
             },
         ],

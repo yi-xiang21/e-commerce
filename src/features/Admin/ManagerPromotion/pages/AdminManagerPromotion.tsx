@@ -301,7 +301,6 @@ const AdminManagerPromotion = () => {
         childFields={promotionChildrenFields}
         childKey="applicable_products"
         tabNamePrefix="Khuyến mãi áp dụng cho sản phẩm"
-        nestedLimit={1}
       />
     </div>
   );
