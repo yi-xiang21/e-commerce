@@ -49,6 +49,7 @@ export const API_CONFIG = {
     UPDATE_PRODUCT: (id: string) => `/api/products/${id}`,
     DELETE_PRODUCT: (id: string) => `/api/products/${id}`,
     FiLTER_PRODUCTS: '/api/products/filter',
+    GET_PRODUCTS_TOP_SELLING: '/api/products/top-selling',
     
     
 
@@ -98,6 +99,7 @@ export const API_CONFIG = {
     GET_PRODUCT_BY_ID: (id: string) => `/api/products/${id}`,
 
 
+    
     UPDATE_SHIPPER_LOCATION: (id: string) => `/api/admin/shippers/${id}/location`,
 
     // shipper portal
