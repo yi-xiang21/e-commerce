@@ -56,6 +56,7 @@ export const API_CONFIG = {
     //admin voucher
     GET_VOUCHERS: '/api/vouchers/vouchers',
     GET_VOUCHER: (id: string) => `/api/vouchers/vouchers/${id}`,
+    GET_MY_VOUCHERS: '/api/vouchers/my-vouchers',
     CREATE_VOUCHER: '/api/vouchers/vouchers',
     UPDATE_VOUCHER: (id: string) => `/api/vouchers/vouchers/${id}`,
     DELETE_VOUCHER: (id: string) => `/api/vouchers/vouchers/${id}`,
@@ -74,6 +75,7 @@ export const API_CONFIG = {
     //admin order
     GETALL_ORDERS: '/api/orders/admin/all',
     GET_ORDER: (id: string) => `/api/orders/admin/${id}`,
+    GET_SHIPPING_FEE: '/api/orders/shipping-fees',
     UPDATE_ORDER_STATUS: (id: string) => `/api/orders/admin/${id}/status`,
     FILTER_ORDERS: '/api/orders/admin/filter',
 
@@ -85,6 +87,18 @@ export const API_CONFIG = {
     GETALL_SHIPPERS: '/api/admin/shippers',
     CREATE_SHIPPER: '/api/admin/shippers',
     UPDATE_SHIPPER_STATUS: (id: string) => `/api/admin/shippers/${id}/status`,
+    //user order
+    GET_ORDER_HISTORY: '/api/orders/my-orders',
+    GET_ORDER_DETAIL: (id: string) => `/api/orders/my-orders/${id}`,
+    CREATE_ORDER: '/api/orders',
+    REPURCHASE_ORDER: (id: string) => `/api/orders/repurchase/${id}`,
+
+
+    //cart
+    GET_CART_ITEMS: '/api/cart',
+    GET_PRODUCT_BY_ID: (id: string) => `/api/products/${id}`,
+
+
     
     UPDATE_SHIPPER_LOCATION: (id: string) => `/api/admin/shippers/${id}/location`,
 

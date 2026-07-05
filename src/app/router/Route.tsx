@@ -29,6 +29,8 @@ import ForgotPasswordPage from '@/component/ForgotPasswordPage';
 import VerifyOtpPage from '@/component/VerifyOtpPage';
 import ResetPasswordPage from '@/component/ResetPasswordPage';
 import AdminSetting from '@/features/Admin/Setting/AdminSetting';
+import UserOrder from '@/features/User/UserOrder/pages/UserOrder';
+import OrderSuccess from '@/features/User/UserOrder/pages/OrderSuccess';
 import ShopPage from '@/features/User/Shop/pages/ShopPage';
 
 export const routes = createBrowserRouter([
@@ -163,6 +165,14 @@ export const routes = createBrowserRouter([
                         path: "/wishlist",
                         element: <WishlistPage />,
                     },
+                    {
+                        path: "/order",
+                        element: <UserOrder />,
+                    },
+                    {
+                        path: "/order-success",
+                        element: <OrderSuccess />,
+                    }
                 ],
             },
         ],
