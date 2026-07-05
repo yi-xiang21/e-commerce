@@ -16,6 +16,7 @@ import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount
 import AuthPage from '@/features/Auth/pages/AuthPage';
 import AdminSetting from '@/features/Admin/Setting/AdminSetting';
 import AdminManagerPromotion from '@/features/Admin/ManagerPromotion/pages/AdminManagerPromotion';
+import AdminManagerVoucher from '@/features/Admin/ManagerVoucher/pages/AdminManagerVoucher';
 export const routes = createBrowserRouter([
     {
         element: <UserLayout />,
@@ -47,6 +48,10 @@ export const routes = createBrowserRouter([
                     {
                         path: 'Manager-Promotion',
                         element: <AdminManagerPromotion />,
+                    },
+                    {
+                        path: 'Manager-Voucher',
+                        element: <AdminManagerVoucher />,
                     },
                     {
                         path: 'Setting',
