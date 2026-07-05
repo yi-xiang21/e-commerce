@@ -1,7 +1,7 @@
 import { FormFieldType } from '@/share/types/type-form-field';
 import type { FormField } from '@/share/types/form-field';
-import type { stock } from '@/pages/Admin/managerStock/type/stock';
-import { TRANSACTION_TYPE } from '@/pages/Admin/managerStock/type/stock';
+import type { stock } from '@/features/Admin/managerStock/type/stock';
+import { TRANSACTION_TYPE } from '@/features/Admin/managerStock/type/stock';
 
 
 

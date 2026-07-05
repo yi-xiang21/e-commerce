@@ -29,6 +29,7 @@ import VerifyOtpPage from '@/component/VerifyOtpPage';
 import ResetPasswordPage from '@/component/ResetPasswordPage';
 import AdminSetting from '@/features/Admin/Setting/AdminSetting';
 import ShopPage from '@/features/User/Shop/pages/ShopPage';
+import AdminManagerStock from '@/features/Admin/managerStock/pages/AdminManagerStock';
 
 export const routes = createBrowserRouter([
     {
@@ -84,7 +85,7 @@ export const routes = createBrowserRouter([
                     },
                     {
                         path: 'Manager-Stock',
-                        element: <AdminManagerPromotion />,
+                        element: <AdminManagerStock />,
                     },
                     {
                         path: 'Setting',
