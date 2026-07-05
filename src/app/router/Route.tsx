@@ -83,6 +83,10 @@ export const routes = createBrowserRouter([
                         element: <AdminManagerVoucher />,
                     },
                     {
+                        path: 'Manager-Stock',
+                        element: <AdminManagerPromotion />,
+                    },
+                    {
                         path: 'Setting',
                         element: <AdminSetting />
                     },
