@@ -13,7 +13,7 @@ const About = () => {
                 </h1>
                 <div className="w-12 h-[1.5px] bg-[#e07a5f] mx-auto my-3"></div>
                 <p className="text-base md:text-lg text-[#8c756c] font-medium italic max-w-lg mx-auto">
-                    "Creating beautiful things, one stitch at a time."
+                    "Gửi gắm yêu thương qua từng mũi đan."
                 </p>
             </div>
 
@@ -23,10 +23,9 @@ const About = () => {
                 {/* Section 1: Our Story */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                     <div className="space-y-4 order-2 md:order-1">
-                        <h2 className="text-2xl md:text-3xl font-bold text-[#e07a5f] font-serif tracking-wide">Our Little Story</h2>
+                        <h3 className="text-2xl md:text-2xl font-bold text-[#e07a5f] font-serif tracking-wide">Câu Chuyện Nhỏ Của Chúng Mình</h3>
                         <p className="text-base md:text-lg text-[#7a645c] leading-relaxed">
-                            PeaceChill started in 2026 as a tiny cozy corner for everyone who loves knitting and crocheting. We wanted to create a peaceful place where you can slow down, relax, and make cute things with your own hands.
-                        </p>
+                            PeaceChill được nhen nhóm vào năm 2026, xuất phát từ một góc nhỏ ấm cúng dành cho những ai yêu thích đan móc. Chúng mình mong muốn tạo ra một không gian yên bình — nơi bạn có thể sống chậm lại, thư giãn và tự tay làm nên những món đồ nhỏ xinh, đáng yêu.                        </p>
                     </div>
 
                     <div className="h-64 w-full order-1 md:order-2">
@@ -48,9 +47,9 @@ const About = () => {
                         />
                     </div>
                     <div className="space-y-4">
-                        <h2 className="text-2xl md:text-3xl font-bold text-[#e07a5f] font-serif tracking-wide">What We Have For You</h2>
+                        <h3 className="text-2xl md:text-2xl font-bold text-[#e07a5f] font-serif tracking-wide">PeaceChill Có Gì Cho Bạn?</h3>
                         <p className="text-base md:text-lg text-[#7a645c] leading-relaxed">
-                            We bring you the softest, cloud-like yarns from Merino wool to organic cotton with the prettiest pastel colors. We also host warm weekend workshops where we can sit together, drink some tea, and learn new stitches.
+                            Chúng mình mang đến những sợi len mềm mại như mây, từ len Merino đến cotton hữu cơ với những gam màu pastel nhẹ nhàng nhất. Ngoài ra, PeaceChill còn tổ chức những buổi workshop ấm áp vào cuối tuần — nơi tụi mình có thể ngồi lại cùng nhau, nhâm nhi chút trà và học những mũi đan mới.
                         </p>
                     </div>
                 </div>
@@ -58,23 +57,25 @@ const About = () => {
                 {/* Mini Cute Box */}
                 <div className="bg-gradient-to-br from-[#fff4ed] to-[#fef5e7] rounded-2xl p-8 text-center max-w-xl mx-auto border border-[#fce9cf] shadow-sm">
                     <h3 className="text-xl md:text-2xl font-bold text-[#4a3731] mb-3 font-serif">
-                        Want to stitch with us?
+                        Bạn sẽ đan len cùng chúng mình chứ?
                     </h3>
 
                     <p className="text-sm md:text-base text-[#8c756c] mb-6 font-medium">
-                        Pick your favorite yarn color or join our upcoming workshop!
+                        Hãy chọn màu len yêu thích hoặc đăng ký tham gia buổi workshop sắp tới ngay nhé!
                     </p>
 
                     <div className="flex justify-center gap-4">
-                        <button className="bg-[#f9bfaf] hover:bg-[#f2957b] text-white text-sm md:text-base font-bold px-6 py-3 rounded-2xl transition-all shadow-sm active:scale-95">
-                            Shop Yarn
+                        <button className="bg-[#f9bfaf] hover:bg-[#f2957b] text-white text-sm md:text-base font-bold px-6 py-3 rounded-2xl transition-all shadow-sm active:scale-95"
+                            onClick={() => window.location.href = '/shop'}>
+                            Mua Len
                         </button>
-                        <button className="bg-white hover:bg-[#efeeee] text-[#7a645c] text-sm md:text-base font-bold px-6 py-3 rounded-2xl border border-[#ffdcd0] transition-all shadow-sm active:scale-95">
-                            Join Workshop
+                        <button className="bg-white hover:bg-[#efeeee] text-[#7a645c] text-sm md:text-base font-bold px-6 py-3 rounded-2xl border border-[#ffdcd0] transition-all shadow-sm active:scale-95"
+                            // onClick={() => window.location.href = '/workshop'}
+                            >
+                            Tham gia Workshop
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     );

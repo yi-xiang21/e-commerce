@@ -21,16 +21,18 @@ export const API_CONFIG = {
     //cart
     GET_CART: '/api/cart',
     ADD_TO_CART: '/api/cart',
-    REMOVE_FROM_CART: '/api/cart',
-    UPDATE_CART: '/api/cart',
+    REMOVE_FROM_CART: (variantId: string | number) => `/api/cart/${variantId}`,
+    UPDATE_CART: (variantId: string | number) => `/api/cart/${variantId}`,
+
+    SYNC_CART: '/api/cart/sync',
 
     //admin account
     GETALL_USERS: '/api/users',
     GET_USER: (id: string) => `/api/users/${id}`,
     CREATE_USER: '/api/users',
     UPDATE_USER: (id: string) => `/api/users/${id}`,
-    DELETE_USER: (id: string) => `/api/users/${id}`,
-      FILTER_USERS: '/api/users/filter',
+    DELETE_USER: (id: number) => `/api/users/${id}`,
+    FILTER_USERS: '/api/users/filter',
     
     //admin category
     GET_CATEGORIES: '/api/categories',
@@ -96,7 +98,13 @@ export const API_CONFIG = {
     GET_PRODUCT_BY_ID: (id: string) => `/api/products/${id}`,
 
 
+    UPDATE_SHIPPER_LOCATION: (id: string) => `/api/admin/shippers/${id}/location`,
 
+    // shipper portal
+    GET_SHIPPER_PROFILE: '/api/shipper/profile',
+    UPDATE_SHIPPER_PROFILE: '/api/shipper/profile',
+    GET_AVAILABLE_ORDERS: '/api/shipper/available-orders',
+    ACCEPT_ORDER: (orderId: string) => `/api/shipper/orders/${orderId}/accept`,
 
     FORGOT_PASSWORD: '/api/auth/forgot-password',
     VERIFY_OTP: '/api/auth/verify-reset-otp',

@@ -1,0 +1,166 @@
+/* Tổng thể layout chia làm 2 cột: Sidebar và Danh sách */
+.shop-container {
+  display: flex;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: sans-serif;
+}
+
+/* Sidebar bên trái tinh tế */
+.shop-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: #fff;
+  padding: 20px;
+  border-right: 1px solid #f0f0f0;
+}
+
+/* Khung chứa danh mục nếu cần khoảng cách */
+.shop-sidebar h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Cấu hình lại các nút danh mục để không bị dính chùm */
+.category-list-btn {
+  display: block;          /* Ép mỗi danh mục nằm riêng biệt trên 1 dòng */
+  width: 100%;             /* Chiều rộng tràn đầy sidebar */
+  text-align: left;        /* Căn lề chữ sang bên trái */
+  padding: 10px 15px;      /* Tạo độ dày, khoảng trống bên trong nút */
+  margin-bottom: 8px;      /* TẠO KHOẢNG CÁCH giữa các danh mục với nhau */
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;      /* Bo góc nhẹ cho giống hình mẫu */
+  font-size: 15px;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Khi danh mục đó đang được active (chọn) */
+.category-list-btn.active {
+  background-color: #fff5f0; /* Màu nền cam nhạt giống hình mẫu */
+  color: #d97706;            /* Chữ màu cam đậm làm điểm nhấn */
+  font-weight: 600;
+}
+
+/* Hiệu ứng di chuột qua mượt mà */
+.category-list-btn:hover {
+  background-color: #f9f9f9;
+}
+.category-list-btn.active:hover {
+  background-color: #fff5f0;
+}
+
+/* Bộ chọn Sắp xếp (Select Box) */
+.shop-sort-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Vùng hiển thị sản phẩm dạng Grid tự động co giãn đẹp mắt giống Trang Chủ */
+.shop-product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+  flex-grow: 1;
+}
+
+/* Thanh phân trang ở phía dưới */
+.shop-pagination {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.shop-pagination button {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.shop-pagination button:disabled {
+  background: #f5f5f5;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.shop-pagination button:not(:disabled):hover {
+  border-color: #d47a22;
+  color: #d47a22;
+}
+
+.shop-no-products-message {
+  background-color: #fff5f0;
+  color: #856404;
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin-bottom: 25px;
+  font-size: 15px;
+  border: 1px solid #ffeeba;
+  text-align: center;
+}
+
+/* Layout tổng của trang */
+.shop-container {
+  display: flex;
+  min-height: 80vh; /* Giúp trang có độ cao tối thiểu vừa vặn màn hình */
+}
+
+/* Sidebar bên trái */
+.shop-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.sidebar-sort-group {
+  margin-top: 30px;
+}
+
+/* Khu vực nội dung bên phải */
+.shop-main-content {
+  flex-grow: 1;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column; /* Xếp thông báo -> grid -> phân trang theo chiều dọc */
+}
+
+/* Khung bọc Grid sản phẩm */
+.shop-content-wrapper {
+  flex-grow: 1;      /* Chiếm trọn không gian trống còn thừa */
+  min-height: 450px; /* Giữ khung luôn cao ít nhất 450px kể cả khi mảng rỗng */
+}
+
+/* Thanh phân trang */
+.shop-pagination {
+  margin-top: auto;  /* Biến phân trang thành nam châm, tự hút xuống sát đáy shop-main-content */
+  padding: 20px 0;
+}
+
+/* Style cho các dòng text loading, error hoặc alert nếu cần */
+.shop-loading-text {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+
+.shop-error-message {
+  color: red;
+  text-align: center;
+}

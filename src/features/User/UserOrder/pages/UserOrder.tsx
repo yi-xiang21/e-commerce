@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { orderApi } from "../api/order-api";
-import { userApi } from "../../UserProfile/api/user-api";
 import Badge from "antd/es/badge/Badge";
 import Avatar from "antd/es/avatar/Avatar";
-import { Radio } from 'antd';
-import type { user } from "@/features/Auth/types/auth-type";
+import { message, Radio } from 'antd';
 import { useAppSelector } from "@/app/redux/hooks";
+import { useNavigate } from "react-router";
 
 interface Billing {
   phuong_xa_id: number;
@@ -41,10 +40,12 @@ const UserOrder = () => {
 
   const [voucher, setVoucher] = useState<any[]>([]);
 
+  const navigate = useNavigate();
+
   const userProfile = useCallback(async () => {
     setLoading(true);
+    loading;
     try {
-      
       const citiesData = await orderApi.getCities();
       const cartItemsData = await orderApi.getCartItems();
       const voucherData = await orderApi.getMyVouchers();
@@ -134,20 +135,35 @@ const UserOrder = () => {
 
   const handlePlaceOrder = async () => {
     try {
-      const orderData = {
-        ...billing,
-        cart_items: cartItems.map(item => ({
-          product_id: item.product_id,
-          quantity: item.quantity,
-        })),
-      };
+      if(!billing.phuong_xa_id || !billing.dia_chi_giao_hang || !billing.ten_nguoi_nhan || !billing.sdt_nguoi_nhan) {
+        message.error("Vui lòng điền đầy đủ thông tin thanh toán.");
+        return;
+      }
+      const response = await orderApi.createOrder(billing);
+      
+        console.log("Order response:", response);
+
+        console.log("Res DATA:", response.data);
+
+      if (billing.phuong_thuc_thanh_toan === "COD") {
+          message.success("Đặt hàng thành công!");
+
+      } else if (billing.phuong_thuc_thanh_toan === "MOMO") {
+          const paymentUrl = response.data.payUrl;
+          console.log("MOMO Payment URL:", paymentUrl);
+          window.location.href = paymentUrl; // Chuyển hướng người dùng đến trang thanh toán MOMO
+          // window.open(paymentUrl, "_blank");
+      }
+      navigate("/order-success");
     } catch (error) {
       console.error("Failed to place order:", error);
+      message.error("Đặt hàng thất bại. Vui lòng thử lại.");
     }
   };
 
   console.log("Billing:", billing);
   console.log("Promotion:", voucher);
+  console.log("Cart:", cartItems);
 
   return (
     <div className="flex gap-4 justify-between w-4/5 mx-auto my-8 h-screen p-4 overflow-hidden">
@@ -157,6 +173,7 @@ const UserOrder = () => {
           <div className="flex flex-col w-full">
             <p className="font-medium">Họ và Tên * </p>
             <input
+              required
               className="font-semibold border border-gray-300 p-2 w-full text-left shadow"
               value={billing?.ten_nguoi_nhan}
               onChange={(e) =>
@@ -172,6 +189,7 @@ const UserOrder = () => {
         <div className="flex flex-col w-full">
           <p className="font-medium">Email * </p>
           <input
+            required
             className="font-semibold border border-gray-300 p-2  w-full text-left shadow"
             value={user?.email}
           />
@@ -180,6 +198,7 @@ const UserOrder = () => {
         <div className="flex flex-col w-full">
           <p className="font-medium">Số điện thoại * </p>
           <input
+            required
             className="font-semibold border border-gray-300 p-2  w-full text-left shadow"
             value={user?.phone_number}
           />
@@ -188,6 +207,7 @@ const UserOrder = () => {
         <div className="flex flex-col w-full">
           <p className="font-medium">Thành phố * </p>
           <select
+            required
             className="font-semibold border border-gray-300 p-2  w-full text-left shadow"
             value={selectedCity}
             onChange={(e) => selectCity(e.target.value)}
@@ -204,6 +224,7 @@ const UserOrder = () => {
         <div className="flex flex-col w-full">
           <p className="font-medium">Phường/Xã * </p>
           <select
+            required
             className="font-semibold border border-gray-300 p-2  w-full text-left shadow"
             value={billing?.phuong_xa_id || ""}
             onChange={(e) =>
@@ -225,6 +246,7 @@ const UserOrder = () => {
         <div className="flex flex-col w-full">
           <p className="font-medium">Địa chỉ cụ thể </p>
           <input
+            required
             className="font-semibold border border-gray-300 p-2  w-full text-left shadow"
             placeholder="Số nhà, tên đường..."
             onChange={(e) =>
@@ -254,7 +276,7 @@ const UserOrder = () => {
                     <Avatar
                       shape="square"
                       src={
-                        item.product_image ||
+                        item.image_url ||
                         "https://via.placeholder.com/150"
                       }
                       alt={item.product_name || "Product Image"}
@@ -361,7 +383,7 @@ const UserOrder = () => {
           </div>
         </div>
 
-        <div className="bg-amber-500 w-full text-white p-3 items-center text-center rounded cursor-pointer">
+        <div className="bg-amber-500 w-full text-white p-3 items-center text-center rounded cursor-pointer" onClick={handlePlaceOrder}>
           Thanh toán
         </div>
         </div>
