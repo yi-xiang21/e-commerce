@@ -33,19 +33,6 @@ const CartPage: React.FC = () => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (items.length > 0) {
-      console.log('=== CART ITEMS DEBUG ===');
-      items.forEach((item) => {
-        console.log(`Product: ${item.product_name} (Variant ${item.variant_id})`, {
-          price: item.price,
-          final_price: item.final_price,
-          discount: item.discount,
-        });
-      });
-    }
-  }, [items]);
-
   const handleQuantityChange = (
     variant_id: number,
     newQuantity: number,

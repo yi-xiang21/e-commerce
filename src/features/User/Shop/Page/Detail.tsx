@@ -7,7 +7,7 @@ import {
   fetchWishlistThunk,
   toggleWishlistThunk,
 } from "@/features/User/Wishlist/store/wishlist-thunk";
-import { addToCartThunk, fetchCart } from "@/features/Cart/store/cart-thunk";
+import { addToCartThunk } from "@/features/Cart/store/cart-thunk";
 import type { ICartItem } from "@/features/Cart/type/cart-type";
 import "../Css/Detail.css";
 
@@ -133,6 +133,8 @@ const DetailPage = () => {
         sku: selectedVariant.sku || "",
         slug: product?.slug || "",
         price: selectedVariant.price ?? 0,
+        discount: selectedVariant.discount || null,
+        final_price: selectedVariant.final_price || null,
         color: selectedVariant.color || "",
         size: selectedVariant.size || "",
         product_id: Number(product?.product_id ?? id ?? 0),
@@ -142,8 +144,6 @@ const DetailPage = () => {
       };
 
       await dispatch(addToCartThunk(cartItem)).unwrap();
-      // Fetch fresh cart to get discount and final_price
-      await dispatch(fetchCart());
       setCartMessage(`Đã thêm ${quantity} sản phẩm vào giỏ hàng`);
     } catch (err) {
       console.error("Lỗi thêm vào giỏ hàng:", err);
