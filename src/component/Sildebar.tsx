@@ -10,7 +10,10 @@ const menuItems = [
     { name: 'Quản lý người dùng', link:'/admin/Manager-Account' },
      { name: 'Quản lý đơn hàng', link: '/admin/Manager-Order' },
     { name: 'Quản lý sản phẩm', link: '/admin/Manager-Product' },
+<<<<<<< Updated upstream
     { name: 'Quản lý Kho', link: '/admin/Manager-Stock' },
+=======
+>>>>>>> Stashed changes
     { name: 'Quản lý Kho', link: '' },
     { name: 'Quản lý vouchers', link: '' },
     { name: 'Quản lý danh mục', link: '/admin/Manager-Categories' },

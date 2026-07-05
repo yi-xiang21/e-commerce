@@ -6,7 +6,11 @@ import AdminManagerAccount from '@/features/Admin/ManagerAccount/pages/AdminMana
 import AdminManagerOrder from '@/features/Admin/ManagerOrder/pages/AdminManagerOrder';
 import WishlistPage from '@/features/User/Wishlist/pages/WishlistPage';
 import ProtectedRoute from './ProtectedRoute';
+<<<<<<< Updated upstream
 import AuthPage from '@/features/Auth/pages/AuthPage';
+=======
+import AuthPage from '@/features/auth/pages/AuthPage';
+>>>>>>> Stashed changes
 import AboutPage from '@/features/User/Pages/Page/About';
 import DetailPage from '@/features/User/Pages/Page/Detail';
 import UserProfileLayout from '@/layout/UserProfileLayout';
@@ -18,9 +22,15 @@ import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount
 // import AuthPage from '@/features/Auth/pages/AuthPage';
 import CartPage from '@/features/Cart/pages/CartPage';
 import AdminManagerPromotion from '@/features/Admin/ManagerPromotion/pages/AdminManagerPromotion';
+<<<<<<< HEAD
 import AdminManagerVoucher from '@/features/Admin/ManagerVoucher/pages/AdminManagerVoucher';
+<<<<<<< Updated upstream
 import AdminManagerProduct from '@/features/Admin/ManagerProduct/pages/AdminManagerProduct';
 import AdminManagerCatelogries from '@/features/Admin/managerCatelogy/pages/AdminManagerCatelogries';
+=======
+=======
+import AdminManagerProduct from '@/features/Admin/ManagerProduct/pages/AdminManagerProduct';
+>>>>>>> Stashed changes
 import ShipperLayout from '@/layout/ShipperLayout';
 import ShipperProfile from '@/features/Shipper/pages/ShipperProfile';
 import AvailableOrders from '@/features/Shipper/pages/AvailableOrders';
@@ -29,11 +39,17 @@ import ForgotPasswordPage from '@/component/ForgotPasswordPage';
 import VerifyOtpPage from '@/component/VerifyOtpPage';
 import ResetPasswordPage from '@/component/ResetPasswordPage';
 import AdminSetting from '@/features/Admin/Setting/AdminSetting';
+<<<<<<< Updated upstream
 import UserOrder from '@/features/User/UserOrder/pages/UserOrder';
 import OrderSuccess from '@/features/User/UserOrder/pages/OrderSuccess';
 import ShopPage from '@/features/User/Shop/pages/ShopPage';
 import AdminManagerStock from '@/features/Admin/managerStock/pages/AdminManagerStock';
 
+=======
+import ShopPage from '@/features/User/Shop/pages/ShopPage';
+
+>>>>>>> 6365596e409be119c297cafcd898d87e08ecc33f
+>>>>>>> Stashed changes
 export const routes = createBrowserRouter([
     {
         element: <UserLayout />,
