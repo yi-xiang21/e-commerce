@@ -13,6 +13,8 @@ const menuItems = [
     { name: 'Quản lý Kho', link: '' },
     { name: 'Quản lý vouchers', link: '' },
     { name: 'Quản lý danh mục', link: '/admin/Manager-Categories' },
+    { name: 'Quản lý vouchers', link: '/admin/Manager-Voucher' },
+    { name: 'Quản lý danh mục', link: '' },
     { name: 'Quản lý khuyến mãi', link: '/admin/Manager-Promotion' },
     { name: 'Quản lý workshop', link: '' },
     { name: 'Quay về trang chủ', link: '/' },
