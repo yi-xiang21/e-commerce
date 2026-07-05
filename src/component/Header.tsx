@@ -8,6 +8,8 @@ import HeaderDesktopMenu from '@/component/HeaderDesktopMenu'
 import { useAppSelector, useAppDispatch } from '@/app/redux/hooks'
 import { fetchWishlistThunk } from '@/features/User/Wishlist/store/wishlist-thunk'
 import { fetchCart } from '@/features/Cart/store/cart-thunk'
+import { callAPI } from '@/share/lib/axios'
+import { API_CONFIG } from '@/config/api'
 
 
 export type ActiveMenuKey = 'home' | 'shop' | 'about' | 'workshop'
@@ -16,6 +18,7 @@ export type ActiveMenuKey = 'home' | 'shop' | 'about' | 'workshop'
 const Header = () => {
   
   const [activeMenu, setActiveMenu] = useState<ActiveMenuKey>('home')
+  const [categories, setCategories] = useState<any[]>([])
 
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
@@ -28,6 +31,22 @@ const Header = () => {
   const cartCount = Array.isArray(cartItems) 
     ? cartItems.reduce((total, item) => total + item.quantity, 0) 
     : 0;
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await callAPI.get(API_CONFIG.ENDPOINTS.GET_CATEGORIES);
+        const rawData = response.data?.data || response.data;
+        const categoriesList = Array.isArray(rawData)
+          ? rawData
+          : (rawData && Array.isArray(rawData.categories) ? rawData.categories : []);
+        setCategories(categoriesList);
+      } catch (err) {
+        console.error('Không thể load categories cho header', err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -116,6 +135,7 @@ const Header = () => {
           activeMenu={activeMenu}
           menuItems={menuItems}
           setActiveMenu={setActiveMenu}
+          categories={categories}
         />
       </div>
       </header>

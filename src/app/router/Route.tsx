@@ -19,6 +19,7 @@ import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount
 import CartPage from '@/features/Cart/pages/CartPage';
 import AdminManagerPromotion from '@/features/Admin/ManagerPromotion/pages/AdminManagerPromotion';
 import AdminManagerProduct from '@/features/Admin/ManagerProduct/pages/AdminManagerProduct';
+import AdminManagerCategory from '@/features/Admin/ManagerCategory/pages/AdminManagerCategory';
 import ShipperLayout from '@/layout/ShipperLayout';
 import ShipperProfile from '@/features/Shipper/pages/ShipperProfile';
 import AvailableOrders from '@/features/Shipper/pages/AvailableOrders';
@@ -72,6 +73,10 @@ export const routes = createBrowserRouter([
                     {
                         path: 'Manager-Product',
                         element: <AdminManagerProduct />,
+                    },
+                    {
+                        path: 'Manager-Category',
+                        element: <AdminManagerCategory />,
                     },
                     {
                         path: 'Manager-Promotion',
