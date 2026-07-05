@@ -86,7 +86,7 @@ export const routes = createBrowserRouter([
                         path: 'Manager-Categories',
                         element: <AdminManagerCatelogries />,
                     },
-                    
+                    {
                         path: 'Manager-Voucher',
                         element: <AdminManagerVoucher />,
                     },
