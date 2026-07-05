@@ -17,6 +17,7 @@ import AuthPage from '@/features/Auth/pages/AuthPage';
 import AdminSetting from '@/features/Admin/setting/AdminSetting';
 import CartPage from '@/features/Cart/pages/CartPage';
 import AdminManagerPromotion from '@/features/Admin/ManagerPromotion/pages/AdminManagerPromotion';
+import AdminManagerProduct from '@/features/Admin/ManagerProduct/pages/AdminManagerProduct';
 export const routes = createBrowserRouter([
     {
         element: <UserLayout />,
@@ -48,6 +49,10 @@ export const routes = createBrowserRouter([
                     {
                         path: 'Manager-Order',
                         element: <AdminManagerOrder />,
+                    },
+                    {
+                        path: 'Manager-Product',
+                        element: <AdminManagerProduct />,
                     },
                     {
                         path: 'Manager-Promotion',

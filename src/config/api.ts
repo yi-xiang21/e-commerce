@@ -49,6 +49,7 @@ export const API_CONFIG = {
     UPDATE_PRODUCT: (id: string) => `/api/products/${id}`,
     DELETE_PRODUCT: (id: string) => `/api/products/${id}`,
     FiLTER_PRODUCTS: '/api/products/filter',
+    GET_PRODUCTS_TOP_SELLING: '/api/products/top-selling',
     
     
 
@@ -84,6 +85,7 @@ export const API_CONFIG = {
     GETALL_SHIPPERS: '/api/admin/shippers',
     CREATE_SHIPPER: '/api/admin/shippers',
     UPDATE_SHIPPER_STATUS: (id: string) => `/api/admin/shippers/${id}/status`,
+    
 
 
     FORGOT_PASSWORD: '/api/auth/forgot-password',
