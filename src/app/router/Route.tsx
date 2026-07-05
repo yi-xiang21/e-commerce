@@ -30,6 +30,7 @@ import VerifyOtpPage from '@/component/VerifyOtpPage';
 import ResetPasswordPage from '@/component/ResetPasswordPage';
 import AdminSetting from '@/features/Admin/Setting/AdminSetting';
 import ShopPage from '@/features/User/Shop/pages/ShopPage';
+import AdminManagerDashboard from '@/features/Admin/ManagerDashboard/pages/AdminManagerDashboard';
 
 export const routes = createBrowserRouter([
     {
@@ -64,6 +65,10 @@ export const routes = createBrowserRouter([
                 path: '/admin',
                 children: [
                     {
+                        index: true,
+                        element: <AdminManagerDashboard />,
+                    },
+                    {
                         path: 'Manager-Account',
                         element: <AdminManagerAccount />,
                     },
@@ -83,7 +88,7 @@ export const routes = createBrowserRouter([
                         path: 'Manager-Categories',
                         element: <AdminManagerCatelogries />,
                     },
-                    
+                    {
                         path: 'Manager-Voucher',
                         element: <AdminManagerVoucher />,
                     },
