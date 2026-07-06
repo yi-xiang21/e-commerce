@@ -33,6 +33,9 @@ import UserOrder from '@/features/User/UserOrder/pages/UserOrder';
 import OrderSuccess from '@/features/User/UserOrder/pages/OrderSuccess';
 import ShopPage from '@/features/User/Shop/pages/ShopPage';
 import AdminManagerStock from '@/features/Admin/managerStock/pages/AdminManagerStock';
+import OrderDetail from '@/features/Shipper/pages/OrderDetail';
+import MyDeliveries from '@/features/Shipper/pages/MyDeliveries';
+import DeliveryHistory from '@/features/Shipper/pages/DeliveryHistory';
 
 export const routes = createBrowserRouter([
     {
@@ -118,6 +121,17 @@ export const routes = createBrowserRouter([
                         path: 'available-orders',
                         element: <AvailableOrders />,
                     },
+                    { 
+                        path: 'my-deliveries', 
+                        element: <MyDeliveries /> 
+                    },
+                    {
+                        path: 'delivery-history',
+                        element: <DeliveryHistory />,
+                    },
+                    { 
+                        path: 'orders/:id', 
+                        element: <OrderDetail /> },
                     {
                         path: 'setting',
                         element: <ShipperSetting />

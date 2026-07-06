@@ -8,6 +8,8 @@ const ShipperLayout = () => {
 
   const menuItems = [
     { name: 'Đơn hàng chờ lấy', link: '/shipper/available-orders' },
+    { name: 'Đang giao', link: '/shipper/my-deliveries' },
+    { name: 'Lịch sử giao hàng', link: '/shipper/delivery-history' },
     { name: 'Thông tin cá nhân', link: '/shipper/profile' },
     { name: 'Quay về trang chủ', link: '/' },
     { name: 'Đăng xuất', link: '/shipper/setting' },
