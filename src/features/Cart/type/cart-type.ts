@@ -5,6 +5,13 @@ export interface ICartItem {
     sku: string;
     slug: string;
     price: number | string;
+    discount?: {
+        voucher_id?: number;
+        voucher_name?: string;
+        type?: string;
+        value?: number | string;
+    } | null;
+    final_price?: number | string | null;
     color: string;
     size: string;
     product_id: number;
