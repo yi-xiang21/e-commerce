@@ -72,16 +72,16 @@ const fetchStock = useCallback(
           };
           console.log("Sending filter data:", dataToSend);
           response = await stockApi.filter(dataToSend);
-          setStock(response.data?.data?.inventory ?? []);
+          setStock(response.data?.inventory ?? []);
         } 
         else {
-          response = await stockApi.getAll(page, limit);
-          console.log("Response from API:", response.data);
-           setStock(response.data?.variantsStock ?? []);
+          response = await stockApi.filter({ page, limit });
+
+           setStock(response.data?.inventory ?? []);
         }
 
        
-        setTotal(response.data?.pagination?.total ?? 0);
+        setTotal(response.data?.pagination?.total_items ?? 0);
       } catch (error) {
         console.error("Lỗi khi tải danh sách tồn kho:", error);
       } finally {

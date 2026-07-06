@@ -28,7 +28,7 @@ import ShipperSetting from '@/features/Shipper/pages/ShipperSetting';
 import ForgotPasswordPage from '@/component/ForgotPasswordPage';
 import VerifyOtpPage from '@/component/VerifyOtpPage';
 import ResetPasswordPage from '@/component/ResetPasswordPage';
-import AdminSetting from '@/features/Admin/Setting/AdminSetting';
+import AdminSetting from '@/features/Admin/setting/AdminSetting';
 import UserOrder from '@/features/User/UserOrder/pages/UserOrder';
 import OrderSuccess from '@/features/User/UserOrder/pages/OrderSuccess';
 import ShopPage from '@/features/User/Shop/pages/ShopPage';
@@ -61,11 +61,12 @@ export const routes = createBrowserRouter([
         ],
     },
     {
+    element: <ProtectedRoute requireAuth={true} requireAdmin={true} />,
+    children: [
+      {
+        path: "/admin",
         element: <AdminLayout />,
         children: [
-            {
-                path: '/admin',
-                children: [
                     {
                         path: 'Manager-Account',
                         element: <AdminManagerAccount />,
