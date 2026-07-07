@@ -9,6 +9,7 @@ export interface LoginResponse {
     user: {
         user_id: string;
         role: string;
+        loyalty_points?: number;
     };
 }
 
@@ -48,4 +49,5 @@ export type user = {
   role?: string;
   first_name?: string;
   last_name?: string;
+  loyalty_points?: number;
 }
