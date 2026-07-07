@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getMeThunk, loginThunk, registerThunk } from "@/features/Auth/store/auth-thunk";
 import { clearError } from "@/features/Auth/store/auth-slice";
 import type { LoginPayload, RegisterPayload } from "@/features/Auth/types/auth-type";
+import { syncLocalCart } from "@/features/Cart/store/cart-thunk";
+import { hasLocalItems, getLocalSyncPayload, clearLocalCart } from '@/features/Cart/constants/local-cart';
 
 
 
@@ -65,6 +67,12 @@ export default function AuthPage() {
 
       if (result?.access_token) {
         await dispatch(getMeThunk()).unwrap();
+      }
+
+      // Sync local cart lên server sau khi login thành công
+      if (hasLocalItems()) {
+        await dispatch(syncLocalCart(getLocalSyncPayload())).unwrap();
+        clearLocalCart();
       }
 
       navigate("/");

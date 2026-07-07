@@ -30,7 +30,9 @@ const DetailPage = () => {
   const [cartMessage, setCartMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    dispatch(fetchWishlistThunk());
+    if(user){
+      dispatch(fetchWishlistThunk());
+    }
   }, [dispatch]);
 
   const fetchRelatedProducts = async (productData: any, currentId: string) => {

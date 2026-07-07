@@ -1,4 +1,4 @@
-import {  useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { FaRegUser, FaShoppingCart ,FaHeart } from 'react-icons/fa'
 import { FiSearch } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
@@ -19,6 +19,7 @@ const Header = () => {
 
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const prevUserIdRef = useRef<string | number | null>(null);
 
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const wishlistCount = Array.isArray(wishlistItems) ? wishlistItems.length : 0;
@@ -30,7 +31,8 @@ const Header = () => {
     : 0;
 
   useEffect(() => {
-    if (user) {
+    if (user && user.user_id !== prevUserIdRef.current) {
+      prevUserIdRef.current = user.user_id;
       void dispatch(fetchWishlistThunk());
       void dispatch(fetchCart());
     }

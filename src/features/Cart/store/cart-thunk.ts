@@ -15,8 +15,6 @@ export const fetchCart = createAsyncThunk(
         }
         try {
             const {data}: any = await cartApi.getCart();
-            console.log("GET CART:", data);
-console.log("GET CART ITEMS:", data.cart);
             return data.cart;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Lỗi tải giỏ hàng');
