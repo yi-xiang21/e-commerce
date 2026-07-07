@@ -18,9 +18,16 @@ const Shop = () => {
         dispatch(fetchProductsThunk());
     }, [dispatch, filters.selectedCategory, filters.minPrice, filters.maxPrice, filters.sortBy, filters.currentPage]);
 
+    // Phân trang 
+    const ITEMS_PER_PAGE = 9;
+    const startIndex = (filters.currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    
+    // Mảng chứa đúng số sản phẩm của trang hiện tại 
+    const displayedProducts = products ? products.slice(startIndex, endIndex) : [];
+
     return (
         <div className="shop-container">
-            {/* THANH BỘ LỌC SIDEBAR */}
             <aside className="shop-sidebar">
                 <div className="sidebar-category-group">
                     <h3>Danh mục</h3>
@@ -49,7 +56,7 @@ const Shop = () => {
                     })}
                 </div>
 
-                {/* Sắp xếp */}
+                {/* Sắp xếp theo giá */}
                 <div className="sidebar-sort-group">
                     <h3>Sắp xếp</h3>
                     <select
@@ -73,13 +80,12 @@ const Shop = () => {
                     </div>
                 )}
 
-                {/* Bọc phần Grid/Loading vào đây để dùng flex-grow ép đẩy phân trang xuống đáy */}
                 <div className="shop-content-wrapper">
                     {isLoading ? (
                         <p className="shop-loading-text">Đang tải dữ liệu...</p>
                     ) : (
                         <div className="shop-product-grid">
-                            {products && products.map((product: any, index: number) => (
+                            {displayedProducts.map((product: any, index: number) => (
                                 <ProductCard
                                     key={product.id || index}
                                     product={product}
@@ -91,7 +97,6 @@ const Shop = () => {
                     )}
                 </div>
 
-                {/* Luôn cố định chân trang */}
                 <div className="shop-pagination">
                     <button
                         disabled={filters.currentPage === 1}

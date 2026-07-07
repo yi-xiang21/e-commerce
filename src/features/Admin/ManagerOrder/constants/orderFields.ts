@@ -1,7 +1,6 @@
 import { FormFieldType } from '@/share/types/type-form-field';
 import type { FormField } from '@/share/types/form-field';
-import type { Order } from "@/features/Admin/ManagerOrder/type/order";
-import { ORDER_STATUS_OPTIONS } from "./orderStatus";
+import { ORDER_STATUS_OPTIONS, type Order } from '../type/order';
 
 export const orderFields: FormField<Order>[] = [
   { key: 'order_id', label: 'Mã đơn hàng', type: FormFieldType.Input },
@@ -11,6 +10,9 @@ export const orderFields: FormField<Order>[] = [
   { key: 'total_amount', label: 'Tổng tiền', type: FormFieldType.Input },
   { key: 'payment_method' as any, label: 'Phương thức thanh toán', type: FormFieldType.Input },
   { key: 'payment_status' as any, label: 'Trạng thái thanh toán', type: FormFieldType.Input },
+  { key: 'reference_code' as any, label: 'Mã tham chiếu', type: FormFieldType.Input },
+  { key: 'shipping_fee' as any, label: 'Phí vận chuyển', type: FormFieldType.Input },
+  {key:'discount_amount' as any, label:'Giảm giá', type: FormFieldType.Input},
   {
     key: 'status',
     label: 'Trạng thái đơn hàng',

@@ -14,7 +14,7 @@ const initialState: ShopState = {
     maxPrice: 2000000,
     sortBy: "price_asc",
     currentPage: 1,
-    totalPages: 1,
+    totalPages: 1, 
   },
 };
 
@@ -22,17 +22,18 @@ const shopSlice = createSlice({
   name: "shop",
   initialState,
   reducers: {
-    updateFilters: (state, action: PayloadAction<Partial<typeof initialState.filters>>) => {
+    // 1. Thay đổi bộ lọc (Category, Giá...) thì đưa người dùng về trang 1
+    updateFilters: (state, action: PayloadAction<Partial<Omit<typeof initialState.filters, "currentPage" | "totalPages">>>) => {
       state.filters = { ...state.filters, ...action.payload };
       state.filters.currentPage = 1; 
     },
+    // 2. Chuyển trang thì cập nhật thẳng số trang, ko reset về 1
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.filters.currentPage = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      // Xử lý nạp danh sách sản phẩm
       .addCase(fetchProductsThunk.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -40,24 +41,14 @@ const shopSlice = createSlice({
       .addCase(fetchProductsThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = action.payload.products || [];
-        state.filters.totalPages = action.payload.totalPages || 1;
+        state.filters.totalPages = action.payload.totalPages; 
       })
       .addCase(fetchProductsThunk.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
-
-      // Xử lý nạp danh mục động (Hết lỗi đỏ giao diện)
-      .addCase(fetchCategoriesThunk.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(fetchCategoriesThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.categories = action.payload || []; 
-      })
-      .addCase(fetchCategoriesThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload as string;
       });
   },
 });

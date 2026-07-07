@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {
@@ -13,7 +12,7 @@ interface ProductCardProps {
   onAddToCart: (productId: string | number) => void;
 }
 
-const ProductCard = ({ product, index: _index, onAddToCart: _onAddToCart }: ProductCardProps) => {
+const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
 
   if (!product) {

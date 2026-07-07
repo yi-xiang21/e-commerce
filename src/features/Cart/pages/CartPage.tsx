@@ -20,6 +20,7 @@ import {
   updateItemQuantity,
   removeCartItem,
 } from "../store/cart-thunk";
+import { getCartItemPriceInfo } from "../utils/cart-price";
 
 const { Text } = Typography;
 
@@ -61,10 +62,6 @@ const CartPage: React.FC = () => {
 
   return (
     <div className="container px-4 py-10 mx-auto max-w-7xl">
-      <h1 className="mb-8 text-2xl font-bold text-gray-800">
-        Giỏ hàng của bạn
-      </h1>
-
       {error && (
         <div className="p-4 mb-6 text-red-700 bg-red-100 rounded-md">
           {error}
@@ -114,12 +111,33 @@ const CartPage: React.FC = () => {
                     <div className="flex flex-col">
                         <Text strong className="mb-1 text-lg text-gray-800">{item.product_name}</Text>
                         <Text type="secondary" className="mb-2">Màu: {item.color} | Size: {item.size}</Text>
-                        
-                        <div className="flex items-center mt-1">
-                            {/* Chỉ in ra 1 giá duy nhất là giá trị cuối cùng khách phải thanh toán */}
-                            <Text strong className="font-sans text-base text-red-600">
-                                {formatCurrency(item.price)}
-                            </Text>
+
+                        <div className="flex flex-col items-start mt-1 gap-1">
+                          {(() => {
+                            const priceInfo = getCartItemPriceInfo(item);
+
+                            return (
+                              <>
+                                {priceInfo.hasDiscount ? (
+                                  <>
+                                    <Text delete type="secondary" className="font-sans text-sm">
+                                      {formatCurrency(priceInfo.originalPrice)}
+                                    </Text>
+                                    <Text strong className="font-sans text-base text-red-600">
+                                      {formatCurrency(priceInfo.effectivePrice)}
+                                    </Text>
+                                    <Text className="text-green-600 text-sm font-medium">
+                                      Giảm {priceInfo.discountPercent.toFixed(0)}%
+                                    </Text>
+                                  </>
+                                ) : (
+                                  <Text strong className="font-sans text-base text-red-600">
+                                    {formatCurrency(priceInfo.effectivePrice)}
+                                  </Text>
+                                )}
+                              </>
+                            );
+                          })()}
                         </div>
                     </div>
                   </div>
@@ -206,11 +224,10 @@ const CartPage: React.FC = () => {
                 </Text>
                 <Text strong className="font-sans text-xl text-red-600">
                   {formatCurrency(
-                    items.reduce(
-                      (total, item) =>
-                        total + Number(item.price) * item.quantity,
-                      0,
-                    ),
+                    items.reduce((total, item) => {
+                      const priceInfo = getCartItemPriceInfo(item);
+                      return total + priceInfo.effectivePrice * item.quantity;
+                    }, 0),
                   )}
                 </Text>
               </div>

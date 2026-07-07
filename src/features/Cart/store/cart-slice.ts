@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { ICartState } from '../type/cart-type';
 import { getLocalCart } from '@/features/Cart/constants/local-cart';
-import { addToCartThunk, fetchCart, updateItemQuantity, removeCartItem, syncLocalCart } from './cart-thunk';
+import { addToCartThunk, fetchCart, updateItemQuantity, removeCartItem, syncLocalCart, addProductToCartThunk } from './cart-thunk';
 
 const initialState: ICartState = {
     items: [],
@@ -20,6 +20,14 @@ const cartSlice = createSlice({
         },
         loadLocalCart: (state) => {
             state.items = getLocalCart();
+        },
+        updateItemDiscount: (state, action) => {
+            const { variant_id, discount, final_price } = action.payload;
+            const item = state.items.find(i => i.variant_id === variant_id);
+            if (item) {
+                item.discount = discount || null;
+                item.final_price = final_price || null;
+            }
         },
     },
     extraReducers: (builder) => {
@@ -85,8 +93,28 @@ const cartSlice = createSlice({
                 // Lọc bỏ sản phẩm đã xóa khỏi mảng
                 state.items = state.items.filter(item => item.variant_id !== variant_id);
             })
+            .addCase(addProductToCartThunk.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(addProductToCartThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const { product } = action.payload;
+                if (product?.variants?.[0]) {
+                    const variant = product.variants[0];
+                    const existingItem = state.items.find(i => i.variant_id === variant.variant_id);
+                    if (existingItem) {
+                        existingItem.discount = variant.discount || null;
+                        existingItem.final_price = variant.final_price || null;
+                    }
+                }
+            })
+            .addCase(addProductToCartThunk.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload as string;
+            })
     },
 });
 
-export const { clearCartState, loadLocalCart } = cartSlice.actions;
+export const { clearCartState, loadLocalCart, updateItemDiscount } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -9,7 +9,7 @@ export const getPromotionFieldsByMode = <T extends object>(
     return fields;
   }
 
-  const filteredFields = fields.filter((field) => field.key !== "promotion_id");
+  const filteredFields = fields.filter((field) => field.key !== "voucher_id");
 
   return filteredFields;
 };

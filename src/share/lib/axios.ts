@@ -10,14 +10,16 @@ export const callAPI = axios.create({
   },
 });
 
-// Add a request interceptor to include the access token in headers
+
+
+
 callAPI.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('accessToken');
-
-    if (accessToken) {
+    if (accessToken ) {
       config.headers.Authorization = `Bearer ${accessToken}`;
-    }
+    } 
+
 
     return config;
   },
@@ -54,6 +56,8 @@ callAPI.interceptors.response.use(
       error.response?.status === HTTP_STATUS.UNAUTHORIZED &&
       !originalRequest._retry
     ) {
+      
+
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({
