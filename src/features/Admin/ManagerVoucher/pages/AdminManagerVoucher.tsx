@@ -76,10 +76,12 @@ const AdminManagerVoucher = () => {
             limit,
           });
         } else {
-          response = await VoucherApi.getAll(page, limit);
+          console.log("Fetching vouchers with page:", page, "and limit:", limit);
+          response = await VoucherApi.getAll( page, limit );
+          console.log("Response from API:", response.data);
         }
 
-        console.log("Response from API:", response.data);
+        
         setVouchers(response.data?.vouchers ?? []);
         setTotal(response.data?.pagination?.total_items ?? 0);
       } catch (error) {

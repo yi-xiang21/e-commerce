@@ -8,8 +8,8 @@ import {
   toggleWishlistThunk,
 } from "@/features/User/Wishlist/store/wishlist-thunk";
 import { addToCartThunk } from "@/features/Cart/store/cart-thunk";
-import type { ICartItem } from "@/features/Cart/type/cart-type";
 import { notification } from "antd";
+import type { ICartItem } from "@/features/Cart/type/cart-type";
 import "../Css/Detail.css";
 
 const DetailPage = () => {
@@ -30,8 +30,10 @@ const DetailPage = () => {
   const [cartMessage, setCartMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    dispatch(fetchWishlistThunk());
-  }, [dispatch]);
+    if (user) {
+      dispatch(fetchWishlistThunk());
+    }
+  }, [dispatch, user]);
 
   const fetchRelatedProducts = async (productData: any, currentId: string) => {
     const categoryId =

@@ -8,111 +8,122 @@ export const fetchCategoriesThunk = createAsyncThunk(
     try {
       const res = await ShopApi.getCategories(); 
       const rawCategories = res.data?.categories || res.data?.data?.categories || res.data?.data || res.data || [];
-      
-      if (!Array.isArray(rawCategories)) {
-        return thunkAPI.rejectWithValue("Dữ liệu danh mục không đúng cấu trúc mảng");
-      }
+      if (!Array.isArray(rawCategories)) return thunkAPI.rejectWithValue("Dữ liệu danh mục không đúng");
 
       return rawCategories
-        .map((cat: any) => {
-          const actualId = cat?.category_id ?? cat?.id ?? cat?.type_id;
-          const actualName = cat?.category_name ?? cat?.name ?? cat?.type_name;
-
-          return {
-            category_id: actualId !== undefined && actualId !== null ? Number(actualId) : Math.floor(Math.random() * 100000), 
-            category_name: actualName || "Danh mục chưa đặt tên",
-          };
-        })
+        .map((cat: any) => ({
+          category_id: Number(cat?.category_id ?? cat?.id ?? cat?.type_id ?? 0), 
+          category_name: cat?.category_name ?? cat?.name ?? cat?.type_name ?? "Danh mục chưa đặt tên",
+        }))
         .filter((cat: any) => cat.category_name && !cat.category_name.toLowerCase().includes("workshop"));
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue("Không thể tải danh mục sản phẩm");
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Không thể tải danh mục");
     }
   }
 );
 
-// 2. Thunk lấy danh sách sản phẩm & Thực hiện lọc + Sắp xếp chuẩn hóa
+// 2. Thunk lấy danh sách sản phẩm & Thực hiện Mapping nhóm danh mục
 export const fetchProductsThunk = createAsyncThunk(
   "shop/fetchProducts",
   async (_, thunkAPI) => {
     try {
       const state: any = thunkAPI.getState();
-      const { selectedCategory, minPrice, maxPrice, sortBy, currentPage } = state.shop.filters;
+      const { selectedCategory, minPrice, maxPrice, sortBy } = state.shop.filters;
       const categories = state.shop.categories || [];
 
-      const params: any = {
-        page: currentPage,
-        limit: 12, 
-        minPrice,
-        maxPrice,
-        sort: sortBy, // Gửi param lên cho backend (nếu backend hỗ trợ)
-      };
-      
-      if (selectedCategory && selectedCategory !== "all") {
-        params.category_id = Number(selectedCategory);
-      }
-
+      // Lấy tất cả sản phẩm về để xử lý lọc ở Front-end
+      const params: any = { minPrice, maxPrice };
       const res = await ShopApi.getProducts(params);
       const rawProducts = res.data?.products || res.data?.data?.products || res.data?.data || res.data || [];
 
-      // Bước 1: Thực hiện bộ lọc danh mục và loại bỏ workshop
+      // Lọc bỏ workshop và phân nhóm danh mục chuẩn
       const filteredProducts = rawProducts.filter((item: any) => {
         const actualProduct = item && item.product ? item.product : item;
         if (!actualProduct) return false;
 
+        // Loại bỏ các sản phẩm liên quan đến workshop
         const title = (actualProduct.product_name || actualProduct.title || "").toLowerCase();
         if (title.includes("workshop")) return false;
 
-        if (selectedCategory && String(selectedCategory) !== "all") {
-          const productCategoryId = actualProduct.category_id ?? actualProduct.type_id;
-          if (productCategoryId !== undefined && productCategoryId !== null) {
-            if (String(productCategoryId) === String(selectedCategory)) return true;
-          }
+        // Nếu chọn "Tất cả", hiển thị toàn bộ sản phẩm hợp lệ
+        if (!selectedCategory || String(selectedCategory) === "all") return true;
 
-          const currentCatObj = categories.find((c: any) => String(c.category_id) === String(selectedCategory));
-          if (currentCatObj) {
-            const targetName = currentCatObj.category_name.toLowerCase().trim();
-            const productCatName = (actualProduct.category_name || "").toLowerCase().trim();
-            if (productCatName.includes(targetName) || targetName.includes(productCatName)) return true;
+        const productCategoryId = Number(actualProduct.category_id ?? actualProduct.type_id ?? 0);
+        
+        // Tìm tên của danh mục hiện tại đang được click trên UI
+        const currentCatObj = categories.find((c: any) => String(c.category_id) === String(selectedCategory));
+        if (!currentCatObj) return false;
 
-            if (title.includes("kim") || title.includes("móc") || title.includes("kéo") || title.includes("thước")) {
-              if (targetName.includes("dụng cụ") || targetName.includes("đan móc")) return true;
-            }
-          }
-          return false;
+        const uiCategoryName = currentCatObj.category_name.toLowerCase().trim();
+        
+        // Nhóm 1: Dụng cụ đan móc (Bao gồm các sản phẩm có ID là 3, 4, 5 hoặc tên chứa dụng cụ/kim/móc)
+        if (uiCategoryName.includes("dụng cụ đan móc")) {
+          const isToolId = [3, 4, 5].includes(productCategoryId);
+          const isToolName = title.includes("kim") || title.includes("móc") || title.includes("kéo") || title.includes("thước");
+          return isToolId || isToolName;
         }
-        return true;
+
+        // Nhóm 2: Thành phẩm len (Ví dụ: Thú bông, Khăn len, Áo Cardigan)
+        if (uiCategoryName.includes("thành phẩm len")) {
+          const isFinishedId = [6, 7, 8, 9].includes(productCategoryId);
+          const isFinishedProduct = title.includes("áo") || title.includes("khăn") || title.includes("thú bông") || title.includes("cardigan");
+          const isFinishedCat = (actualProduct.category_name || "").toLowerCase().includes("thời trang") || (actualProduct.category_name || "").toLowerCase().includes("amigurumi");
+          return isFinishedProduct || isFinishedCat || isFinishedId;
+        }
+
+        // Nhóm 3: Len đan / Cuộn len nguyên liệu (Bao gồm các sản phẩm có ID là 1, 2, 11 hoặc: Len Cotton, Sợi dệt...)
+        if (uiCategoryName.includes("len đan")) {
+          const isYarnId = [1, 2, 11].includes(productCategoryId);
+          const isYarnName = title.includes("cuộn") || title.includes("len cotton") || title.includes("sợi dệt") || title.includes("len nhung");
+          return isYarnId || isYarnName;
+        }
+
+        // Nhóm 4: Nguyên liệu len phụ trợ (ID: 10)
+        if (uiCategoryName.includes("nguyên liệu len phụ trợ")) {
+          const isSupportId = [10].includes(productCategoryId);
+          const isSupportName = title.includes("bông gòn") || title.includes("phụ liệu") || title.includes("mắt thú");
+          return isSupportId || isSupportName;
+        }
+
+        // Phương án dự phòng cuối cùng: Nếu trùng khớp ID hoặc trùng khớp chính xác Tên
+        if (String(productCategoryId) === String(selectedCategory)) return true;
+        if ((actualProduct.category_name || "").toLowerCase().trim() === uiCategoryName) return true;
+
+        return false;
       });
 
-      // Bước 2: Chuẩn hóa cấu trúc dữ liệu và bóc tách giá (price) ra ngoài để chuẩn bị sort
+      // Chuẩn hóa cấu trúc dữ liệu sản phẩm để đưa lên UI
       const formattedProducts = filteredProducts.map((item: any) => {
         const actualProduct = item && item.product ? item.product : item;
-        
-        // Bóc tách giá từ variant đầu tiên, nếu không có thì lấy giá gốc
-        const itemPrice = actualProduct.variants?.[0]?.price ?? actualProduct.price;
+        const firstVariant = actualProduct.variants?.[0];
+        const itemPrice = firstVariant?.price ?? actualProduct.price;
+        const finalPrice = firstVariant?.final_price ?? null;
 
         return {
           id: actualProduct.product_id || actualProduct.id,
-          title: actualProduct.product_name || actualProduct.title, 
+          title: actualProduct.product_name || actualProduct.title,
           description: actualProduct.description || "",
           price: itemPrice !== undefined ? Number(itemPrice) : 0,
+          final_price: finalPrice !== undefined && finalPrice !== null ? Number(finalPrice) : null,
+          discount: firstVariant?.discount ?? null,
           image: actualProduct.image_url || actualProduct.image || ""
         };
       });
 
-      // 🔥 BƯỚC THẦN THÁNH: Thực hiện Sắp xếp (Sort) trực tiếp ở Frontend 
-      // Việc này giúp bọc lót hoàn hảo trong trường hợp API của Backend chưa kịp xử lý sort theo variant giá
-      if (sortBy === "price_asc") {
-        formattedProducts.sort((a: any, b: any) => a.price - b.price); // Giá tăng dần
-      } else if (sortBy === "price_desc") {
-        formattedProducts.sort((a: any, b: any) => b.price - a.price); // Giá giảm dần
-      }
+      // Sắp xếp sản phẩm theo giá
+      if (sortBy === "price_asc") formattedProducts.sort((a: any, b: any) => a.price - b.price);
+      else if (sortBy === "price_desc") formattedProducts.sort((a: any, b: any) => b.price - a.price);
+
+      // Tính toán lại tổng số trang sau khi đã gom nhóm và lọc sạch sẽ
+      const ITEMS_PER_PAGE = 9;
+      const totalPages = Math.ceil(formattedProducts.length / ITEMS_PER_PAGE); 
 
       return {
         products: formattedProducts,
-        totalPages: res.data?.totalPages || res.data?.data?.totalPages || 1,
+        totalPages: totalPages > 0 ? totalPages : 1,
       };
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue("Không thể tải danh sách sản phẩm");
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Không thể tải sản phẩm");
     }
   }
 );

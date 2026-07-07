@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {
@@ -7,13 +6,15 @@ interface ProductCardProps {
     title?: string;
     description?: string;
     price?: number;
+    final_price?: number | string | null;
+    discount?: any;
     image?: string;
   };
   index: number;
   onAddToCart: (productId: string | number) => void;
 }
 
-const ProductCard = ({ product, index: _index, onAddToCart: _onAddToCart }: ProductCardProps) => {
+const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
 
   if (!product) {
@@ -32,6 +33,28 @@ const ProductCard = ({ product, index: _index, onAddToCart: _onAddToCart }: Prod
   const handleCardClick = () => {
     navigate(`/detail/${product.id}`);
   };
+
+  const originalPrice = Number(product?.price ?? 0);
+  const finalPrice = Number(product?.final_price ?? 0);
+  const discount = product?.discount;
+  const hasDiscount = Boolean(
+    discount &&
+      Number.isFinite(finalPrice) &&
+      finalPrice > 0 &&
+      finalPrice < originalPrice
+  );
+  const discountValue = Number(
+    discount?.value ??
+      discount?.discount_value ??
+      discount?.amount ??
+      0
+  );
+  const discountType = discount?.discount_type ?? discount?.type ?? "";
+  const discountLabel = hasDiscount
+    ? discountType === "percent" || discountType === "percentage"
+      ? `${discountValue}%`
+      : `${discountValue.toLocaleString("vi-VN")} đ`
+    : "";
 
   return (
     <div className="product-card" onClick={handleCardClick} style={{ cursor: "pointer" }}>
@@ -71,7 +94,25 @@ const ProductCard = ({ product, index: _index, onAddToCart: _onAddToCart }: Prod
               {product.description}
             </div>
           )}
-          {product.price ? `${product.price.toLocaleString("vi-VN")} đ` : "Giá không có"}
+          {hasDiscount ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              <span style={{ textDecoration: "line-through", color: "#999", fontSize: "12px" }}>
+                {originalPrice.toLocaleString("vi-VN")} đ
+              </span>
+              <span style={{ color: "#ff6b6b", fontWeight: 700 }}>
+                {finalPrice.toLocaleString("vi-VN")} đ
+              </span>
+              {discountLabel ? (
+                <span style={{ color: "#d97706", fontSize: "12px", fontWeight: 600 }}>
+                  Giảm {discountLabel}
+                </span>
+              ) : null}
+            </div>
+          ) : product.price ? (
+            `${product.price.toLocaleString("vi-VN")} đ`
+          ) : (
+            "Giá không có"
+          )}
         </div>
       </div>
     </div>

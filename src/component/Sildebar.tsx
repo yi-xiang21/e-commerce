@@ -8,19 +8,12 @@ interface SidebarProps {
 const menuItems = [
     { name: 'Dashboard', link: '/admin' },
     { name: 'Quản lý người dùng', link:'/admin/Manager-Account' },
-     { name: 'Quản lý đơn hàng', link: '/admin/Manager-Order' },
+    { name: 'Quản lý đơn hàng', link: '/admin/Manager-Order' },
     { name: 'Quản lý sản phẩm', link: '/admin/Manager-Product' },
-<<<<<<< Updated upstream
     { name: 'Quản lý Kho', link: '/admin/Manager-Stock' },
-=======
->>>>>>> Stashed changes
-    { name: 'Quản lý Kho', link: '' },
-    { name: 'Quản lý vouchers', link: '' },
     { name: 'Quản lý danh mục', link: '/admin/Manager-Categories' },
     { name: 'Quản lý vouchers', link: '/admin/Manager-Voucher' },
-    { name: 'Quản lý danh mục', link: '' },
     { name: 'Quản lý khuyến mãi', link: '/admin/Manager-Promotion' },
-    { name: 'Quản lý workshop', link: '' },
     { name: 'Quay về trang chủ', link: '/' },
     { name: 'Cài đặt', link: '/admin/setting' }
 ]

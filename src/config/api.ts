@@ -92,16 +92,13 @@ export const API_CONFIG = {
     GETALL_SHIPPERS: '/api/admin/shippers',
     CREATE_SHIPPER: '/api/admin/shippers',
     UPDATE_SHIPPER_STATUS: (id: string) => `/api/admin/shippers/${id}/status`,
-<<<<<<< Updated upstream
     //user order
     GET_ORDER_HISTORY: '/api/orders/my-orders',
     GET_ORDER_DETAIL: (id: string) => `/api/orders/my-orders/${id}`,
     CREATE_ORDER: '/api/orders',
     REPURCHASE_ORDER: (id: string) => `/api/orders/repurchase/${id}`,
-=======
     
     UPDATE_SHIPPER_LOCATION: (id: string) => `/api/admin/shippers/${id}/location`,
->>>>>>> Stashed changes
 
     // shipper portal
     GET_SHIPPER_PROFILE: '/api/shipper/profile',
@@ -113,15 +110,11 @@ export const API_CONFIG = {
     GET_CART_ITEMS: '/api/cart',
     GET_PRODUCT_BY_ID: (id: string) => `/api/products/${id}`,
 
-
-    
-    UPDATE_SHIPPER_LOCATION: (id: string) => `/api/admin/shippers/${id}/location`,
-
     // shipper portal
-    GET_SHIPPER_PROFILE: '/api/shipper/profile',
-    UPDATE_SHIPPER_PROFILE: '/api/shipper/profile',
-    GET_AVAILABLE_ORDERS: '/api/shipper/available-orders',
-    ACCEPT_ORDER: (orderId: string) => `/api/shipper/orders/${orderId}/accept`,
+    GET_MY_DELIVERIES: '/api/shipper/my-deliveries',
+    GET_SHIPPER_ORDER_DETAIL: (orderId: string) => `/api/shipper/orders/${orderId}`,
+    UPDATE_DELIVERY_STATUS: (orderId: string) => `/api/shipper/orders/${orderId}/delivery-status`,
+
 
     FORGOT_PASSWORD: '/api/auth/forgot-password',
     VERIFY_OTP: '/api/auth/verify-reset-otp',
