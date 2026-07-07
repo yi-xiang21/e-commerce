@@ -53,6 +53,8 @@ const Home = () => {
             title: p.product_name,
             description: p.description,
             price: p.variants?.[0]?.price || 0,
+            final_price: p.variants?.[0]?.final_price ?? null,
+            discount: p.variants?.[0]?.discount ?? null,
             image: p.image_url,
           }));
           setBestSellersProducts(mappedProds);
@@ -74,6 +76,8 @@ const Home = () => {
             title: p.product_name,
             description: p.description,
             price: p.variants?.[0]?.price || 0,
+            final_price: p.variants?.[0]?.final_price ?? null,
+            discount: p.variants?.[0]?.discount ?? null,
             image: p.image_url,
           }));
           setMostLikedProducts(mappedProds);

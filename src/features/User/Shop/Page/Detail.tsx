@@ -161,6 +161,45 @@ const DetailPage = () => {
     ? wishlistItems.some((item: any) => String(item.product_id) === String(id))
     : false;
 
+  const getPriceDisplay = (variant: any) => {
+    const originalPrice = Number(variant?.price ?? 0);
+    const finalPrice = Number(variant?.final_price ?? 0);
+    const discount = variant?.discount;
+    const hasDiscount = Boolean(
+      discount &&
+        Number.isFinite(finalPrice) &&
+        finalPrice > 0 &&
+        finalPrice < originalPrice
+    );
+
+    const discountValue = Number(
+      discount?.value ??
+        discount?.discount_value ??
+        discount?.amount ??
+        0
+    );
+    const discountType = discount?.discount_type ?? discount?.type ?? "";
+    const discountLabel = hasDiscount
+      ? discountType === "percent" || discountType === "percentage"
+        ? `${discountValue}%`
+        : `${discountValue.toLocaleString("vi-VN")} đ`
+      : "";
+    const discountName =
+      discount?.promotion_name ??
+      discount?.discount_name ??
+      discount?.voucher_name ??
+      discount?.name ??
+      "";
+
+    return {
+      originalPrice,
+      finalPrice,
+      hasDiscount,
+      discountLabel,
+      discountName,
+    };
+  };
+
   if (loading) {
     return <h2 style={{ padding: "40px" }}>Đang tải...</h2>;
   }
@@ -180,11 +219,36 @@ const DetailPage = () => {
 
         <p>{product.description}</p>
 
-        <h2>
-          {selectedVariant?.price
-            ? `${Number(selectedVariant.price).toLocaleString("vi-VN")} đ`
-            : "Liên hệ"}
-        </h2>
+        {selectedVariant ? (() => {
+          const priceInfo = getPriceDisplay(selectedVariant);
+
+          return (
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginBottom: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                {priceInfo.hasDiscount ? (
+                  <>
+                    <span style={{ textDecoration: "line-through", color: "#999", fontSize: "18px" }}>
+                      {priceInfo.originalPrice.toLocaleString("vi-VN")} đ
+                    </span>
+                    <span style={{ color: "#ff6b6b", fontSize: "28px", fontWeight: 700 }}>
+                      {priceInfo.finalPrice.toLocaleString("vi-VN")} đ
+                    </span>
+                  </>
+                ) : (
+                  <span style={{ color: "#ff6b6b", fontSize: "28px", fontWeight: 700 }}>
+                    {priceInfo.originalPrice > 0 ? `${priceInfo.originalPrice.toLocaleString("vi-VN")} đ` : "Liên hệ"}
+                  </span>
+                )}
+              </div>
+              {priceInfo.hasDiscount && priceInfo.discountLabel ? (
+                <div style={{ color: "#d97706", fontWeight: 600 }}>
+                  Giảm {priceInfo.discountLabel}
+                  {priceInfo.discountName ? ` • ${priceInfo.discountName}` : ""}
+                </div>
+              ) : null}
+            </div>
+          );
+        })() : null}
 
         <h3>Màu sắc & Kích thước</h3>
 
@@ -312,6 +376,7 @@ const DetailPage = () => {
             {relatedProducts.map((item: any) => {
               const itemId = item.product_id ?? item.id;
               const firstVariant = item.variants?.[0];
+              const priceInfo = getPriceDisplay(firstVariant);
 
               return (
                 <div
@@ -329,11 +394,22 @@ const DetailPage = () => {
                   <img src={item.image_url} alt={item.product_name} />
                   <div className="related-product-info">
                     <h4>{item.product_name}</h4>
-                    <p>
-                      {firstVariant?.price
-                        ? `${Number(firstVariant.price).toLocaleString("vi-VN")} đ`
-                        : "Liên hệ"}
-                    </p>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                      {priceInfo.hasDiscount ? (
+                        <>
+                          <span style={{ textDecoration: "line-through", color: "#999", fontSize: "12px" }}>
+                            {priceInfo.originalPrice.toLocaleString("vi-VN")} đ
+                          </span>
+                          <span style={{ color: "#ff6b6b", fontWeight: 700 }}>
+                            {priceInfo.finalPrice.toLocaleString("vi-VN")} đ
+                          </span>
+                        </>
+                      ) : (
+                        <span>
+                          {priceInfo.originalPrice > 0 ? `${priceInfo.originalPrice.toLocaleString("vi-VN")} đ` : "Liên hệ"}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
