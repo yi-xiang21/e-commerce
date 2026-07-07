@@ -13,6 +13,7 @@ import UserProfileLayout from '@/layout/UserProfileLayout';
 import ProfileUser from '@/features/User/UserProfile/pages/ProfileUser';
 import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracking';
 import PurchaseHistoryPage from '@/features/User/UserProfile/pages/PurchaseHistory';
+import DetailPurchaseHistory from '@/features/User/UserProfile/pages/DetailPurchaseHistory';
 import WorkshopPage from '@/features/User/UserProfile/pages/UserWorkshop';
 import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount';
 // import AuthPage from '@/features/Auth/pages/AuthPage';
@@ -174,6 +175,10 @@ export const routes = createBrowserRouter([
                             {
                                 path: 'change-password',
                                 element: <ChangePassword />,
+                            },
+                            {
+                                path: 'order-detail/:id',
+                                element: <DetailPurchaseHistory />,
                             },
                         ],
                     },
