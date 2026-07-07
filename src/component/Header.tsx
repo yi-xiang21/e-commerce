@@ -14,10 +14,9 @@ import { ProductApi } from '@/features/Admin/ManagerProduct/api/products_api'
 
 export type ActiveMenuKey = 'home' | 'shop' | 'about' | 'workshop'
 
-
 const Header = () => {
-  
   const [activeMenu, setActiveMenu] = useState<ActiveMenuKey>('home')
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
   const { user } = useAppSelector((state) => state.auth);
@@ -47,14 +46,14 @@ const Header = () => {
     return () => window.clearTimeout(timeoutId)
   }, [keyword])
 
-  const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
-  const wishlistCount = Array.isArray(wishlistItems) ? wishlistItems.length : 0;
+  const { items: wishlistItems } = useAppSelector((state) => state.wishlist)
+  const wishlistCount = Array.isArray(wishlistItems) ? wishlistItems.length : 0
 
-  const { items: cartItems } = useAppSelector((state) => state.cart);
+  const { items: cartItems } = useAppSelector((state) => state.cart)
 
-  const cartCount = Array.isArray(cartItems) 
-    ? cartItems.reduce((total, item) => total + item.quantity, 0) 
-    : 0;
+  const cartCount = Array.isArray(cartItems)
+    ? cartItems.reduce((total, item) => total + item.quantity, 0)
+    : 0
 
   useEffect(() => {
     if (user && user.user_id !== prevUserIdRef.current) {
@@ -62,22 +61,23 @@ const Header = () => {
       void dispatch(fetchWishlistThunk());
       void dispatch(fetchCart());
     }
-  }, [dispatch, user]);
-
+  }, [dispatch, user])
+  
   const menuItems: Array<{ key: ActiveMenuKey; label: string; link: string }> = [
     { key: 'home', label: 'Trang chủ', link: '/' },
     { key: 'shop', label: 'Cửa hàng', link: '/shop' },
     { key: 'about', label: 'Giới thiệu', link: '/about' },
     { key: 'workshop', label: 'workshop', link: '/workshop' },
   ]
-  const router = () => {
-    if (!user) return "/auth/login";
 
-    if (user.role === "admin") return "/admin";
-    if (user.role === "shipper") return "/shipper/available-orders";
-    
-    return "/profile";
-  };
+  const router = () => {
+    if (!user) return '/auth/login'
+
+    if (user.role === 'admin') return '/admin'
+    if (user.role === 'shipper') return '/shipper/available-orders'
+
+    return '/profile'
+  }
 
   const handleSelectProduct = (productId?: number) => {
     if (!productId) return
