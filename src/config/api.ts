@@ -123,6 +123,14 @@ export const API_CONFIG = {
     CHANGE_PASSWORD: '/api/users/change-password',
 
     REFRESH_TOKEN: '/api/auth/refresh-token',
+
+    // admin dashboard
+    ADMIN_DASHBOARD: "/api/admin/dashboard",
+    GET_SALES_REVENUE: '/api/admin/dashboard/sales',
+    GET_ORDER_STATISTICS: '/api/admin/dashboard/orders',
+    GET_TOP_CUSTOMERS: '/api/admin/dashboard/top-customers',
+    GET_TOP_PRODUCTS: '/api/admin/dashboard/top-products',
+    GET_REVENUE_TREND: '/api/admin/dashboard/revenue-trend',
   },
 } as const;
 

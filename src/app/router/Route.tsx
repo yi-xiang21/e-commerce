@@ -41,6 +41,7 @@ import AdminManagerStock from '@/features/Admin/managerStock/pages/AdminManagerS
 import OrderDetail from '@/features/Shipper/pages/OrderDetail';
 import MyDeliveries from '@/features/Shipper/pages/MyDeliveries';
 import DeliveryHistory from '@/features/Shipper/pages/DeliveryHistory';
+import DashboardPage from '@/features/Admin/AdminDashBoard/pages/DashboardPage';
 
 export const routes = createBrowserRouter([
     {
@@ -75,6 +76,10 @@ export const routes = createBrowserRouter([
         path: "/admin",
         element: <AdminLayout />,
         children: [
+                    {
+                        index: true,
+                        element: <DashboardPage />,
+                    },
                     {
                         path: 'Manager-Account',
                         element: <AdminManagerAccount />,
