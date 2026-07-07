@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { FaRegUser, FaShoppingCart, FaHeart } from 'react-icons/fa'
+import { useState, useEffect, useRef } from 'react'
+import { FaRegUser, FaShoppingCart ,FaHeart } from 'react-icons/fa'
 import { FiSearch } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import logo from '@/assets/Logo.png'
@@ -11,13 +11,16 @@ import { fetchCart } from '@/features/Cart/store/cart-thunk'
 import type { Product } from '@/features/Admin/ManagerProduct/type/products'
 import { ProductApi } from '@/features/Admin/ManagerProduct/api/products_api'
 
+
 export type ActiveMenuKey = 'home' | 'shop' | 'about' | 'workshop'
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState<ActiveMenuKey>('home')
-  const dispatch = useAppDispatch()
+
+  const dispatch = useAppDispatch();
   const navigate = useNavigate()
-  const { user } = useAppSelector((state) => state.auth)
+  const { user } = useAppSelector((state) => state.auth);
+  const prevUserIdRef = useRef<string | number | null>(null);
   const [products, setProducts] = useState<Product[]>([])
   const [keyword, setKeyword] = useState<string>('')
 
@@ -53,12 +56,13 @@ const Header = () => {
     : 0
 
   useEffect(() => {
-    if (user) {
-      void dispatch(fetchWishlistThunk())
-      void dispatch(fetchCart())
+    if (user && user.user_id !== prevUserIdRef.current) {
+      prevUserIdRef.current = user.user_id;
+      void dispatch(fetchWishlistThunk());
+      void dispatch(fetchCart());
     }
   }, [dispatch, user])
-
+  
   const menuItems: Array<{ key: ActiveMenuKey; label: string; link: string }> = [
     { key: 'home', label: 'Trang chủ', link: '/' },
     { key: 'shop', label: 'Cửa hàng', link: '/shop' },

@@ -236,7 +236,7 @@ const CartPage: React.FC = () => {
                 type="primary"
                 size="large"
                 block
-                href={user ? "/checkout" : "/auth/login"}
+                href={user ? "/order" : "/auth/login"}
                 className="font-medium bg-blue-600 rounded-lg hover:bg-blue-700 h-12 text-base border-none"
               >
                 {user ? "Tiến hành thanh toán" : "Đăng nhập để thanh toán"}
