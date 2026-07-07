@@ -45,7 +45,10 @@ const Header = () => {
   const router = () => {
     if (!user) return "/auth/login";
 
-    return user.role === "admin" ? "/admin" : "/profile";
+    if (user.role === "admin") return "/admin";
+    if (user.role === "shipper") return "/shipper/available-orders";
+    
+    return "/profile";
   };
 
   return (

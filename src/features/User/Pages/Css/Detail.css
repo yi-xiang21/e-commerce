@@ -1,0 +1,153 @@
+.detail-page {
+    max-width: 1300px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 520px;
+    gap: 70px;
+    padding: 60px 40px;
+}
+
+.detail-image img {
+    width: 100%;
+    object-fit: contain;
+    max-height: 560px;
+}
+
+.detail-info h1 {
+    font-size: 40px;
+    color: #7c4a21;
+    margin-bottom: 20px;
+}
+
+.detail-info h2 {
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.variants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.variants button {
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    padding: 10px 20px;
+    background: white;
+    cursor: pointer;
+}
+
+.quantity {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.quantity button {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+}
+
+.quantity button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quantity input {
+    width: 70px;
+    height: 42px;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 0 10px;
+}
+
+.add-cart {
+    width: 100%;
+    height: 60px;
+    border: none;
+    border-radius: 30px;
+    background: #7c4a21;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.add-cart:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.cart-message {
+    color: #7c4a21;
+    margin-bottom: 12px;
+}
+
+.related-products-section {
+    grid-column: 1 / -1;
+    margin-top: 24px;
+}
+
+.related-products-section h3 {
+    margin-bottom: 16px;
+    color: #7c4a21;
+}
+
+.related-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.related-product-card {
+    border: 1px solid #eee;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    background: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.related-product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.related-product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.related-product-info {
+    padding: 12px;
+}
+
+.related-product-info h4 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    color: #333;
+}
+
+.related-product-info p {
+    margin: 0;
+    color: #c96b2d;
+    font-weight: 600;
+}
+
+.variants button:hover {
+    border-color: #7c4a21;
+}
+
+.variant-active {
+    background: #7c4a21 !important;
+    color: white;
+    border-color: #7c4a21 !important;
+}

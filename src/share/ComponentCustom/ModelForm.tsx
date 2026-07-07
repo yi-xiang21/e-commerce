@@ -113,32 +113,49 @@ const FormModal = <T extends object>({
   // Hàm xử lý khi người dùng submit form, thực hiện validate dữ liệu của form và các mục con (nếu có),
   //  nếu có lỗi thì cập nhật state error để hiển thị lỗi, nếu không có lỗi thì gọi onSubmit với dữ liệu của form
   const handleSubmit = () => {
-    // Thực hiện validate dữ liệu của form chính (parent) dựa trên các trường được định nghĩa trong fields
-    const parentErrors = validateForm(formData, fields);
+    // 1. Khởi tạo mảng fields mặc định để validate
+    let fieldsToValidate = fields;
+    let childFieldsToValidate = activeChildFields;
 
-    // Nếu form có chứa các trường con (hasChildren là true), thực hiện validate dữ liệu của các mục con dựa trên activeChildFields, 
-    // với mỗi mục con sẽ có một key riêng biệt trong error để lưu lỗi tương ứng (ví dụ: "variants[0].price" hoặc "children[1].name")
+    // 2. Xử lý riêng cho chế độ EDIT
+    if (mode === FormModalMode.EDIT) {
+      // Khai báo các type (hoặc name) của field thời gian mà bạn muốn bỏ qua
+      // NOTE: Bạn hãy điều chỉnh mảng này khớp với định nghĩa trong FormField của bạn
+      const timeFieldTypes = ['time', 'date', 'datetime', 'datePicker', 'timePicker'];
+
+      // Lọc bỏ các field thời gian khỏi danh sách validate của cha
+      fieldsToValidate = fields.filter(
+        (field) => !timeFieldTypes.includes(field.type as string)
+      );
+
+      // Lọc bỏ các field thời gian khỏi danh sách validate của con (nếu có)
+      if (hasChildren && activeChildFields) {
+        childFieldsToValidate = activeChildFields.filter(
+          (field) => !timeFieldTypes.includes(field.type as string)
+        );
+      }
+    }
+
+    // 3. Truyền danh sách fields đã được lọc vào hàm validate
+    const parentErrors = validateForm(formData, fieldsToValidate);
+
     const childErrors = hasChildren 
-      ? validateChildren(formData[activeChildKey] || [], activeChildFields, activeChildKey)
+      ? validateChildren(formData[activeChildKey] || [], childFieldsToValidate, activeChildKey)
       : {};
 
-      // Kết hợp lỗi của form chính và lỗi của các mục con thành một object duy nhất để cập nhật state error, nếu có lỗi nào tồn tại thì sẽ được hiển thị trên giao diện
     const validationErrors = {
       ...parentErrors,
       ...childErrors,
     };
-    // Nếu có bất kỳ lỗi nào tồn tại trong validationErrors (tức là có ít nhất một key có giá trị lỗi), cập nhật state error với validationErrors và dừng quá trình submit bằng cách return ra khỏi hàm,
-    //  nếu không có lỗi nào tồn tại (tức là validationErrors là một object rỗng), xóa tất cả lỗi bằng cách đặt state error thành một object rỗng và gọi onSubmit với dữ liệu của form (formData)
 
     if (Object.keys(validationErrors).length > 0) {
       setError(validationErrors);
       return;
     }
-    // Nếu không có lỗi nào tồn tại, xóa tất cả lỗi và gọi onSubmit với dữ liệu của form
 
     setError({});
-    onSubmit(formData);
-  };
+    onSubmit?.(formData);
+};
 
   return (
     <Modal

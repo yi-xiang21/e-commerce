@@ -85,11 +85,14 @@ const AdminManagerAccount = () => {
           } 
           else {
             response = await AccountApi.getAll(page, limit);
+            console.log("All accounts fetched:", response.data.users);
           
           }
+
+          console.log("Accounts fetched:", response);
   
-          setAccounts(response.data?.data?.users ?? []);
-          setTotal(response.data?.data?.pagination?.total_items ?? 0);
+          setAccounts(response.data?.users ?? []);
+          setTotal(response.data?.pagination?.total_items ?? 0);
         } catch (error) {
           console.error("Lỗi khi tải danh sách tài khoản:", error);
         } finally {
@@ -118,11 +121,11 @@ const AdminManagerAccount = () => {
       try {
         // Gọi API để lấy chi tiết tài khoản dựa trên user_id của record, sau đó cập nhật editingId và mở modal với dữ liệu chi tiết của tài khoản đó
         const response = await AccountApi.getById(record.user_id);
-        const data = response.data;
+        const data = response as unknown as account;
         console.log("Fetched account details:", data);
 
         // Cập nhật editingId với user_id của tài khoản được chọn, sau đó xóa trường password khỏi dữ liệu để tránh hiển thị hoặc chỉnh sửa mật khẩu trong form
-        setEditingId(data.user_id);
+        setEditingId(data.user_id as number);
         delete data.password;
 
         // Mở modal với chế độ VIEW hoặc EDIT tùy thuộc vào mode được truyền vào, và truyền dữ liệu chi tiết của tài khoản để hiển thị trong form
@@ -208,10 +211,12 @@ const AdminManagerAccount = () => {
 
   const handleDeleteAccount = async (id: number) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa tài khoản này?")) {
+      console.log("Deleting account with ID:", id);
       try {
         setLoading(true);
         // Gọi API để xóa tài khoản dựa trên id, sau đó gọi hàm fetchAccounts để làm mới danh sách tài khoản trên giao diện, đảm bảo rằng tài khoản đã bị xóa không còn hiển thị, hiển thị thông báo thành công nếu thao tác xóa thành công
-        await AccountApi.delete(id);
+        const response = await AccountApi.delete(id);
+        console.log("Account deleted:", response);
         // Sau khi xóa tài khoản thành công, gọi hàm fetchAccounts để làm mới danh sách tài khoản trên giao diện, đảm bảo rằng tài khoản đã bị xóa không còn hiển thị
         await fetchAccounts(currentPage, pageSize, filters);
         setNotifyData({

@@ -28,6 +28,10 @@ export const filterAccount: FilterField[] = [
     options: [
       { label: 'Admin', value: 'admin' },
       { label: 'customer', value: 'customer' },
+      {
+        label: 'Shipper',
+        value: 'shipper',
+      }
     ],
     // Chế độ chọn nhiều cho trường vai trò
     mode: 'multiple',

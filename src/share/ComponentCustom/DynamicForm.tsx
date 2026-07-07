@@ -20,25 +20,27 @@ const DynamicForm = <T extends object>({
   disabled = false,
 }: DynamicFormProps<T>) => {
   const renderField = (field: FormField<T>) => {
-    // Lấy key và value tương ứng từ field và values
     const key = field.key;
-    // Lấy giá trị hiện tại của trường từ values, nếu không có thì mặc định là undefined
     const value = values[key];
 
-    // Render các loại trường khác nhau dựa trên field.type
+
+    let isFieldDisabled = disabled; 
+    if (typeof field.disabled === "function") {
+     
+      isFieldDisabled = isFieldDisabled || field.disabled(values);
+    } else if (field.disabled !== undefined) {
+      isFieldDisabled = isFieldDisabled || field.disabled;
+    }
+    
+
     switch (field.type) {
-      // Trường hợp trường là input text
       case FormFieldType.Input:
         return (
           <Input
-          // Placeholder cho trường input, lấy từ field.placeholder
             placeholder={field.placeholder}
-            // Giá trị của trường input, nếu value là undefined thì mặc định là chuỗi rỗng
             value={String(value ?? "")}
-            // Hàm xử lý khi giá trị của trường input thay đổi, gọi onChange với key và giá trị mới
             onChange={(e) => onChange(key, e.target.value)}
-            // Trường input có thể bị disabled nếu props disabled là true
-            disabled={disabled}
+            disabled={isFieldDisabled} 
           />
         );
       case FormFieldType.inputFile:
@@ -55,7 +57,7 @@ const DynamicForm = <T extends object>({
                   reader.readAsDataURL(file);
                 }
               }}
-              disabled={disabled}
+              disabled={isFieldDisabled}
             />
             {value && typeof value === "string" && (
               <img
@@ -64,28 +66,20 @@ const DynamicForm = <T extends object>({
                 className="mt-2 max-h-40 object-contain"
               />
             )}
-
           </div>
-          
         );
 
-    case FormFieldType.ImageUpload: {
-        // Đảm bảo value luôn là 1 mảng
+      case FormFieldType.ImageUpload: {
         const currentImages = Array.isArray(value) ? value : [];
 
-        // Hàm xử lý khi xoá 1 hình ảnh
         const handleDeleteImage = (indexToRemove: number) => {
           const newImages = currentImages.filter((_, idx) => idx !== indexToRemove);
-          
-          // Đánh lại số thứ tự (sort_order) cho mảng mới
           const reorderedImages = newImages.map((img: any, idx: number) => ({
-            ...img, // Giữ nguyên image_id (nếu có)
-            sort_order: idx + 1, 
+            ...img,
+            sort_order: idx + 1,
           }));
-          
           onChange(key, reorderedImages);
         };
-
 
         const handleAddImages = async (e: React.ChangeEvent<HTMLInputElement>) => {
           const files = Array.from(e.target.files || []);
@@ -102,17 +96,12 @@ const DynamicForm = <T extends object>({
 
           try {
             const base64Images = await Promise.all(base64Promises);
-            
-            // Tạo mảng object hình mới
             const newImages = base64Images.map((base64) => ({
               image_url: base64,
-              sort_order: 0, // Tạm thời để 0, sẽ được đánh lại ngay bên dưới
+              sort_order: 0,
             }));
 
-            // Gộp mảng cũ và mảng mới
             const combinedImages = [...currentImages, ...newImages];
-            
-            // Đánh lại toàn bộ số thứ tự (sort_order)
             const reorderedImages = combinedImages.map((img: any, idx: number) => ({
               ...img,
               sort_order: idx + 1,
@@ -126,8 +115,7 @@ const DynamicForm = <T extends object>({
 
         return (
           <div className="flex flex-col gap-3 border p-3 rounded-md bg-slate-50">
-            {/* Input thêm hình chỉ hiển thị khi không ở chế độ View */}
-            {!disabled && (
+            {!isFieldDisabled && (
               <input
                 className="w-full p-2 border border-blue-300 rounded bg-white cursor-pointer"
                 type="file"
@@ -136,12 +124,10 @@ const DynamicForm = <T extends object>({
                 onChange={handleAddImages}
               />
             )}
-            
 
             <div className="flex flex-wrap gap-4 mt-2">
               {currentImages.map((img: any, index: number) => {
                 const src = typeof img === "string" ? img : img.image_url;
-                
                 return src ? (
                   <div key={img.image_id || index} className="relative border border-slate-300 p-2 rounded bg-white flex flex-col items-center group shadow-sm hover:shadow-md transition-shadow">
                     <img
@@ -149,16 +135,13 @@ const DynamicForm = <T extends object>({
                       alt={`Preview ${index + 1}`}
                       className="h-32 w-32 object-cover rounded"
                     />
-
                     <div className="text-xs text-slate-600 mt-2 text-center flex flex-col">
                       <span className="font-semibold text-blue-600">Thứ tự: {img.sort_order || index + 1}</span>
                       {img.image_id && (
                         <span className="text-gray-400">ID: {img.image_id}</span>
                       )}
                     </div>
-
-                    {/* Nút Xoá (chỉ hiện khi Form không bị disabled) */}
-                    {!disabled && (
+                    {!isFieldDisabled && ( 
                       <button
                         type="button"
                         onClick={() => handleDeleteImage(index)}
@@ -171,7 +154,6 @@ const DynamicForm = <T extends object>({
                   </div>
                 ) : null;
               })}
-              
               {currentImages.length === 0 && (
                 <span className="text-sm text-gray-400 italic">Chưa có hình ảnh nào.</span>
               )}
@@ -186,7 +168,7 @@ const DynamicForm = <T extends object>({
             placeholder={field.placeholder}
             value={String(value ?? "")}
             onChange={(e) => onChange(key, e.target.value)}
-            disabled={disabled}
+            disabled={isFieldDisabled} 
           />
         );
 
@@ -199,8 +181,7 @@ const DynamicForm = <T extends object>({
             options={field.options}
             onChange={(value) => onChange(key, value)}
             allowClear
-           
-            disabled={disabled}
+            disabled={isFieldDisabled} 
           />
         );
 
@@ -211,7 +192,7 @@ const DynamicForm = <T extends object>({
             value={value}
             onChange={(value) => onChange(key, value)}
             fetchOptions={field.fetchOptions}
-            disabled={disabled}
+            disabled={isFieldDisabled} 
             mode={field.mode}
           />
         );
@@ -223,7 +204,7 @@ const DynamicForm = <T extends object>({
             placeholder={field.placeholder}
             value={value !== undefined ? String(value) : ""}
             onChange={(e) => onChange(key, Number(e.target.value))}
-            disabled={disabled}
+            disabled={isFieldDisabled}
           />
         );
       case FormFieldType.InputPassword:
@@ -232,17 +213,18 @@ const DynamicForm = <T extends object>({
             placeholder={field.placeholder}
             value={String(value ?? "")}
             onChange={(e) => onChange(key, e.target.value)}
-            disabled={disabled}
+            disabled={isFieldDisabled} 
           />
         );
       case FormFieldType.TimePicker:
         return (
           <TimePicker
             placeholder={field.placeholder}
-            value={parseToDayjs(value)} 
-            onChange={(time) => onChange(key, formatToBE(time, 'time'))} 
-            disabled={disabled}
-            className="w-full" 
+            // Gọi trực tiếp parseToDayjs, không cần qua formatToBE để check điều kiện
+            value={value ? parseToDayjs(value) : null}
+            onChange={(time) => onChange(key, formatToBE(time, 'time'))}
+            disabled={isFieldDisabled} 
+            className="w-full"
             format="HH:mm:ss"
           />
         );
@@ -251,9 +233,9 @@ const DynamicForm = <T extends object>({
         return (
           <DatePicker
             placeholder={field.placeholder}
-            value={parseToDayjs(value)} 
-            onChange={(date) => onChange(key, formatToBE(date, 'date'))} 
-            disabled={disabled}
+            value={formatToBE(value, 'date') ? parseToDayjs(value) : null}
+            onChange={(date) => onChange(key, formatToBE(date, 'date'))}
+            disabled={isFieldDisabled} 
             className="w-full"
             format="YYYY-MM-DD"
           />
@@ -264,7 +246,7 @@ const DynamicForm = <T extends object>({
             type="checkbox"
             checked={Boolean(value)}
             onChange={(e) => onChange(key, e.target.checked)}
-            disabled={disabled}
+            disabled={isFieldDisabled} 
           />
         );
 
@@ -277,7 +259,6 @@ const DynamicForm = <T extends object>({
     <div className="flex flex-col gap-4">
       {fields.map((field) => (
         <div key={String(field.key)} className="flex flex-col gap-1">
-          {/* Hiển thị nhãn của trường */}
           <label className="font-medium">{field.label}</label>
           {renderField(field)}
           {error && error[String(field.key)] && (

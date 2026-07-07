@@ -1,6 +1,7 @@
 import type { LoginPayload } from "@/features/Auth/types/auth-type";
 import React, { useEffect, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { Link } from "react-router";
 
 
 type Props = {
@@ -117,13 +118,12 @@ export default function LoginPage({ onLogin, errorMessage }: Props) {
         ĐĂNG NHẬP
       </button>
 
-      <a
-        href="#"
-        /* Đã xóa bỏ my-5, chỉ giữ lại mt-10 (hoặc mt-20 tùy bạn) để đẩy chữ cách xa nút Đăng nhập */
+      <Link
+        to="/auth/forgot-password"
         className="text-[18px] text-[#f31b1b] no-underline hover:underline mt-8"
       >
         Quên mật khẩu?
-      </a>
+      </Link>
     </form>
   );
 }

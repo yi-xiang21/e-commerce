@@ -12,3 +12,4 @@ export interface promotion {
     status: string;
     applicable_products: productPromotion[];
 }
+

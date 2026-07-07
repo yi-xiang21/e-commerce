@@ -1,4 +1,11 @@
-import { type LoginResponse, type LoginPayload, type RegisterPayload } from '@/features/Auth/types/auth-type'
+import {
+  type LoginResponse,
+  type LoginPayload,
+  type RegisterPayload,
+  type ForgotPasswordPayload,
+  type VerifyOtpPayload,
+  type ResetPasswordPayload
+} from '@/features/Auth/types/auth-type'
 import { API_CONFIG } from "@/config/api";
 import {callAPI} from "@/share/lib/axios";
 
@@ -20,7 +27,16 @@ const authApi = {
     return callAPI.get(
         API_CONFIG.ENDPOINTS.PROFILE
     );
-  }
+  },
+  forgotPassword: async (payload: ForgotPasswordPayload) => {
+    return callAPI.post(API_CONFIG.ENDPOINTS.FORGOT_PASSWORD, payload);
+  },
+  verifyOtp: async (payload: VerifyOtpPayload) => {
+    return callAPI.post(API_CONFIG.ENDPOINTS.VERIFY_OTP, payload);
+  },
+  resetPassword: async (payload: ResetPasswordPayload) => {
+    return callAPI.post(API_CONFIG.ENDPOINTS.RESET_PASSWORD, payload);
+  },
 }
 
 

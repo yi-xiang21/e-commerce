@@ -31,8 +31,8 @@ export const API_CONFIG = {
     GET_USER: (id: string) => `/api/users/${id}`,
     CREATE_USER: '/api/users',
     UPDATE_USER: (id: string) => `/api/users/${id}`,
-    DELETE_USER: (id: string) => `/api/users/${id}`,
-      FILTER_USERS: '/api/users/filter',
+    DELETE_USER: (id: number) => `/api/users/${id}`,
+    FILTER_USERS: '/api/users/filter',
     
     //admin category
     GET_CATEGORIES: '/api/categories',
@@ -49,12 +49,14 @@ export const API_CONFIG = {
     UPDATE_PRODUCT: (id: string) => `/api/products/${id}`,
     DELETE_PRODUCT: (id: string) => `/api/products/${id}`,
     FiLTER_PRODUCTS: '/api/products/filter',
+    GET_PRODUCTS_TOP_SELLING: '/api/products/top-selling',
     
     
 
     //admin voucher
     GET_VOUCHERS: '/api/vouchers/vouchers',
     GET_VOUCHER: (id: string) => `/api/vouchers/vouchers/${id}`,
+    GET_MY_VOUCHERS: '/api/vouchers/my-vouchers',
     CREATE_VOUCHER: '/api/vouchers/vouchers',
     UPDATE_VOUCHER: (id: string) => `/api/vouchers/vouchers/${id}`,
     DELETE_VOUCHER: (id: string) => `/api/vouchers/vouchers/${id}`,
@@ -69,10 +71,16 @@ export const API_CONFIG = {
     DELETE_PROMOTION: (id: string) => `/api/promotions/promotions/${id}`,
     FILTER_PROMOTIONS: '/api/promotions/promotions/filter',
 
+    //admin stock
+    GET_STOCKS: '/api/variants/stock',
+    GET_HISTORY_ST: (variant_id: number) => `/api/inventory/${variant_id}/history`,
+    POST_UPDATE_STOCKS: '/api/inventory/adjust',
+    POST_FILTER_STOCKS: '/api/inventory/overview',
 
     //admin order
     GETALL_ORDERS: '/api/orders/admin/all',
     GET_ORDER: (id: string) => `/api/orders/admin/${id}`,
+    GET_SHIPPING_FEE: '/api/orders/shipping-fees',
     UPDATE_ORDER_STATUS: (id: string) => `/api/orders/admin/${id}/status`,
     FILTER_ORDERS: '/api/orders/admin/filter',
 
@@ -84,7 +92,29 @@ export const API_CONFIG = {
     GETALL_SHIPPERS: '/api/admin/shippers',
     CREATE_SHIPPER: '/api/admin/shippers',
     UPDATE_SHIPPER_STATUS: (id: string) => `/api/admin/shippers/${id}/status`,
+    //user order
+    GET_ORDER_HISTORY: '/api/orders/my-orders',
+    GET_ORDER_DETAIL: (id: string) => `/api/orders/my-orders/${id}`,
+    CREATE_ORDER: '/api/orders',
+    REPURCHASE_ORDER: (id: string) => `/api/orders/repurchase/${id}`,
 
+
+    //cart
+    GET_CART_ITEMS: '/api/cart',
+    GET_PRODUCT_BY_ID: (id: string) => `/api/products/${id}`,
+
+
+    
+    UPDATE_SHIPPER_LOCATION: (id: string) => `/api/admin/shippers/${id}/location`,
+
+    // shipper portal
+    GET_AVAILABLE_ORDERS: '/api/shipper/available-orders',
+    ACCEPT_ORDER: (orderId: string) => `/api/shipper/orders/${orderId}/accept`,
+    GET_MY_DELIVERIES: '/api/shipper/my-deliveries',
+    GET_SHIPPER_ORDER_DETAIL: (orderId: string) => `/api/shipper/orders/${orderId}`,
+    UPDATE_DELIVERY_STATUS: (orderId: string) => `/api/shipper/orders/${orderId}/delivery-status`,
+    GET_SHIPPER_PROFILE: '/api/shipper/profile',
+    UPDATE_SHIPPER_PROFILE: '/api/shipper/profile',
 
     FORGOT_PASSWORD: '/api/auth/forgot-password',
     VERIFY_OTP: '/api/auth/verify-reset-otp',

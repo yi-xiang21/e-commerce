@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { cartApi } from '../api/cart-api';
+import { callAPI } from '@/share/lib/axios';
+import { API_CONFIG } from '@/config/api';
 import type { ISyncCartPayload, ICartItem } from '../type/cart-type';
 import { getLocalCart, addToLocalCart, updateLocalQuantity, removeFromLocalCart } from '@/features/Cart/constants/local-cart';
 import type { RootState } from '@/app/redux/store';
@@ -13,6 +15,8 @@ export const fetchCart = createAsyncThunk(
         }
         try {
             const {data}: any = await cartApi.getCart();
+            console.log("GET CART:", data);
+console.log("GET CART ITEMS:", data.cart);
             return data.cart;
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Lỗi tải giỏ hàng');
@@ -84,6 +88,24 @@ export const syncLocalCart = createAsyncThunk(
             return result.data.cart as ICartItem[];
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.message || 'Lỗi đồng bộ giỏ hàng');
+        }
+    }
+);
+
+export const addProductToCartThunk = createAsyncThunk(
+    'cart/addProductToCart',
+    async ({ product_id, quantity = 1 }: { product_id: number; quantity?: number }, { rejectWithValue }) => {
+        try {
+            // Add product to cart
+            await cartApi.addToCart(product_id, quantity);
+            
+            // Fetch product details to get discount info
+            const productRes: any = await callAPI.get(API_CONFIG.ENDPOINTS.GET_PRODUCT(String(product_id)));
+            const product = productRes.data?.product || productRes.product;
+            
+            return { product_id, product };
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || 'Lỗi thêm vào giỏ hàng');
         }
     }
 );
