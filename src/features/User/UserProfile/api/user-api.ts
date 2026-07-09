@@ -14,5 +14,8 @@ export const userApi = {
   },
   getOrderDetail: async (id: string) => {
     return callAPI.get(API_CONFIG.ENDPOINTS.GET_ORDER_DETAIL(id));
+  },
+  cancelOrder: async (orderId: string | number, payload: { status: string; refundInfo?: any }) => {
+    return callAPI.post(API_CONFIG.ENDPOINTS.CANCEL_ORDER(orderId), payload); 
   }
-}
+};

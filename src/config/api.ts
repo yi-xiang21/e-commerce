@@ -92,12 +92,13 @@ export const API_CONFIG = {
     GETALL_SHIPPERS: '/api/admin/shippers',
     CREATE_SHIPPER: '/api/admin/shippers',
     UPDATE_SHIPPER_STATUS: (id: string) => `/api/admin/shippers/${id}/status`,
+
     //user order
     GET_ORDER_HISTORY: '/api/orders/my-orders',
     GET_ORDER_DETAIL: (id: string) => `/api/orders/my-orders/${id}`,
     CREATE_ORDER: '/api/orders',
     REPURCHASE_ORDER: (id: string) => `/api/orders/repurchase/${id}`,
-    
+    CANCEL_ORDER: (id: string | number) => `/api/orders/my-orders/${id}/cancel`,
     UPDATE_SHIPPER_LOCATION: (id: string) => `/api/admin/shippers/${id}/location`,
 
     // shipper portal
