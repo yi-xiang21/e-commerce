@@ -1,38 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CancelOrderModals } from "./CancelOrderModals";
-import { userApi } from "@/features/User/UserProfile/api/user-api";
 
 interface OrderSummary {
     order_id: string | number;
     status: string;
     total_amount: string | number;
-    discount_amount: string | number;
     customer_name: string;
     shipping_address: string;
-    shipping_method?: string;
-    phone_number?: string;
     allowCancel?: boolean;
-    allowRefund?: boolean;
     payment_method?: string;
-    items?: {
-        item_id: string | number;
-        variant_id: string | number;
-        product_name: string;
-        price: string | number;
-        quantity: number;
-        color: string;
-        size: string;
-        product_id: string | number;
-        description: string;
-        type_name: string;
-        image_url: string;
-    }[];
+    items?: any[];
 }
 
 interface OrderTrackingCardProps {
     order?: OrderSummary;
-    onRefresh?: () => void;
+    onCancelOrder?: (orderId: string | number) => Promise<string>;
+    onRemoveOrder?: (orderId: string | number) => void;
 }
 
 const statusLabel: Record<string, { text: string; bg: string; textClass: string }> = {
@@ -56,12 +40,12 @@ const formatPrice = (price: string | number | undefined) => {
     }).format(Number(price));
 };
 
-const OrderTrackingCard = ({ order, onRefresh }: OrderTrackingCardProps) => {
+const OrderTrackingCard = ({ order, onCancelOrder, onRemoveOrder }: OrderTrackingCardProps) => {
     const navigate = useNavigate();
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isSuccessOpen, setIsSuccessOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
 
     if (!order) return null;
 
@@ -70,62 +54,46 @@ const OrderTrackingCard = ({ order, onRefresh }: OrderTrackingCardProps) => {
     const payment = paymentLabel[payKey] ?? { text: payKey, bg: "bg-gray-50", textClass: "text-gray-600 font-bold" };
     const firstItem = order.items?.[0];
 
-    const updateOrderStatusInDB = async (refundData?: { accountName: string; accountNo: string }) => {
+    const handleConfirmCancelAction = async () => {
+        if (!onCancelOrder) return;
         try {
             setLoading(true);
-
-            const payload = {
-                status: "cancelled",
-                refundInfo: refundData || null
-            };
-
-            await userApi.cancelOrder(order.order_id, payload);
-            console.log(`Đã gọi API cập nhật trạng thái hủy đơn #${order.order_id} thành "cancelled".`);
-
+            const responseMsg = await onCancelOrder(order.order_id);
+            setSuccessMessage(responseMsg);
+            
             setIsConfirmOpen(false);
-            setIsModalOpen(false);
             setIsSuccessOpen(true);
         } catch (error) {
-            console.error("Lỗi khi kết nối hệ thống cập nhật trạng thái đơn:", error);
-            alert("Có lỗi xảy ra trong quá trình hủy đơn từ Server, vui lòng thử lại!");
+            console.error("Lỗi khi xác nhận hủy đơn:", error);
+            setIsConfirmOpen(false);
         } finally {
             setLoading(false);
         }
     };
 
-    const handleConfirmCancelAction = () => {
-        if (order.allowRefund) {
-            setIsConfirmOpen(false);
-            setIsModalOpen(true);
-        } else {
-            updateOrderStatusInDB();
-        }
-    };
-
-    const handleRefundSubmit = (info: { accountName: string; accountNo: string }) => {
-        updateOrderStatusInDB(info);
-    };
-
-    const handleCloseSuccessAndRedirect = () => {
-        setIsSuccessOpen(false);
-
-        // Xóa khỏi trang hiện tại
-        if (onRefresh) {
-            onRefresh();
-        }
-
+    const modalProps: any = {
+        isConfirmOpen,
+        isSuccessOpen,
+        orderId: order.order_id,
+        paymentMethod: payKey === "MOMO" ? "MoMo" : "COD",
+        onCloseConfirm: () => setIsConfirmOpen(false),
+        onCloseSuccess: () => {
+            setIsSuccessOpen(false);
+            if (onRemoveOrder) onRemoveOrder(order.order_id);
+        },
+        onConfirmCancel: handleConfirmCancelAction,
+        successMessage: successMessage 
     };
 
     return (
         <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 w-full flex flex-row items-center justify-between gap-4 text-left box-border">
-            {/* ẢNH & THÔNG TIN TIÊU ĐỀ ĐƠN HÀNG */}
             <div className="flex flex-row items-center gap-4 flex-1 min-w-0">
                 <div className="w-16 h-16 rounded-xl border border-gray-100 bg-gray-50 shrink-0 flex items-center justify-center overflow-hidden">
                     {firstItem?.image_url ? (
                         <img src={firstItem.image_url} alt={firstItem.product_name} className="w-full h-full object-cover" />
                     ) : (
-                        <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2v12a2 2 0 002 2z" />
                         </svg>
                     )}
                 </div>
@@ -159,7 +127,6 @@ const OrderTrackingCard = ({ order, onRefresh }: OrderTrackingCardProps) => {
                 </div>
             </div>
 
-            {/* GIÁ TIỀN & NHÓM BUTTON ĐIỀU HƯỚNG */}
             <div className="flex items-center gap-4 shrink-0">
                 <div className="text-right">
                     <p className="text-xs text-gray-400 mb-0.5">Tổng thanh toán</p>
@@ -187,17 +154,7 @@ const OrderTrackingCard = ({ order, onRefresh }: OrderTrackingCardProps) => {
                 </div>
             </div>
 
-            <CancelOrderModals
-                isConfirmOpen={isConfirmOpen}
-                isRefundOpen={isModalOpen}
-                isSuccessOpen={isSuccessOpen}
-                orderId={order.order_id}
-                onCloseConfirm={() => setIsConfirmOpen(false)}
-                onCloseRefund={() => setIsModalOpen(false)}
-                onCloseSuccess={handleCloseSuccessAndRedirect}
-                onConfirmCancel={handleConfirmCancelAction}
-                onRefundSubmit={handleRefundSubmit}
-            />
+            <CancelOrderModals {...modalProps} />
         </div>
     );
 };

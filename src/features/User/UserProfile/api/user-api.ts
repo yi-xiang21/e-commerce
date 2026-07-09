@@ -10,12 +10,20 @@ export const userApi = {
     return callAPI.put(API_CONFIG.ENDPOINTS.UPDATE_PROFILE, data);
   },
   getOrderHistory: async (page: number = 1, tab: string, type: string) => {
-    return callAPI.get(`${API_CONFIG.ENDPOINTS.GET_ORDER_HISTORY}?page=${page}&tab=${tab}&type=${type}`);
+    return callAPI.get(
+      `${API_CONFIG.ENDPOINTS.GET_ORDER_HISTORY}?page=${page}&tab=${tab}&type=${type}`,
+    );
   },
   getOrderDetail: async (id: string) => {
     return callAPI.get(API_CONFIG.ENDPOINTS.GET_ORDER_DETAIL(id));
   },
-  cancelOrder: async (orderId: string | number, payload: { status: string; refundInfo?: any }) => {
-    return callAPI.post(API_CONFIG.ENDPOINTS.CANCEL_ORDER(orderId), payload); 
-  }
+  cancelOrder: async (
+    orderId: string | number,
+    payload: { status: string; refundInfo?: any },
+  ) => {
+    return callAPI.post(API_CONFIG.ENDPOINTS.CANCEL_ORDER(orderId), payload);
+  },
+  refundOrder: async (orderId: string | number) => {
+    return callAPI.post(API_CONFIG.ENDPOINTS.REFUND_ORDER(orderId));
+  },
 };
