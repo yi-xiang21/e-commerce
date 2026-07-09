@@ -23,7 +23,4 @@ export const userApi = {
   ) => {
     return callAPI.post(API_CONFIG.ENDPOINTS.CANCEL_ORDER(orderId), payload);
   },
-  refundOrder: async (orderId: string | number) => {
-    return callAPI.post(API_CONFIG.ENDPOINTS.REFUND_ORDER(orderId));
-  },
 };

@@ -100,7 +100,6 @@ export const API_CONFIG = {
     REPURCHASE_ORDER: (id: string) => `/api/orders/repurchase/${id}`,
     CANCEL_ORDER: (id: string | number) => `/api/orders/my-orders/${id}/cancel`,
     UPDATE_SHIPPER_LOCATION: (id: string) => `/api/admin/shippers/${id}/location`,
-    REFUND_ORDER: (id: string | number) => `/api/payment/refund/${id}`,
 
     // shipper portal
     GET_SHIPPER_PROFILE: '/api/shipper/profile',

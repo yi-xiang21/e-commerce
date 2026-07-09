@@ -44,7 +44,7 @@ export const CancelOrderModals = ({
                             {/* Dòng note cho đơn MoMo */}
                             {paymentMethod === "MoMo" && (
                                 <p className="text-[11px] text-emerald-600 bg-emerald-50 rounded-lg p-2 font-medium">
-                                    Tiền thanh toán qua MoMo của đơn này sẽ được tự động hoàn trả lại vào ví của bạn.
+                                    Tiền thanh toán qua MoMo của đơn này sẽ được hoàn trả lại vào ví của bạn.
                                 </p>
                             )}
                         </div>
@@ -97,7 +97,7 @@ export const CancelOrderModals = ({
                             <h3 className="text-base font-bold text-slate-900">Hủy đơn thành công!</h3>
                             <p className="text-xs text-slate-500 leading-relaxed px-2">
                                 {paymentMethod === "MoMo" 
-                                    ? `Đơn hàng #${orderId} đã được hủy thành công và hệ thống đang xử lý lệnh hoàn tiền.` 
+                                    ? `Đơn hàng #${orderId} đã được hủy thành công. Số tiền đã thanh toán sẽ được hoàn trả vào ví MoMo của bạn trong chốc lát.` 
                                     : `Yêu cầu hủy đơn hàng #${orderId} đã được xử lý thành công.`}
                             </p>
                         </div>
