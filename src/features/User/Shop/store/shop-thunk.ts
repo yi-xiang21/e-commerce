@@ -95,12 +95,17 @@ export const fetchProductsThunk = createAsyncThunk(
       // Chuẩn hóa cấu trúc dữ liệu sản phẩm để đưa lên UI
       const formattedProducts = filteredProducts.map((item: any) => {
         const actualProduct = item && item.product ? item.product : item;
-        const itemPrice = actualProduct.variants?.[0]?.price ?? actualProduct.price;
+        const firstVariant = actualProduct.variants?.[0];
+        const itemPrice = firstVariant?.price ?? actualProduct.price;
+        const finalPrice = firstVariant?.final_price ?? null;
+
         return {
           id: actualProduct.product_id || actualProduct.id,
-          title: actualProduct.product_name || actualProduct.title, 
+          title: actualProduct.product_name || actualProduct.title,
           description: actualProduct.description || "",
           price: itemPrice !== undefined ? Number(itemPrice) : 0,
+          final_price: finalPrice !== undefined && finalPrice !== null ? Number(finalPrice) : null,
+          discount: firstVariant?.discount ?? null,
           image: actualProduct.image_url || actualProduct.image || ""
         };
       });

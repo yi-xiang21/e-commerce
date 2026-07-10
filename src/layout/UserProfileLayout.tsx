@@ -1,42 +1,15 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { useAppDispatch } from '@/app/redux/hooks'
-import { logoutThunk } from '@/features/Auth/store/auth-thunk'
-import { logout } from '@/features/Auth/store/auth-slice'
-import { Modal } from 'antd'
+import { NavLink, Outlet } from 'react-router-dom'
+
 
 const menuItems = [
   { label: 'Thông tin người dùng', to: '', end: true },
   { label: 'Theo dõi đơn hàng', to: 'order-tracking' },
   { label: 'Lịch sử mua hàng', to: 'purchase-history' },
-  { label: 'Workshop', to: 'workshop' },
   { label: 'Tài khoản', to: 'account' },
 ]
 
 const UserProfileLayout = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await dispatch(logoutThunk()).unwrap();
-    } catch (error) {
-      console.error('Logout failed:', error);
-    } finally {
-      dispatch(logout());
-      navigate('/auth/login');
-    }
-  };
-
-  const handleLogoutClick = () => {
-    Modal.confirm({
-      title: 'Xác nhận đăng xuất',
-      content: 'Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không?',
-      okText: 'Đăng xuất',
-      okType: 'danger',
-      cancelText: 'Hủy',
-      onOk: handleLogout
-    });
-  };
+  
 
   return (
     <section className=' px-4 py-6 text-left sm:px-6 lg:px-8 lg:py-10'>
@@ -64,17 +37,6 @@ const UserProfileLayout = () => {
                   </NavLink>
                 </li>
               ))}
-
-              <li>
-                <button
-                  type='button'
-                  onClick={handleLogoutClick}
-                  className='flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium text-red-600 transition-all duration-200 hover:bg-red-100'
-                >
-                  <span>Đăng xuất</span>
-                  <span className='text-lg leading-none text-current/70'>›</span>
-                </button>
-              </li>
             </ul>
           </nav>
         </aside>
