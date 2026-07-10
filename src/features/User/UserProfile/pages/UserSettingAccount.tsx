@@ -1,21 +1,34 @@
 
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '@/app/redux/hooks';
-import { authApi } from '@/features/Auth/api/auth-api';
-import { logout } from '@/features/Auth/store/auth-slice';
+import { useAppDispatch } from '@/app/redux/hooks'
+import { logoutThunk } from '@/features/Auth/store/auth-thunk'
+import { logout } from '@/features/Auth/store/auth-slice'
+import { Modal } from 'antd'
 const UserSettingAccount = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+
   const handleLogout = async () => {
     try {
-      await authApi.logout();
+      await dispatch(logoutThunk()).unwrap();
     } catch (error) {
-      console.error("Logout failed:", error);
-    }
-    finally {
+      console.error('Logout failed:', error);
+    } finally {
       dispatch(logout());
+      navigate('/auth/login');
     }
+  };
+
+  const handleLogoutClick = () => {
+    Modal.confirm({
+      title: 'Xác nhận đăng xuất',
+      content: 'Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không?',
+      okText: 'Đăng xuất',
+      okType: 'danger',
+      cancelText: 'Hủy',
+      onOk: handleLogout
+    });
   };
   return (
     <section className='space-y-6'>
@@ -27,12 +40,12 @@ const UserSettingAccount = () => {
         </div>
 
         <button
-          onClick={() => handleLogout()}
+          onClick={() => handleLogoutClick()}
           className='inline-flex items-center justify-center rounded-2xl bg-[#ff6b3d] px-5 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f95d2d]'
         >
           Logout
         </button>
-        <button onClick={() => navigate('../change-password')} className='inline-flex items-center justify-center rounded-2xl bg-[#ff6b3d] px-5 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f95d2d]'>
+        <button  className='inline-flex items-center justify-center rounded-2xl bg-[#ff6b3d] px-5 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#f95d2d]'>
             Đổi mật khẩu
         </button>
 
