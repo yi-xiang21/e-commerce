@@ -41,6 +41,8 @@ import AdminManagerStock from '@/features/Admin/managerStock/pages/AdminManagerS
 import OrderDetail from '@/features/Shipper/pages/OrderDetail';
 import MyDeliveries from '@/features/Shipper/pages/MyDeliveries';
 import DeliveryHistory from '@/features/Shipper/pages/DeliveryHistory';
+import AdminManagerRewards from '@/features/Admin/managerExchangePoint/pages/AdminManagerRewards';
+import AdminManagerShipper from '@/features/Admin/managerShipper/pages/AdminManagerShipper';
 import DashboardPage from '@/features/Admin/AdminDashBoard/pages/DashboardPage';
 import UserSettingAccount from '@/features/User/UserProfile/pages/UserSettingAccount';
 
@@ -113,6 +115,14 @@ export const routes = createBrowserRouter([
                         path: 'Setting',
                         element: <AdminSetting />
                     },
+                    {
+                        path: 'Manager-Rewards',
+                        element: <AdminManagerRewards />,
+                    },
+                    {
+                        path: 'Manager-Shipper',
+                        element: <AdminManagerShipper />,
+                    }
                 ],
             },
         ],
