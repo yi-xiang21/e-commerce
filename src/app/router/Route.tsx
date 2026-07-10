@@ -15,7 +15,7 @@ import ProfileUser from '@/features/User/UserProfile/pages/ProfileUser';
 import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracking';
 import PurchaseHistoryPage from '@/features/User/UserProfile/pages/PurchaseHistory';
 import DetailPurchaseHistory from '@/features/User/UserProfile/pages/DetailPurchaseHistory';
-import WorkshopPage from '@/features/User/UserProfile/pages/UserWorkshop';
+
 import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount';
 // import AuthPage from '@/features/Auth/pages/AuthPage';
 import CartPage from '@/features/Cart/pages/CartPage';
@@ -32,7 +32,7 @@ import ForgotPasswordPage from '@/component/ForgotPasswordPage';
 import VerifyOtpPage from '@/component/VerifyOtpPage';
 import ResetPasswordPage from '@/component/ResetPasswordPage';
 
-import AdminSetting from '@/features/Admin/Setting/AdminSetting';
+import AdminSetting from '@/features/Admin/setting/AdminSetting';
 
 import UserOrder from '@/features/User/UserOrder/pages/UserOrder';
 import OrderSuccess from '@/features/User/UserOrder/pages/OrderSuccess';
@@ -42,6 +42,7 @@ import OrderDetail from '@/features/Shipper/pages/OrderDetail';
 import MyDeliveries from '@/features/Shipper/pages/MyDeliveries';
 import DeliveryHistory from '@/features/Shipper/pages/DeliveryHistory';
 import DashboardPage from '@/features/Admin/AdminDashBoard/pages/DashboardPage';
+import UserSettingAccount from '@/features/User/UserProfile/pages/UserSettingAccount';
 
 export const routes = createBrowserRouter([
     {
@@ -174,12 +175,8 @@ export const routes = createBrowserRouter([
                                 element: <PurchaseHistoryPage />,
                             },
                             {
-                                path: 'workshop',
-                                element: <WorkshopPage />,
-                            },
-                            {
                                 path: 'account',
-                                element: <WorkshopPage />,
+                                element: <UserSettingAccount />,
                             },
                             {
                                 path: 'change-password',
