@@ -8,6 +8,7 @@ const menuItems = [
   { label: 'Thông tin người dùng', to: '', end: true },
   { label: 'Theo dõi đơn hàng', to: 'order-tracking' },
   { label: 'Lịch sử mua hàng', to: 'purchase-history' },
+  { label: 'Voucher', to: 'vouchers' },
   { label: 'Workshop', to: 'workshop' },
   { label: 'Tài khoản', to: 'account' },
 ]

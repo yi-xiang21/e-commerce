@@ -42,6 +42,9 @@ import OrderDetail from '@/features/Shipper/pages/OrderDetail';
 import MyDeliveries from '@/features/Shipper/pages/MyDeliveries';
 import DeliveryHistory from '@/features/Shipper/pages/DeliveryHistory';
 import DashboardPage from '@/features/Admin/AdminDashBoard/pages/DashboardPage';
+import UserVouchers from '@/features/User/UserProfile/pages/UserVouchers';
+import UserMyVouchers from '@/features/User/UserProfile/pages/UserMyVoucher';
+import UserHistoryRedeemVoucher from '@/features/User/UserProfile/pages/UserHistoryRedeemVoucher';
 
 export const routes = createBrowserRouter([
     {
@@ -70,12 +73,12 @@ export const routes = createBrowserRouter([
         ],
     },
     {
-    element: <ProtectedRoute requireAuth={true} requireAdmin={true} />,
-    children: [
-      {
-        path: "/admin",
-        element: <AdminLayout />,
+        element: <ProtectedRoute requireAuth={true} requireAdmin={true} />,
         children: [
+            {
+                path: "/admin",
+                element: <AdminLayout />,
+                children: [
                     {
                         index: true,
                         element: <DashboardPage />,
@@ -131,17 +134,18 @@ export const routes = createBrowserRouter([
                         path: 'available-orders',
                         element: <AvailableOrders />,
                     },
-                    { 
-                        path: 'my-deliveries', 
-                        element: <MyDeliveries /> 
+                    {
+                        path: 'my-deliveries',
+                        element: <MyDeliveries />
                     },
                     {
                         path: 'delivery-history',
                         element: <DeliveryHistory />,
                     },
-                    { 
-                        path: 'orders/:id', 
-                        element: <OrderDetail /> },
+                    {
+                        path: 'orders/:id',
+                        element: <OrderDetail />
+                    },
                     {
                         path: 'setting',
                         element: <ShipperSetting />
@@ -189,6 +193,18 @@ export const routes = createBrowserRouter([
                                 path: 'order-detail/:id',
                                 element: <DetailPurchaseHistory />,
                             },
+                            {
+                                path: 'vouchers',
+                                element: <UserVouchers />,
+                            },
+                            {
+                                path: 'vouchers/history-redeem',
+                                element: <UserHistoryRedeemVoucher />,
+                            },
+                            {
+                                path: 'my-vouchers',
+                                element: <UserMyVouchers />,
+                            }
                         ],
                     },
                     {

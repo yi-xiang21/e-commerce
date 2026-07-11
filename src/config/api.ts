@@ -88,6 +88,11 @@ export const API_CONFIG = {
     GET_CITIES: '/api/location/cities',
     GET_WARDS: (cityId: string) => `/api/location/cities/${cityId}/wards`,
 
+    // rewards voucher
+    GET_HISTORY_LOYALTYPOINT:'/api/loyalty/history',
+    POST_REDEEM_VOUCHER:'/api/loyalty/redeem',
+    GET_CAN_REDEEM:'/api/loyalty/rewards',
+
     // admin shipper
     GETALL_SHIPPERS: '/api/admin/shippers',
     CREATE_SHIPPER: '/api/admin/shippers',
