@@ -12,6 +12,8 @@ const menuItems = [
     { name: 'Quản lý sản phẩm', link: '/admin/Manager-Product' },
     { name: 'Quản lý Kho', link: '/admin/Manager-Stock' },
     { name: 'Quản lý danh mục', link: '/admin/Manager-Categories' },
+    { name: 'Quản lý shipper', link: '/admin/Manager-Shipper' },
+    { name: 'Quản lý điểm thưởng', link: '/admin/Manager-Rewards' },
     { name: 'Quản lý vouchers', link: '/admin/Manager-Voucher' },
     { name: 'Quản lý khuyến mãi', link: '/admin/Manager-Promotion' },
     { name: 'Quay về trang chủ', link: '/' },

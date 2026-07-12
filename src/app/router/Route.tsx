@@ -15,7 +15,7 @@ import ProfileUser from '@/features/User/UserProfile/pages/ProfileUser';
 import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracking';
 import PurchaseHistoryPage from '@/features/User/UserProfile/pages/PurchaseHistory';
 import DetailPurchaseHistory from '@/features/User/UserProfile/pages/DetailPurchaseHistory';
-import WorkshopPage from '@/features/User/UserProfile/pages/UserWorkshop';
+
 import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount';
 // import AuthPage from '@/features/Auth/pages/AuthPage';
 import CartPage from '@/features/Cart/pages/CartPage';
@@ -41,10 +41,13 @@ import AdminManagerStock from '@/features/Admin/managerStock/pages/AdminManagerS
 import OrderDetail from '@/features/Shipper/pages/OrderDetail';
 import MyDeliveries from '@/features/Shipper/pages/MyDeliveries';
 import DeliveryHistory from '@/features/Shipper/pages/DeliveryHistory';
+import AdminManagerRewards from '@/features/Admin/managerExchangePoint/pages/AdminManagerRewards';
+import AdminManagerShipper from '@/features/Admin/managerShipper/pages/AdminManagerShipper';
 import DashboardPage from '@/features/Admin/AdminDashBoard/pages/DashboardPage';
 import UserVouchers from '@/features/User/UserProfile/pages/UserVouchers';
 import UserMyVouchers from '@/features/User/UserProfile/pages/UserMyVoucher';
 import UserHistoryRedeemVoucher from '@/features/User/UserProfile/pages/UserHistoryRedeemVoucher';
+import UserSettingAccount from '@/features/User/UserProfile/pages/UserSettingAccount';
 
 export const routes = createBrowserRouter([
     {
@@ -115,6 +118,14 @@ export const routes = createBrowserRouter([
                         path: 'Setting',
                         element: <AdminSetting />
                     },
+                    {
+                        path: 'Manager-Rewards',
+                        element: <AdminManagerRewards />,
+                    },
+                    {
+                        path: 'Manager-Shipper',
+                        element: <AdminManagerShipper />,
+                    }
                 ],
             },
         ],
@@ -178,12 +189,8 @@ export const routes = createBrowserRouter([
                                 element: <PurchaseHistoryPage />,
                             },
                             {
-                                path: 'workshop',
-                                element: <WorkshopPage />,
-                            },
-                            {
                                 path: 'account',
-                                element: <WorkshopPage />,
+                                element: <UserSettingAccount />,
                             },
                             {
                                 path: 'change-password',

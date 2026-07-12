@@ -84,6 +84,19 @@ export const API_CONFIG = {
     UPDATE_ORDER_STATUS: (id: string) => `/api/orders/admin/${id}/status`,
     FILTER_ORDERS: '/api/orders/admin/filter',
 
+    //admin exchange point
+    POST_LOYALTY_REWARDS: '/api/loyalty/admin/rewards',
+    GET_LOYALTY_REWARDS: '/api/loyalty/admin/rewards',
+    PUT_UPDATE_REWARDS: (reward_id: string) => `/api/loyalty/admin/rewards/${reward_id}/status`,
+    DELETE_LOYALTY_REWARDS:(reward_id: string) => `/api/loyalty/admin/rewards/${reward_id}`,
+
+
+        //admin shipper
+    GET_SHIPPER:'/api/admin/shippers',
+    POST_CREATE_SHIPPER:'/api/admin/shippers',
+    PUT_UPDATE_SHIPPER_LOCATION: (shipper_id: string) => `/api/admin/shippers/${shipper_id}/location`,
+    PATCH_UPDATE_STATUS_SHIPPER: (shipper_id: string) => `/api/admin/shippers/${shipper_id}/status`,
+
     // location
     GET_CITIES: '/api/location/cities',
     GET_WARDS: (cityId: string) => `/api/location/cities/${cityId}/wards`,
