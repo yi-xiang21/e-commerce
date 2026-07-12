@@ -55,9 +55,10 @@ const Home = () => {
             price: p.variants?.[0]?.price || 0,
             final_price: p.variants?.[0]?.final_price ?? null,
             discount: p.variants?.[0]?.discount ?? null,
-            image: p.image_url,
+            image: p.variants?.[0]?.images?.[0]?.image_url,
           }));
           setBestSellersProducts(mappedProds);
+          console.log('Best sellers products:', mappedProds)
         }
 
         // Most liked
@@ -78,7 +79,7 @@ const Home = () => {
             price: p.variants?.[0]?.price || 0,
             final_price: p.variants?.[0]?.final_price ?? null,
             discount: p.variants?.[0]?.discount ?? null,
-            image: p.image_url,
+            image:p.variants?.[0]?.images?.[0]?.image_url,
           }));
           setMostLikedProducts(mappedProds);
         }

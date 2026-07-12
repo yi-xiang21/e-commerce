@@ -208,6 +208,7 @@ const DetailPage = () => {
     return <h2 style={{ padding: "40px" }}>Không tìm thấy sản phẩm</h2>;
   }
 
+  
   return (
     <div className="detail-page">
       <div className="detail-image">

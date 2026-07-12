@@ -32,7 +32,7 @@ import ForgotPasswordPage from '@/component/ForgotPasswordPage';
 import VerifyOtpPage from '@/component/VerifyOtpPage';
 import ResetPasswordPage from '@/component/ResetPasswordPage';
 
-import AdminSetting from '@/features/Admin/Setting/AdminSetting';
+import AdminSetting from '@/features/Admin/setting/AdminSetting';
 
 import UserOrder from '@/features/User/UserOrder/pages/UserOrder';
 import OrderSuccess from '@/features/User/UserOrder/pages/OrderSuccess';
