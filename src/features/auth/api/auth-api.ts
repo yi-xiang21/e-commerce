@@ -4,7 +4,8 @@ import {
   type RegisterPayload,
   type ForgotPasswordPayload,
   type VerifyOtpPayload,
-  type ResetPasswordPayload
+  type ResetPasswordPayload,
+  type changePasswordPayload
 } from '@/features/Auth/types/auth-type'
 import { API_CONFIG } from "@/config/api";
 import {callAPI} from "@/share/lib/axios";
@@ -37,6 +38,9 @@ const authApi = {
   resetPassword: async (payload: ResetPasswordPayload) => {
     return callAPI.post(API_CONFIG.ENDPOINTS.RESET_PASSWORD, payload);
   },
+  changePassword: async (payload: changePasswordPayload) => {
+    return callAPI.post(API_CONFIG.ENDPOINTS.CHANGE_PASSWORD, payload);
+  }
 }
 
 
