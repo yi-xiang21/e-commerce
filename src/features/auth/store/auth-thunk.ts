@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { authApi } from '@/features/Auth/api/auth-api'
-import type { ForgotPasswordPayload, LoginPayload, RegisterPayload, ResetPasswordPayload, VerifyOtpPayload } from '@/features/Auth/types/auth-type';
+import type { changePasswordPayload, ForgotPasswordPayload, LoginPayload, RegisterPayload, ResetPasswordPayload, VerifyOtpPayload } from '@/features/Auth/types/auth-type';
 
 const getErrorMessage = (error: any, fallback: string) => {
   if (typeof error === 'string') return error;
@@ -113,3 +113,15 @@ export const resetPasswordThunk = createAsyncThunk(
     }
   },
 );
+
+export const changePasswordThunk = createAsyncThunk(
+  'api/auth/chagePassword',
+  async (payload: changePasswordPayload, { rejectWithValue }) => {
+    try {
+      const response = await authApi.changePassword(payload);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Đôi mật khẩu thất bại!');
+    }
+  }
+)

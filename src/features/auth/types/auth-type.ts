@@ -37,9 +37,17 @@ export interface VerifyOtpResponse {
 
 export interface ResetPasswordPayload {
     email: string;
-  new_password: string;
-  reset_session_token: string;
+    new_password: string;
+    reset_session_token: string;
 }
+
+export interface changePasswordPayload {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+
+
 
 export type user = {
   user_id: string;

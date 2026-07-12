@@ -16,7 +16,7 @@ import UserOrderTracking from '@/features/User/UserProfile/pages/UserOrderTracki
 import PurchaseHistoryPage from '@/features/User/UserProfile/pages/PurchaseHistory';
 import DetailPurchaseHistory from '@/features/User/UserProfile/pages/DetailPurchaseHistory';
 
-import ChangePassword from '@/features/User/UserProfile/pages/UserSettingAccount';
+import ChangePassword from '@/features/User/UserProfile/pages/ChangePasswordForm';
 // import AuthPage from '@/features/Auth/pages/AuthPage';
 import CartPage from '@/features/Cart/pages/CartPage';
 import AdminManagerPromotion from '@/features/Admin/ManagerPromotion/pages/AdminManagerPromotion';
@@ -48,6 +48,7 @@ import UserVouchers from '@/features/User/UserProfile/pages/UserVouchers';
 import UserMyVouchers from '@/features/User/UserProfile/pages/UserMyVoucher';
 import UserHistoryRedeemVoucher from '@/features/User/UserProfile/pages/UserHistoryRedeemVoucher';
 import UserSettingAccount from '@/features/User/UserProfile/pages/UserSettingAccount';
+import ChangePasswordForm from '@/features/User/UserProfile/pages/ChangePasswordForm';
 
 export const routes = createBrowserRouter([
     {
@@ -211,6 +212,10 @@ export const routes = createBrowserRouter([
                             {
                                 path: 'my-vouchers',
                                 element: <UserMyVouchers />,
+                            },
+                            {
+                                path: 'change-password',
+                                element: <ChangePasswordForm/>,
                             }
                         ],
                     },
