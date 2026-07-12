@@ -57,7 +57,7 @@ const AdminManagerRewards = () => {
     try {
       setLoading(true);
       const response = await RewardsApi.getRewards();
-      const data = response.data?.data?.rewards || response.data?.data || response.data || [];
+      const data = response.data?.rewards || response.data?.data || response.data || [];
       const dataArray = Array.isArray(data) ? data : [];
       setRewardsList(dataArray);
       setTotal(dataArray.length);

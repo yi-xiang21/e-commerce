@@ -73,15 +73,15 @@ const AdminManagerShipper = () => {
           };
           console.log("Sending filter data:", dataToSend);
           response = await ShipperApi.getAll(dataToSend);
-          console.log(response.data.data)
-          setShippers(response.data?.data ?? []);
+          console.log(response.data)
+          setShippers(response.data ?? []);
         }
         else {
           response = await ShipperApi.getAll({ page, limit });
-          setShippers(response.data?.data ?? []);
+          setShippers(response.data ?? []);
         }
 
-        setTotal(response.data?.data?.pagination?.total_records ?? 0);
+        setTotal(response.data?.pagination?.total_records ?? 0);
       } catch (error) {
         console.error("Lỗi khi tải danh sách shipper:", error);
       } finally {
