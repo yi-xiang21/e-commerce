@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button, Spin, Empty, Card, Tooltip } from "antd";
-import { ShoppingCartOutlined, HeartFilled } from "@ant-design/icons";
+ import { HeartFilled } from "@ant-design/icons";
 import axios from "axios";
 
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { fetchWishlistThunk, toggleWishlistThunk } from "../store/wishlist-thunk";
-import { addProductToCartThunk } from "@/features/Cart/store/cart-thunk";
+// import { addProductToCartThunk } from "@/features/Cart/store/cart-thunk";
 import { WishlistApi } from "../api/wishlist_api";
 import Notification, { type NotificationType } from "@/share/ComponentCustom/Notification/Notification";
 
@@ -52,28 +52,28 @@ const WishlistPage = () => {
     }
   };
 
-  const handleAddToCart = async (product_id: string | number) => {
-    try {
-      await dispatch(addProductToCartThunk({ product_id: Number(product_id) })).unwrap();
-      setNotifyData({
-        key: `notify-${nextNotifyId++}`,
-        type: "success",
-        title: "Thành công",
-        message: "Đã thêm sản phẩm vào giỏ hàng!",
-      });
-    } catch (error) {
-      let message = "Không thể thêm vào giỏ hàng!";
-      if (axios.isAxiosError(error)) {
-        message = error.response?.data?.message ?? error.message;
-      }
-      setNotifyData({
-        key: `notify-${nextNotifyId++}`,
-        type: "warning",
-        title: "Thất bại",
-        message: message,
-      });
-    }
-  };
+  // const handleAddToCart = async (product_id: string | number) => {
+  //   try {
+  //     await dispatch(addProductToCartThunk({ product_id: Number(product_id) })).unwrap();
+  //     setNotifyData({
+  //       key: `notify-${nextNotifyId++}`,
+  //       type: "success",
+  //       title: "Thành công",
+  //       message: "Đã thêm sản phẩm vào giỏ hàng!",
+  //     });
+  //   } catch (error) {
+  //     let message = "Không thể thêm vào giỏ hàng!";
+  //     if (axios.isAxiosError(error)) {
+  //       message = error.response?.data?.message ?? error.message;
+  //     }
+  //     setNotifyData({
+  //       key: `notify-${nextNotifyId++}`,
+  //       type: "warning",
+  //       title: "Thất bại",
+  //       message: message,
+  //     });
+  //   }
+  // };
 
   return (
     <div className="flex flex-col h-full w-full p-6 mt-12 md:mt-0">
@@ -166,14 +166,14 @@ const WishlistPage = () => {
                         })()}
                       </div>
                       
-                      <Button
+                      {/* <Button
                         type="primary"
                         icon={<ShoppingCartOutlined />}
                         className="w-full"
                         onClick={() => handleAddToCart(item.product_id)}
                       >
                         Thêm vào giỏ
-                      </Button>
+                      </Button> */}
                     </div>
                   }
                 />

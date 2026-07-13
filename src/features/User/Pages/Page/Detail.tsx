@@ -21,6 +21,8 @@ const DetailPage = () => {
   const { user } = useAppSelector((state) => state.auth);
 
   const [product, setProduct] = useState<any>(null);
+  const [images, setImages] = useState<string[]>([]);
+  const [mainImage, setMainImage] = useState<string | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
@@ -30,10 +32,36 @@ const DetailPage = () => {
   const [cartMessage, setCartMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    if (selectedVariant?.images && Array.isArray(selectedVariant.images) && selectedVariant.images.length > 0) {
+      const imgs = selectedVariant.images.map((i: any) => i?.image_url).filter(Boolean);
+      if (imgs.length > 0) {
+        setImages(imgs);
+        setMainImage(imgs[0]);
+        return;
+      }
+    }
+
+    // fallback to product-level images
+    if (product?.images && Array.isArray(product.images) && product.images.length > 0) {
+      const imgs = product.images.map((i: any) => i?.image_url).filter(Boolean);
+      if (imgs.length > 0) {
+        setImages(imgs);
+        setMainImage(imgs[0]);
+        return;
+      }
+    }
+
+    if (product?.image_url) {
+      setImages([product.image_url]);
+      setMainImage(product.image_url);
+    }
+  }, [selectedVariant, product]);
+
+  useEffect(() => {
     if(user){
       dispatch(fetchWishlistThunk());
     }
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const fetchRelatedProducts = async (productData: any, currentId: string) => {
     const categoryId =
@@ -91,6 +119,24 @@ const DetailPage = () => {
           res.data.product || res.data.data || res.data;
 
         setProduct(productData);
+
+        // derive images from variant or product data
+        const derivedImages: string[] = [];
+        const variantImages = productData?.variants?.[0]?.images || productData?.variants?.[0]?.images?.length ? productData.variants[0].images : null;
+        if (variantImages && Array.isArray(variantImages)) {
+          variantImages.forEach((img: any) => img?.image_url && derivedImages.push(img.image_url));
+        }
+
+        if (derivedImages.length === 0 && Array.isArray(productData?.images)) {
+          productData.images.forEach((img: any) => img?.image_url && derivedImages.push(img.image_url));
+        }
+
+        if (derivedImages.length === 0 && productData?.image_url) {
+          derivedImages.push(productData.image_url);
+        }
+
+        setImages(derivedImages);
+        setMainImage(derivedImages[0] ?? null);
 
         if (productData?.variants?.length > 0) {
           setSelectedVariant(productData.variants[0]);
@@ -211,7 +257,30 @@ const DetailPage = () => {
   return (
     <div className="detail-page">
       <div className="detail-image">
-        <img src={product.image_url} alt={product.product_name} />
+        {mainImage ? (
+          <div className="image-gallery">
+            <div className="main-image">
+              <img src={mainImage} alt={product.product_name} />
+            </div>
+            {images.length > 1 && (
+              <div className="thumbnails">
+                {images.map((src) => (
+                  <button
+                    key={src}
+                    type="button"
+                    onClick={() => setMainImage(src)}
+                    className={src === mainImage ? "thumb-active" : ""}
+                    style={{ border: "none", background: "transparent", padding: 4 }}
+                  >
+                    <img src={src} alt={product.product_name} style={{ width: 60, height: 60, objectFit: "cover", borderRadius: 6 }} />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <img src={product.image_url} alt={product.product_name} />
+        )}
       </div>
 
       <div className="detail-info">
