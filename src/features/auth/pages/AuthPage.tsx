@@ -21,7 +21,7 @@ export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(
     location.pathname === '/auth/register'
   );
-  // Tách riêng message cho Login và Register để không ảnh hưởng lẫn nhau
+
   const [loginMessage, setLoginMessage] = useState<string>('');
   const [registerMessage, setRegisterMessage] = useState<string>('');
 
@@ -30,7 +30,7 @@ export default function AuthPage() {
     setIsSignUp(location.pathname === '/auth/register');
   }, [location.pathname]);
 
-  // Tự động ẩn message login sau 3 giây
+  
   useEffect(() => {
     if (!loginMessage) return;
 
