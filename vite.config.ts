@@ -12,7 +12,16 @@ export default defineConfig({
         target: 'https://be-shoplen-production.up.railway.app',
         changeOrigin: true,
         secure: true,
-      },  
+      },
+    },
+  },
+  preview: {
+    proxy: {
+      '/api': {
+        target: 'https://be-shoplen-production.up.railway.app',
+        changeOrigin: true,
+        secure: true,
+      },
     },
   },
   resolve: {
