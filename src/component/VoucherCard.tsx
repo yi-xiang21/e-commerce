@@ -84,7 +84,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({ voucher: v }) => {
           <div className="flex items-center gap-1.5 text-slate-500 text-[12px] font-medium bg-orange-50 px-2 py-1 rounded-md text-orange-600 border border-orange-100/50">
             <CalendarClock size={14} />
             <span>
-              HSD: {v.end_date ? parseToDayjs(v.end_date).format("DD/MM/YYYY") : "Không giới hạn"}
+              HSD: {v.end_date ? parseToDayjs(v.end_date)?.format("DD/MM/YYYY") : "Không giới hạn"}
             </span>
           </div>
           <button

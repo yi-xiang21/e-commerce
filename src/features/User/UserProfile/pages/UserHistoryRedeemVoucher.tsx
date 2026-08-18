@@ -122,7 +122,7 @@ const UserHistoryRedeemVoucher = () => {
                       <p className="text-sm text-slate-500 line-clamp-2">{item.description}</p>
                       {item.created_at && (
                          <p className="text-xs text-slate-400 mt-1.5 font-medium">
-                           {parseToDayjs(item.created_at).format("DD/MM/YYYY HH:mm")}
+                           {parseToDayjs(item.created_at)?.format("DD/MM/YYYY HH:mm")}
                          </p>
                       )}
                     </div>

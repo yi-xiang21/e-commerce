@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { DashboardData } from '@/features/Admin/AdminDashBoard/type/dashboard';
 import { dashboardApi } from '@/features/Admin/AdminDashBoard/api/dashboard_api';
 

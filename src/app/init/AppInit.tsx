@@ -16,11 +16,11 @@ export default function AppInit({ children }: { children: React.ReactNode }) {
       dispatch(getMeThunk()).then(() => {
         if (hasLocalItems()) {
           dispatch(syncLocalCart(getLocalSyncPayload())).then(() => {
-            // Sync response đã trả về full cart, reducer đã set state.items
+   
             clearLocalCart();
           });
         } else {
-          dispatch(fetchCart());
+          dispatch(fetchCart());  
         }
       });
     } else {

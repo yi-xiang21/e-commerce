@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, Spin, Empty, Card, Tooltip } from "antd";
  import { HeartFilled } from "@ant-design/icons";
-import axios from "axios";
+
 
 import { useAppDispatch, useAppSelector } from "@/app/redux/hooks";
 import { fetchWishlistThunk, toggleWishlistThunk } from "../store/wishlist-thunk";
 // import { addProductToCartThunk } from "@/features/Cart/store/cart-thunk";
-import { WishlistApi } from "../api/wishlist_api";
+
 import Notification, { type NotificationType } from "@/share/ComponentCustom/Notification/Notification";
 
 // Tạo một biến đếm toàn cục bên ngoài component để tạo key duy nhất, tránh lỗi ESLint.
