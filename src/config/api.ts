@@ -1,6 +1,6 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL?.trim() ||
-  (import.meta.env.PROD ? 'https://be-shoplen-production.up.railway.app' : '');
+  (import.meta.env.PROD ? 'https://be-shoplen.onrender.com' : '');
 
 export const API_CONFIG = {
   BASE_URL: API_BASE_URL,

@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://be-shoplen-production.up.railway.app',
+        target: 'https://be-shoplen.onrender.com',
         changeOrigin: true,
         secure: true,
       },
@@ -18,7 +18,7 @@ export default defineConfig({
   preview: {
     proxy: {
       '/api': {
-        target: 'https://be-shoplen-production.up.railway.app',
+        target: 'https://be-shoplen.onrender.com',
         changeOrigin: true,
         secure: true,
       },
